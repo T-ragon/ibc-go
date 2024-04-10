@@ -6,7 +6,7 @@ option go_package = "github.com/cosmos/ibc-go/v8/modules/core/02-client/types";
 
 import "cosmos/upgrade/v1beta1/upgrade.proto";
 import "cosmos_proto/cosmos.proto";
-import "gogoproto/gogo.proto";
+import "proto/ibc/lightclients/zkp/v1/gogo.proto";
 import "google/protobuf/any.proto";
 
 // IdentifiedClientState defines a client state with an additional client
