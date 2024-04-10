@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package ibc.lightclients.zkp.v1;
+
+option go_package = "modules/light-clients/05-long;_5_long";
+
+import "proto/ibc/lightclients/zkp/v1/gogo.proto";
+
+
+message Height {
+  option (gogoproto.goproto_getters)  = false;
+
+  // the revision that the client is currently on
+  uint64 revision_number = 1;
+  // the height within the given revision
+  uint64 revision_height = 2;
+}
+
+
+message ClientState{
+  option (gogoproto.goproto_getters) = false;
+
+  string chain_id = 1;
+  Height latest_height = 2 [(gogoproto.nullable) = false];
+}
+
+message MerkleRoot {
+  option (gogoproto.goproto_getters) = false;
+
+  bytes hash = 1;
+}
+
+message ConsensusState{
+  option (gogoproto.goproto_getters) = false;
+
+  MerkleRoot root = 2 [(gogoproto.nullable) = false];
+}
