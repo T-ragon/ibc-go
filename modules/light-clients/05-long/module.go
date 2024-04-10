@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// print
 var (
 	_ module.AppModuleBasic = (*AppModuleBasic)(nil)
 	_ appmodule.AppModule   = (*AppModule)(nil)
