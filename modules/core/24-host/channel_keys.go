@@ -36,7 +36,7 @@ func ChannelUpgradeErrorPath(portID, channelID string) string {
 	return fmt.Sprintf("%s/%s/%s", KeyChannelUpgradePrefix, KeyUpgradeErrorPrefix, channelPath(portID, channelID))
 }
 
-// ChannelUpgradeErrorKey returns the store key for a particular channelEnd used to stor the ErrorReceipt in the case that a chain does not accept the proposed upgrade
+// ChannelUpgradeErrorKey returns the store key for a particular channelEnd used to store the ErrorReceipt in the case that a chain does not accept the proposed upgrade
 func ChannelUpgradeErrorKey(portID, channelID string) []byte {
 	return []byte(ChannelUpgradeErrorPath(portID, channelID))
 }
