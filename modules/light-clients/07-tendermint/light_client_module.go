@@ -57,7 +57,7 @@ func (l LightClientModule) Initialize(ctx sdk.Context, clientID string, clientSt
 		return err
 	}
 
-	clientStore := l.storeProvider.ClientStore(ctx, clientID)
+	clientStore := l.storeProvider.ClientStore(ctx, clientID) //预设好前缀的store
 
 	return clientState.Initialize(ctx, l.keeper.Codec(), clientStore, &consensusState)
 }
