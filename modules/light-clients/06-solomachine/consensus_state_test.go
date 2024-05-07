@@ -1,9 +1,9 @@
 package solomachine_test
 
 import (
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	solomachine "github.com/cosmos/ibc-go/v8/modules/light-clients/06-solomachine"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	solomachine "github.com/T-ragon/ibc-go/modules/light-clients/06-solomachine"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 func (suite *SoloMachineTestSuite) TestConsensusState() {

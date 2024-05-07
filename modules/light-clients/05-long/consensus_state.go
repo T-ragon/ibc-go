@@ -1,8 +1,8 @@
 package _5_long
 
 import (
-	commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
+	commitmenttypes "github.com/T-ragon/ibc-go/modules/core/23-commitment/types"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
 )
 
 var _ exported.ConsensusState = (*ConsensusState)(nil)

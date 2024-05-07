@@ -20,14 +20,14 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	paramsproposaltypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 
+	controllertypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/controller/types"
+	hosttypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/types"
+	icatypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	coretypes "github.com/T-ragon/ibc-go/modules/core/types"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 	"github.com/cosmos/ibc-go/e2e/testsuite"
 	"github.com/cosmos/ibc-go/e2e/testvalues"
-	controllertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
-	hosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
-	icatypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	coretypes "github.com/cosmos/ibc-go/v8/modules/core/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 func TestInterchainAccountsParamsTestSuite(t *testing.T) {

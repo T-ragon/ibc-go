@@ -16,15 +16,15 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 
-	ibc "github.com/cosmos/ibc-go/v8/modules/core"
-	"github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	solomachine "github.com/cosmos/ibc-go/v8/modules/light-clients/06-solomachine"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	ibc "github.com/T-ragon/ibc-go/modules/core"
+	"github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	commitmenttypes "github.com/T-ragon/ibc-go/modules/core/23-commitment/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	ibcerrors "github.com/T-ragon/ibc-go/modules/core/errors"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	solomachine "github.com/T-ragon/ibc-go/modules/light-clients/06-solomachine"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 type TypesTestSuite struct {

@@ -14,10 +14,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	channelkeeper "github.com/cosmos/ibc-go/v8/modules/core/04-channel/keeper"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	"github.com/T-ragon/ibc-go/modules/apps/transfer/keeper"
+	"github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	channelkeeper "github.com/T-ragon/ibc-go/modules/core/04-channel/keeper"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 type KeeperTestSuite struct {

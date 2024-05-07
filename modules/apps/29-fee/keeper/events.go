@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
+	"github.com/T-ragon/ibc-go/modules/apps/29-fee/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
 )
 
 // emitIncentivizedPacketEvent emits an event containing information on the total amount of fees incentivizing

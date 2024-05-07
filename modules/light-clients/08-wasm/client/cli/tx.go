@@ -15,8 +15,8 @@ import (
 	govcli "github.com/cosmos/cosmos-sdk/x/gov/client/cli"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
+	ibcexported "github.com/T-ragon/ibc-go/modules/core/exported"
 	types "github.com/cosmos/ibc-go/modules/light-clients/08-wasm/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 const FlagAuthority = "authority"

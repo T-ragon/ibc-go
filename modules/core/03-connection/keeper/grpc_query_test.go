@@ -5,10 +5,10 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	"github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 func (suite *KeeperTestSuite) TestQueryConnection() {

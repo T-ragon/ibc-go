@@ -7,14 +7,14 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	"github.com/cosmos/ibc-go/v8/testing/mock"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	connectiontypes "github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	"github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	commitmenttypes "github.com/T-ragon/ibc-go/modules/core/23-commitment/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
+	"github.com/T-ragon/ibc-go/testing/mock"
 )
 
 func (suite *KeeperTestSuite) TestChanUpgradeInit() {

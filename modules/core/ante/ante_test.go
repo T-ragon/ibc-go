@@ -8,12 +8,12 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/ante"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/modules/core/ante"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 type AnteTestSuite struct {

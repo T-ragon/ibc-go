@@ -1,7 +1,7 @@
 package types
 
 import (
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
+	porttypes "github.com/T-ragon/ibc-go/modules/core/05-port/types"
 )
 
 /*

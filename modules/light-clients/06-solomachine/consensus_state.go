@@ -7,8 +7,8 @@ import (
 
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
 )
 
 var _ exported.ConsensusState = (*ConsensusState)(nil)

@@ -10,9 +10,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/version"
 
-	"github.com/cosmos/ibc-go/v8/modules/core/04-channel/client/utils"
-	"github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
+	"github.com/T-ragon/ibc-go/modules/core/04-channel/client/utils"
+	"github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	ibcexported "github.com/T-ragon/ibc-go/modules/core/exported"
 )
 
 const (

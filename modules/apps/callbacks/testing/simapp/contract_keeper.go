@@ -7,11 +7,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	ibcexported "github.com/T-ragon/ibc-go/modules/core/exported"
+	ibcmock "github.com/T-ragon/ibc-go/testing/mock"
 	callbacktypes "github.com/cosmos/ibc-go/modules/apps/callbacks/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibcmock "github.com/cosmos/ibc-go/v8/testing/mock"
 )
 
 // MockKeeper implements callbacktypes.ContractKeeper

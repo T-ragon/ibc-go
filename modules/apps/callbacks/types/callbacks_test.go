@@ -7,12 +7,12 @@ import (
 
 	"github.com/cometbft/cometbft/crypto/secp256k1"
 
+	"github.com/T-ragon/ibc-go/modules/apps/transfer"
+	transfertypes "github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	porttypes "github.com/T-ragon/ibc-go/modules/core/05-port/types"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
+	ibcmock "github.com/T-ragon/ibc-go/testing/mock"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/types"
-	"github.com/cosmos/ibc-go/v8/modules/apps/transfer"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	ibcmock "github.com/cosmos/ibc-go/v8/testing/mock"
 )
 
 func (s *CallbacksTypesTestSuite) TestGetCallbackData() {

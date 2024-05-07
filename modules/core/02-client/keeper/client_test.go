@@ -9,13 +9,13 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	solomachine "github.com/cosmos/ibc-go/v8/modules/light-clients/06-solomachine"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	localhost "github.com/cosmos/ibc-go/v8/modules/light-clients/09-localhost"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	commitmenttypes "github.com/T-ragon/ibc-go/modules/core/23-commitment/types"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	solomachine "github.com/T-ragon/ibc-go/modules/light-clients/06-solomachine"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
+	localhost "github.com/T-ragon/ibc-go/modules/light-clients/09-localhost"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 func (suite *KeeperTestSuite) TestCreateClient() {

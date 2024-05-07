@@ -20,15 +20,15 @@ import (
 	cmtbytes "github.com/cometbft/cometbft/libs/bytes"
 	cmttypes "github.com/cometbft/cometbft/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/core/02-client/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	localhost "github.com/cosmos/ibc-go/v8/modules/light-clients/09-localhost"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	"github.com/cosmos/ibc-go/v8/testing/simapp"
+	"github.com/T-ragon/ibc-go/modules/core/02-client/keeper"
+	"github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	commitmenttypes "github.com/T-ragon/ibc-go/modules/core/23-commitment/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
+	localhost "github.com/T-ragon/ibc-go/modules/light-clients/09-localhost"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
+	"github.com/T-ragon/ibc-go/testing/simapp"
 )
 
 const (

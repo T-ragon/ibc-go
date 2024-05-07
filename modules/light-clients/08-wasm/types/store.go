@@ -19,9 +19,9 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/codec"
 
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
 	"github.com/cosmos/ibc-go/modules/light-clients/08-wasm/internal/ibcwasm"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
 )
 
 var (

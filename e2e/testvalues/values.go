@@ -10,8 +10,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	feetypes "github.com/T-ragon/ibc-go/modules/apps/29-fee/types"
 	"github.com/cosmos/ibc-go/e2e/semverutil"
-	feetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
 )
 
 const (

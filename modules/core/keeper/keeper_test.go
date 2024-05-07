@@ -11,12 +11,12 @@ import (
 
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	ibcexported "github.com/T-ragon/ibc-go/modules/core/exported"
+	ibckeeper "github.com/T-ragon/ibc-go/modules/core/keeper"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 	capabilitykeeper "github.com/cosmos/ibc-go/modules/capability/keeper"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 type KeeperTestSuite struct {

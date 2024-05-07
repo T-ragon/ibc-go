@@ -13,10 +13,10 @@ import (
 
 	cmtproto "github.com/cometbft/cometbft/proto/tendermint/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/simulation"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	connectiontypes "github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	"github.com/T-ragon/ibc-go/modules/core/simulation"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
 )
 
 func TestProposalMsgs(t *testing.T) {

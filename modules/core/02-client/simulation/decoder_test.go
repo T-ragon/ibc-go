@@ -9,11 +9,11 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/kv"
 
-	"github.com/cosmos/ibc-go/v8/modules/core/02-client/simulation"
-	"github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	"github.com/cosmos/ibc-go/v8/testing/simapp"
+	"github.com/T-ragon/ibc-go/modules/core/02-client/simulation"
+	"github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
+	"github.com/T-ragon/ibc-go/testing/simapp"
 )
 
 func TestDecodeStore(t *testing.T) {

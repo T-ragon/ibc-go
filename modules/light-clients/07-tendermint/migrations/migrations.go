@@ -6,9 +6,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
 )
 
 // PruneExpiredConsensusStates prunes all expired tendermint consensus states. This function

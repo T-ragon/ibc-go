@@ -24,13 +24,13 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
+	transfertypes "github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	ibcexported "github.com/T-ragon/ibc-go/modules/core/exported"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 	"github.com/cosmos/ibc-go/e2e/testsuite"
 	"github.com/cosmos/ibc-go/e2e/testvalues"
 	wasmtypes "github.com/cosmos/ibc-go/modules/light-clients/08-wasm/types"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 const (

@@ -5,11 +5,11 @@ import (
 	"cosmossdk.io/store/prefix"
 	storetypes "cosmossdk.io/store/types"
 	"encoding/binary"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 const KeyIterateConsensusStatePrefix = "iterateConsensusStates"

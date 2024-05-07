@@ -7,9 +7,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	connectiontypes "github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 func TestParseIdentifier(t *testing.T) {

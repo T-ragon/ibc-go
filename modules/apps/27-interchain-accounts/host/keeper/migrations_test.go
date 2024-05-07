@@ -3,8 +3,8 @@ package keeper_test
 import (
 	"fmt"
 
-	icahostkeeper "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/keeper"
-	icahosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
+	icahostkeeper "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/keeper"
+	icahosttypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/types"
 )
 
 func (suite *KeeperTestSuite) TestMigratorMigrateParams() {

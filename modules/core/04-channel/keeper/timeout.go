@@ -8,12 +8,12 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	connectiontypes "github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	"github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 // TimeoutPacket is called by a module which originally attempted to send a

@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
+	"github.com/T-ragon/ibc-go/modules/apps/transfer/types"
 )
 
 func TestValidateGenesis(t *testing.T) {

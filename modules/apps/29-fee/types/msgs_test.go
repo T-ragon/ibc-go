@@ -10,10 +10,10 @@ import (
 
 	"github.com/cometbft/cometbft/crypto/secp256k1"
 
-	modulefee "github.com/cosmos/ibc-go/v8/modules/apps/29-fee"
-	"github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	modulefee "github.com/T-ragon/ibc-go/modules/apps/29-fee"
+	"github.com/T-ragon/ibc-go/modules/apps/29-fee/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 func TestMsgRegisterPayeeValidation(t *testing.T) {

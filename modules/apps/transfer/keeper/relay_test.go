@@ -10,10 +10,10 @@ import (
 	banktestutil "github.com/cosmos/cosmos-sdk/x/bank/testutil"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	"github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 // test sending from chainA to chainB using both coin that originate on

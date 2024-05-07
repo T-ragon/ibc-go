@@ -18,10 +18,10 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	paramsproposaltypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 
+	transfertypes "github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 	"github.com/cosmos/ibc-go/e2e/testsuite"
 	"github.com/cosmos/ibc-go/e2e/testvalues"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 func TestTransferTestSuite(t *testing.T) {

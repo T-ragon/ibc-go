@@ -16,10 +16,10 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 
+	transfertypes "github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	ibcerrors "github.com/T-ragon/ibc-go/modules/core/errors"
 	"github.com/cosmos/ibc-go/e2e/testsuite"
 	"github.com/cosmos/ibc-go/e2e/testvalues"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
 )
 
 func TestAuthzTransferTestSuite(t *testing.T) {

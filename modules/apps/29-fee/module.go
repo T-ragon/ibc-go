@@ -17,9 +17,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/29-fee/client/cli"
-	"github.com/cosmos/ibc-go/v8/modules/apps/29-fee/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
+	"github.com/T-ragon/ibc-go/modules/apps/29-fee/client/cli"
+	"github.com/T-ragon/ibc-go/modules/apps/29-fee/keeper"
+	"github.com/T-ragon/ibc-go/modules/apps/29-fee/types"
 )
 
 var (

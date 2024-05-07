@@ -1,13 +1,13 @@
 package keeper_test
 
 import (
+	icatypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/types"
+	connectiontypes "github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	ibcerrors "github.com/T-ragon/ibc-go/modules/core/errors"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	icatypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 const (

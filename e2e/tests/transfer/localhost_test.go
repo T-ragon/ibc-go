@@ -9,14 +9,14 @@ import (
 	test "github.com/strangelove-ventures/interchaintest/v8/testutil"
 	testifysuite "github.com/stretchr/testify/suite"
 
+	transfertypes "github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	localhost "github.com/T-ragon/ibc-go/modules/light-clients/09-localhost"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 	"github.com/cosmos/ibc-go/e2e/testsuite"
 	"github.com/cosmos/ibc-go/e2e/testvalues"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	localhost "github.com/cosmos/ibc-go/v8/modules/light-clients/09-localhost"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 func TestTransferLocalhostTestSuite(t *testing.T) {

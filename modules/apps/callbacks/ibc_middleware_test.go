@@ -9,19 +9,19 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	icacontrollertypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/controller/types"
+	transfertypes "github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	channelkeeper "github.com/T-ragon/ibc-go/modules/core/04-channel/keeper"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	porttypes "github.com/T-ragon/ibc-go/modules/core/05-port/types"
+	ibcerrors "github.com/T-ragon/ibc-go/modules/core/errors"
+	ibcexported "github.com/T-ragon/ibc-go/modules/core/exported"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
+	ibcmock "github.com/T-ragon/ibc-go/testing/mock"
 	ibccallbacks "github.com/cosmos/ibc-go/modules/apps/callbacks"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/testing/simapp"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/types"
-	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	channelkeeper "github.com/cosmos/ibc-go/v8/modules/core/04-channel/keeper"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	ibcmock "github.com/cosmos/ibc-go/v8/testing/mock"
 )
 
 func (s *CallbacksTestSuite) TestNewIBCMiddleware() {

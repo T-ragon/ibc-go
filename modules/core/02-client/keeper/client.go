@@ -8,8 +8,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
+	"github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
 )
 
 // CreateClient generates a new client identifier and invokes the associated light client module in order to

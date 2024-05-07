@@ -1,6 +1,6 @@
 go 1.21
 
-module github.com/cosmos/ibc-go/v8
+module github.com/T-ragon/ibc-go
 
 require (
 	cosmossdk.io/api v0.7.3

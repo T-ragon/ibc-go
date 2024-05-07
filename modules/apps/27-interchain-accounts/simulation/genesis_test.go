@@ -15,9 +15,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	genesistypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/genesis/types"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/simulation"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
+	genesistypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/genesis/types"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/simulation"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/types"
 )
 
 // TestRandomizedGenState tests the normal scenario of applying RandomizedGenState.

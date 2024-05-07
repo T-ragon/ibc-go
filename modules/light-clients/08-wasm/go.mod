@@ -2,7 +2,7 @@ module github.com/cosmos/ibc-go/modules/light-clients/08-wasm
 
 go 1.21
 
-replace github.com/cosmos/ibc-go/v8 => ../../../
+replace github.com/T-ragon/ibc-go => ../../../
 
 replace github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 
@@ -27,7 +27,7 @@ require (
 	github.com/cosmos/cosmos-sdk v0.50.5
 	github.com/cosmos/gogoproto v1.4.12
 	github.com/cosmos/ibc-go/modules/capability v1.0.0
-	github.com/cosmos/ibc-go/v8 v8.0.0
+	github.com/T-ragon/ibc-go v1.0.3
 	github.com/golang/protobuf v1.5.4
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/spf13/cast v1.6.0

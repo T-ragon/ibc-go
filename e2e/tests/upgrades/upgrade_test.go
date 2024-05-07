@@ -23,18 +23,18 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
+	feetypes "github.com/T-ragon/ibc-go/modules/apps/29-fee/types"
+	transfertypes "github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	v7migrations "github.com/T-ragon/ibc-go/modules/core/02-client/migrations/v7"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	connectiontypes "github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	solomachine "github.com/T-ragon/ibc-go/modules/light-clients/06-solomachine"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 	e2erelayer "github.com/cosmos/ibc-go/e2e/relayer"
 	"github.com/cosmos/ibc-go/e2e/testsuite"
 	"github.com/cosmos/ibc-go/e2e/testvalues"
-	feetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	v7migrations "github.com/cosmos/ibc-go/v8/modules/core/02-client/migrations/v7"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	solomachine "github.com/cosmos/ibc-go/v8/modules/light-clients/06-solomachine"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 const (

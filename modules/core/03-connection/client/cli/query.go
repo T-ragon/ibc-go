@@ -9,9 +9,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/version"
 
-	"github.com/cosmos/ibc-go/v8/modules/core/03-connection/client/utils"
-	"github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
+	"github.com/T-ragon/ibc-go/modules/core/03-connection/client/utils"
+	"github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	ibcexported "github.com/T-ragon/ibc-go/modules/core/exported"
 )
 
 // GetCmdQueryConnections defines the command to query all the connection ends

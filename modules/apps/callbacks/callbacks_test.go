@@ -18,15 +18,15 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
+	icacontrollertypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/controller/types"
+	icatypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/types"
+	feetypes "github.com/T-ragon/ibc-go/modules/apps/29-fee/types"
+	transfertypes "github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	porttypes "github.com/T-ragon/ibc-go/modules/core/05-port/types"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/testing/simapp"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/types"
-	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
-	icatypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
-	feetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 const maxCallbackGas = uint64(1000000)

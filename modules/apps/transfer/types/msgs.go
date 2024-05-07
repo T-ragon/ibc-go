@@ -7,9 +7,9 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	ibcerrors "github.com/T-ragon/ibc-go/modules/core/errors"
 )
 
 const (

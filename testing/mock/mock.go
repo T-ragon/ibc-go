@@ -17,12 +17,12 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
+	feetypes "github.com/T-ragon/ibc-go/modules/apps/29-fee/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	porttypes "github.com/T-ragon/ibc-go/modules/core/05-port/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	feetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 const (

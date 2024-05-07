@@ -1,10 +1,10 @@
 package localhost_test
 
 import (
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	localhost "github.com/cosmos/ibc-go/v8/modules/light-clients/09-localhost"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
+	localhost "github.com/T-ragon/ibc-go/modules/light-clients/09-localhost"
 )
 
 func (suite *LocalhostTestSuite) TestClientType() {

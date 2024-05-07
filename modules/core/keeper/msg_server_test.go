@@ -11,19 +11,19 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	connectiontypes "github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	porttypes "github.com/T-ragon/ibc-go/modules/core/05-port/types"
+	commitmenttypes "github.com/T-ragon/ibc-go/modules/core/23-commitment/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	ibcerrors "github.com/T-ragon/ibc-go/modules/core/errors"
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	"github.com/T-ragon/ibc-go/modules/core/keeper"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
+	ibcmock "github.com/T-ragon/ibc-go/testing/mock"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	"github.com/cosmos/ibc-go/v8/modules/core/keeper"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	ibcmock "github.com/cosmos/ibc-go/v8/testing/mock"
 )
 
 var (

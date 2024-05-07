@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 // CallbacksTestSuite defines the needed instances and methods to test callbacks

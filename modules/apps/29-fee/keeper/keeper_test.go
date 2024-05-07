@@ -10,11 +10,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/29-fee/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	channelkeeper "github.com/cosmos/ibc-go/v8/modules/core/04-channel/keeper"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	"github.com/T-ragon/ibc-go/modules/apps/29-fee/keeper"
+	"github.com/T-ragon/ibc-go/modules/apps/29-fee/types"
+	channelkeeper "github.com/T-ragon/ibc-go/modules/core/04-channel/keeper"
+	channeltypes "github.com/T-ragon/ibc-go/modules/core/04-channel/types"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 var (

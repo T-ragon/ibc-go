@@ -17,16 +17,16 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/client/cli"
-	controllerkeeper "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/keeper"
-	controllertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
-	genesistypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/genesis/types"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host"
-	hostkeeper "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/keeper"
-	hosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/simulation"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/client/cli"
+	controllerkeeper "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/controller/keeper"
+	controllertypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/controller/types"
+	genesistypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/genesis/types"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host"
+	hostkeeper "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/keeper"
+	hosttypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/types"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/simulation"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/types"
+	porttypes "github.com/T-ragon/ibc-go/modules/core/05-port/types"
 )
 
 var (

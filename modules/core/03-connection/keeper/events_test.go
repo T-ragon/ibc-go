@@ -3,9 +3,9 @@ package keeper_test
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	"github.com/T-ragon/ibc-go/modules/core/03-connection/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 func (suite *KeeperTestSuite) TestMsgConnectionOpenInitEvents() {

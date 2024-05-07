@@ -5,7 +5,7 @@ import (
 
 	testifysuite "github.com/stretchr/testify/suite"
 
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 type LocalhostTestSuite struct {

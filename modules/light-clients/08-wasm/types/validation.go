@@ -5,8 +5,8 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
 )
 
 const maxWasmSize = 3 * 1024 * 1024

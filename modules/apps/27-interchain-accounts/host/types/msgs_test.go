@@ -8,10 +8,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 
-	ica "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	ica "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/types"
+	ibcerrors "github.com/T-ragon/ibc-go/modules/core/errors"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 func TestMsgUpdateParamsValidateBasic(t *testing.T) {

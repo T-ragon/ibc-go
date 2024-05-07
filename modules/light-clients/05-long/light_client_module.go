@@ -1,10 +1,10 @@
 package _5_long
 
 import (
+	"github.com/T-ragon/ibc-go/modules/core/exported"
+	"github.com/T-ragon/ibc-go/modules/light-clients/05-long/internal/keeper"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	"github.com/cosmos/ibc-go/v8/modules/light-clients/05-long/internal/keeper"
 )
 
 var _ exported.LightClientModule = (*LightClientModule)(nil)

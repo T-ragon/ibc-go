@@ -1,12 +1,12 @@
 package keeper_test
 
 import (
-	genesistypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/genesis/types"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
-	icatypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	genesistypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/genesis/types"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/keeper"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/types"
+	icatypes "github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/types"
+	host "github.com/T-ragon/ibc-go/modules/core/24-host"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
 )
 
 func (suite *KeeperTestSuite) TestInitGenesis() {

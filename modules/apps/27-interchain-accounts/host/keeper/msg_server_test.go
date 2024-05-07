@@ -5,10 +5,10 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/keeper"
+	"github.com/T-ragon/ibc-go/modules/apps/27-interchain-accounts/host/types"
+	transfertypes "github.com/T-ragon/ibc-go/modules/apps/transfer/types"
+	ibcerrors "github.com/T-ragon/ibc-go/modules/core/errors"
 )
 
 func (suite *KeeperTestSuite) TestModuleQuerySafe() {

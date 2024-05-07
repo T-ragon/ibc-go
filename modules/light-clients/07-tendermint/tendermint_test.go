@@ -12,10 +12,10 @@ import (
 	cmtbytes "github.com/cometbft/cometbft/libs/bytes"
 	cmttypes "github.com/cometbft/cometbft/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	"github.com/cosmos/ibc-go/v8/testing/simapp"
+	clienttypes "github.com/T-ragon/ibc-go/modules/core/02-client/types"
+	ibctm "github.com/T-ragon/ibc-go/modules/light-clients/07-tendermint"
+	ibctesting "github.com/T-ragon/ibc-go/testing"
+	"github.com/T-ragon/ibc-go/testing/simapp"
 )
 
 const (
