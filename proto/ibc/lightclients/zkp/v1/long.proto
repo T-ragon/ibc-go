@@ -5,7 +5,10 @@ package ibc.lightclients.zkp.v1;
 option go_package = "modules/light-clients/05-long;_5_long";
 
 import "proto/ibc/lightclients/zkp/v1/gogo.proto";
-
+import "ibc/core/commitment/v1/commitment.proto";
+import "tendermint/types/types.proto";
+import "tendermint/types/validator.proto";
+import "ibc/core/client/v1/client.proto";
 
 message Height {
   option (gogoproto.goproto_getters)  = false;
@@ -33,5 +36,20 @@ message MerkleRoot {
 message ConsensusState{
   option (gogoproto.goproto_getters) = false;
 
-  MerkleRoot root = 2 [(gogoproto.nullable) = false];
+  ibc.core.commitment.v1.MerkleRoot root = 2 [(gogoproto.nullable) = false];
+}
+
+message Header {
+  .tendermint.types.SignedHeader signed_header = 1 [(gogoproto.embed) = true];
+
+  .tendermint.types.ValidatorSet validator_set      = 2;
+  ibc.core.client.v1.Height      trusted_height     = 3 [(gogoproto.nullable) = false];
+  .tendermint.types.ValidatorSet trusted_validators = 4;
+}
+
+// Fraction defines the protobuf message type for tmmath.Fraction that only
+// supports positive values.
+message Fraction {
+  uint64 numerator   = 1;
+  uint64 denominator = 2;
 }

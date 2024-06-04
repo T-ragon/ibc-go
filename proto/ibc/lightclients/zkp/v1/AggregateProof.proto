@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package ibc.lightclients.zkp.v1;
+
+import "gogoproto/gogo.proto";
+import "ibc/core/client/v1/client.proto";
+
+
+message Packet {
+  option (gogoproto.goproto_getters) = false;
+
+  // number corresponds to the order of sends and receives, where a Packet
+  // with an earlier sequence number must be sent and received before a Packet
+  // with a later sequence number.
+  uint64 sequence = 1;
+  // identifies the port on the sending chain.
+  string source_port = 2;
+  // identifies the channel end on the sending chain.
+  string source_channel = 3;
+  // identifies the port on the receiving chain.
+  string destination_port = 4;
+  // identifies the channel end on the receiving chain.
+  string destination_channel = 5;
+  // actual opaque bytes transferred directly to the application module
+  bytes data = 6;
+  // block height after which the packet times out
+  ibc.core.client.v1.Height timeout_height = 7 [(gogoproto.nullable) = false];
+  // block timestamp (in nanoseconds) after which the packet times out
+  uint64 timeout_timestamp = 8;
+}
+
+message InnerOp{
+  bytes prefix = 1;
+  bytes suffix = 2;
+}
+
+message ProofMeta{
+  InnerOp path_inner_op = 1;
+  repeated bytes hash_value = 2;
+}
+
+message SubProof{
+  uint32 number = 1;
+  repeated ProofMeta proof_meta_list = 2;
+}
+
+message AggregatePacket{
+  repeated SubProof proof=1;
+  string signer = 2;
+  repeated Packet packets = 3;
+}

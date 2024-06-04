@@ -15,7 +15,7 @@ const (
 	// TypeClientMisbehaviour is the shared evidence misbehaviour type
 	TypeClientMisbehaviour string = "client_misbehaviour"
 
-	//Long is used to indicate that the light client is a solo machine
+	//Long is used to indicate that the light client is a zkp machine using the Tendermint Consensus Algorithm
 	Long string = "05-long"
 
 	// Solomachine is used to indicate that the light client is a solo machine.

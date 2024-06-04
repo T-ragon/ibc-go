@@ -1,6 +1,7 @@
 package _5_long
 
 import (
+	errorsmod "cosmossdk.io/errors"
 	storetypes "cosmossdk.io/store/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -54,6 +55,15 @@ func (cs ClientState) ZeroCustomFields() *ClientState {
 }
 
 func (cs ClientState) Initialize(ctx sdk.Context, cdc codec.BinaryCodec, clientStore storetypes.KVStore, consState exported.ConsensusState) error {
+	consensusState, ok := consState.(*ConsensusState)
+	if !ok {
+		return errorsmod.Wrapf(clienttypes.ErrInvalidConsensus, "invalid initial consensus state. expected type: %T, got: %T",
+			&ConsensusState{}, consState)
+	}
+
+	setClientState(clientStore, cdc, &cs)
+	setConsensusState(clientStore, cdc, consensusState, &cs.LatestHeight)
+	setConsensusMetadata(ctx, clientStore, &cs.LatestHeight)
 	return nil
 }
 

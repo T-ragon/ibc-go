@@ -6,6 +6,7 @@ package _5_long
 import (
 	fmt "fmt"
 	_ "github.com/cosmos/gogoproto/gogoproto"
+	"github.com/cosmos/ibc-go/v8/modules/core/exported"
 	proto "github.com/gogo/protobuf/proto"
 	math "math"
 )
@@ -29,6 +30,56 @@ type Height struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Height) IsZero() bool {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *Height) LT(height exported.Height) bool {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *Height) LTE(height exported.Height) bool {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *Height) EQ(height exported.Height) bool {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *Height) GT(height exported.Height) bool {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *Height) GTE(height exported.Height) bool {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *Height) GetRevisionNumber() uint64 {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *Height) GetRevisionHeight() uint64 {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *Height) Increment() exported.Height {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (m *Height) Decrement() (exported.Height, bool) {
+	//TODO implement me
+	panic("implement me")
 }
 
 func (m *Height) Reset()         { *m = Height{} }

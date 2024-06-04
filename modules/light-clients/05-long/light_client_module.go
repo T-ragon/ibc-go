@@ -21,12 +21,39 @@ func NewLightClientModule(cdc codec.BinaryCodec, authority string) LightClientMo
 	}
 }
 
+// RegisterStoreProvider is called by core IBC when a LightClientModule is added to the router.
+// It allows the LightClientModule to set a ClientStoreProvider which supplies isolated prefix client stores
+// to IBC light client instances.
 func (l *LightClientModule) RegisterStoreProvider(storeProvider exported.ClientStoreProvider) {
 	l.storeProvider = storeProvider
 }
 
-func (l LightClientModule) Initialize(ctx sdk.Context, clientID string, clientState, consensusState []byte) error {
-	return nil
+// Initialize unmarshals the provided client and consensus states and performs basic validation. It calls into the
+// clientState.Initialize method.
+//
+// CONTRACT: clientID is validated in 02-client router, thus clientID is assumed here to have the format 07-tendermint-{n}.
+func (l LightClientModule) Initialize(ctx sdk.Context, clientID string, clientStateBz, consensusStateBz []byte) error {
+	var clientState ClientState
+	if err := l.keeper.Codec().Unmarshal(clientStateBz, &clientState); err != nil {
+		return err
+	}
+
+	if err := clientState.Validate(); err != nil {
+		return err
+	}
+
+	var consensusState ConsensusState
+	if err := l.keeper.Codec().Unmarshal(consensusStateBz, &consensusState); err != nil {
+		return err
+	}
+
+	if err := consensusState.ValidateBasic(); err != nil {
+		return err
+	}
+
+	clientStore := l.storeProvider.ClientStore(ctx, clientID) //预设好前缀的store
+
+	return clientState.Initialize(ctx, l.keeper.Codec(), clientStore, &consensusState)
 }
 
 func (l LightClientModule) VerifyClientMessage(ctx sdk.Context, clientID string, clientMsg exported.ClientMessage) error {
