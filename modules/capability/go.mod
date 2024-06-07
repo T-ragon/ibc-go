@@ -1,4 +1,4 @@
-module github.com/cosmos/ibc-go/modules/capability
+module github.com/T-ragon/ibc-go/modules/capability
 
 go 1.21
 

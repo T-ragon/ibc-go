@@ -1,4 +1,4 @@
-module github.com/cosmos/ibc-go/modules/light-clients/08-wasm
+module github.com/T-ragon/ibc-go/modules/light-clients/08-wasm
 
 go 1.21
 

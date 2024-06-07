@@ -1,4 +1,4 @@
-module github.com/cosmos/ibc-go/e2e
+module github.com/T-ragon/ibc-go/e2e
 
 go 1.21
 
