@@ -10,7 +10,7 @@ require (
 	github.com/cosmos/cosmos-sdk v0.50.5
 	github.com/cosmos/gogoproto v1.4.12
 	github.com/cosmos/ibc-go/modules/light-clients/08-wasm v0.0.0-00010101000000-000000000000
-	github.com/cosmos/ibc-go/v8 v8.1.0
+	github.com/T-ragon/ibc-go/v9 v8.1.0
 	github.com/docker/docker v24.0.7+incompatible
 	github.com/strangelove-ventures/interchaintest/v8 v8.2.0
 	github.com/stretchr/testify v1.9.0
@@ -270,7 +270,7 @@ replace (
 )
 
 // uncomment to use the local version of ibc-go, you will need to run `go mod tidy` in e2e directory.
-replace github.com/cosmos/ibc-go/v8 => ../
+replace github.com/T-ragon/ibc-go/v9 => ../
 
 replace github.com/cosmos/ibc-go/modules/light-clients/08-wasm => ../modules/light-clients/08-wasm
 

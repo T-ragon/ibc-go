@@ -23,12 +23,12 @@ import (
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govtypesv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
+	feetypes "github.com/T-ragon/ibc-go/v9/modules/apps/29-fee/types"
+	transfertypes "github.com/T-ragon/ibc-go/v9/modules/apps/transfer/types"
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
 	"github.com/cosmos/ibc-go/e2e/testsuite/sanitize"
 	"github.com/cosmos/ibc-go/e2e/testvalues"
-	feetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
 )
 
 // BroadcastMessages broadcasts the provided messages to the given chain and signs them on behalf of the provided user.

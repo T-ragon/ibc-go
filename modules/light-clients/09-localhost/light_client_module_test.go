@@ -3,15 +3,15 @@ package localhost_test
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	localhost "github.com/cosmos/ibc-go/v8/modules/light-clients/09-localhost"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	"github.com/cosmos/ibc-go/v8/testing/mock"
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	connectiontypes "github.com/T-ragon/ibc-go/v9/modules/core/03-connection/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	commitmenttypes "github.com/T-ragon/ibc-go/v9/modules/core/23-commitment/types"
+	host "github.com/T-ragon/ibc-go/v9/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	localhost "github.com/T-ragon/ibc-go/v9/modules/light-clients/09-localhost"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
+	"github.com/T-ragon/ibc-go/v9/testing/mock"
 )
 
 func (suite *LocalhostTestSuite) TestStatus() {

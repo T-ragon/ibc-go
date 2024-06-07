@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	pb "github.com/cosmos/ibc-go/v8/RPC"
-	V1 "github.com/cosmos/ibc-go/v8/proto/ibc/lightclients/zkp/v1"
+	pb "github.com/T-ragon/ibc-go/v9/RPC"
+	V1 "github.com/T-ragon/ibc-go/v9/proto/ibc/lightclients/zkp/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/types/known/anypb"

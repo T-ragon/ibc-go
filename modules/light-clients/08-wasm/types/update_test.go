@@ -10,13 +10,13 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	storetypes "cosmossdk.io/store/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	host "github.com/T-ragon/ibc-go/v9/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
 	wasmtesting "github.com/cosmos/ibc-go/modules/light-clients/08-wasm/testing"
 	"github.com/cosmos/ibc-go/modules/light-clients/08-wasm/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 func (suite *TypesTestSuite) TestUpdateState() {

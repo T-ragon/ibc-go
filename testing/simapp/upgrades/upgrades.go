@@ -14,11 +14,11 @@ import (
 	paramskeeper "github.com/cosmos/cosmos-sdk/x/params/keeper"
 	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
+	v6 "github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/controller/migrations/v6"
+	clientkeeper "github.com/T-ragon/ibc-go/v9/modules/core/02-client/keeper"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	ibctmmigrations "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint/migrations"
 	capabilitykeeper "github.com/cosmos/ibc-go/modules/capability/keeper"
-	v6 "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/migrations/v6"
-	clientkeeper "github.com/cosmos/ibc-go/v8/modules/core/02-client/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctmmigrations "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint/migrations"
 )
 
 const (

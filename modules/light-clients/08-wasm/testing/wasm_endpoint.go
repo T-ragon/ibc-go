@@ -3,9 +3,9 @@ package testing
 import (
 	"github.com/stretchr/testify/require"
 
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
 	"github.com/cosmos/ibc-go/modules/light-clients/08-wasm/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 // WasmEndpoint is a wrapper around the ibctesting pkg Endpoint struct.

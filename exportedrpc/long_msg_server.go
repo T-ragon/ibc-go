@@ -2,11 +2,11 @@ package exportedrpc
 
 import (
 	"context"
+	clientkeeper "github.com/T-ragon/ibc-go/v9/modules/core/02-client/keeper"
+	"github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	clientkeeper "github.com/cosmos/ibc-go/v8/modules/core/02-client/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
 )
 
 var (

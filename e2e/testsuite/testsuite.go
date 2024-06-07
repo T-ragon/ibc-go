@@ -19,12 +19,12 @@ import (
 
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
+	feetypes "github.com/T-ragon/ibc-go/v9/modules/apps/29-fee/types"
+	transfertypes "github.com/T-ragon/ibc-go/v9/modules/apps/transfer/types"
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
 	"github.com/cosmos/ibc-go/e2e/relayer"
 	"github.com/cosmos/ibc-go/e2e/testsuite/diagnostics"
-	feetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
 )
 
 const (

@@ -7,16 +7,16 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	connectiontypes "github.com/T-ragon/ibc-go/v9/modules/core/03-connection/types"
+	"github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	commitmenttypes "github.com/T-ragon/ibc-go/v9/modules/core/23-commitment/types"
+	host "github.com/T-ragon/ibc-go/v9/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
+	ibcmock "github.com/T-ragon/ibc-go/v9/testing/mock"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	ibcmock "github.com/cosmos/ibc-go/v8/testing/mock"
 )
 
 var (

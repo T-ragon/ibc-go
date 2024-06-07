@@ -27,10 +27,10 @@ import (
 	abci "github.com/cometbft/cometbft/abci/types"
 	cmttypes "github.com/cometbft/cometbft/types"
 
+	"github.com/T-ragon/ibc-go/v9/modules/core/keeper"
+	"github.com/T-ragon/ibc-go/v9/testing/simapp"
+	ibctestingtypes "github.com/T-ragon/ibc-go/v9/testing/types"
 	capabilitykeeper "github.com/cosmos/ibc-go/modules/capability/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/core/keeper"
-	"github.com/cosmos/ibc-go/v8/testing/simapp"
-	ibctestingtypes "github.com/cosmos/ibc-go/v8/testing/types"
 )
 
 var DefaultTestingAppInit = SetupTestingApp

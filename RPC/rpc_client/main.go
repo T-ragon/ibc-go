@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	pb "github.com/cosmos/ibc-go/v8/RPC"
+	pb "github.com/T-ragon/ibc-go/v9/RPC"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/anypb"

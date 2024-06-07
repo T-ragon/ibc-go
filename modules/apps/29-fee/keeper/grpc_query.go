@@ -12,7 +12,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
+	"github.com/T-ragon/ibc-go/v9/modules/apps/29-fee/types"
 )
 
 var _ types.QueryServer = (*Keeper)(nil)

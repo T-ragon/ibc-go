@@ -7,11 +7,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	transfertypes "github.com/T-ragon/ibc-go/v9/modules/apps/transfer/types"
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/testing/simapp"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/types"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 func (s *CallbacksTestSuite) TestTransferCallbacks() {

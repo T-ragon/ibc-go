@@ -16,10 +16,10 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	feetypes "github.com/T-ragon/ibc-go/v9/modules/apps/29-fee/types"
+	transfertypes "github.com/T-ragon/ibc-go/v9/modules/apps/transfer/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
 	"github.com/cosmos/ibc-go/e2e/testvalues"
-	feetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
 )
 
 const (

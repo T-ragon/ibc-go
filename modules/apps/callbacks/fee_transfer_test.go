@@ -7,11 +7,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	feetypes "github.com/T-ragon/ibc-go/v9/modules/apps/29-fee/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/testing/simapp"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/types"
-	feetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 var (

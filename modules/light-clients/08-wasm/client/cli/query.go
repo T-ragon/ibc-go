@@ -10,8 +10,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/version"
 
+	ibcexported "github.com/T-ragon/ibc-go/v9/modules/core/exported"
 	"github.com/cosmos/ibc-go/modules/light-clients/08-wasm/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 // getCmdCode defines the command to query wasm code for given checksum.

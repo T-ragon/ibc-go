@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
+	"github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"

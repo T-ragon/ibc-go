@@ -29,14 +29,14 @@ import (
 	cmttypes "github.com/cometbft/cometbft/types"
 	cmtversion "github.com/cometbft/cometbft/version"
 
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	ibcexported "github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
 	"github.com/cosmos/ibc-go/e2e/dockerutil"
 	"github.com/cosmos/ibc-go/e2e/testsuite"
 	"github.com/cosmos/ibc-go/e2e/testvalues"
 	wasmtypes "github.com/cosmos/ibc-go/modules/light-clients/08-wasm/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 const (

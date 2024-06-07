@@ -8,14 +8,14 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	connectiontypes "github.com/T-ragon/ibc-go/v9/modules/core/03-connection/types"
+	"github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	host "github.com/T-ragon/ibc-go/v9/modules/core/24-host"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
+	"github.com/T-ragon/ibc-go/v9/testing/mock"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v8/modules/core/03-connection/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	"github.com/cosmos/ibc-go/v8/testing/mock"
 )
 
 // TestTimeoutPacket test the TimeoutPacket call on chainA by ensuring the timeout has passed

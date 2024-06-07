@@ -12,11 +12,11 @@ import (
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	ibcexported "github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	ibckeeper "github.com/T-ragon/ibc-go/v9/modules/core/keeper"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
 	capabilitykeeper "github.com/cosmos/ibc-go/modules/capability/keeper"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
-	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 type KeeperTestSuite struct {

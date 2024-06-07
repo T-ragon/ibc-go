@@ -5,7 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
 )
 
 // IBC 08-wasm events

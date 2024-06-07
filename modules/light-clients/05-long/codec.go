@@ -3,7 +3,7 @@ package _5_long
 import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
 )
 
 // RegisterInterfaces registers the tendermint concrete client-related
