@@ -2,15 +2,35 @@ package _5_long
 
 import (
 	"bytes"
+	"encoding/binary"
+
 	"cosmossdk.io/store/prefix"
 	storetypes "cosmossdk.io/store/types"
-	"encoding/binary"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
 	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
 	"github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
+
+/*
+This file contains the logic for storage and iteration over `IterationKey` metadata that is stored
+for each consensus state. The consensus state key specified in ICS-24 and expected by counterparty chains
+stores the consensus state under the key: `consensusStates/{revision_number}-{revision_height}`, with each number
+represented as a string.
+While this works fine for IBC proof verification, it makes efficient iteration difficult since the lexicographic order
+of the consensus state keys do not match the height order of consensus states. This makes consensus state pruning and
+monotonic time enforcement difficult since it is inefficient to find the earliest consensus state or to find the neighboring
+consensus states given a consensus state height.
+Changing the ICS-24 representation will be a major breaking change that requires counterparty chains to accept a new key format.
+Thus to avoid breaking IBC, we can store a lookup from a more efficiently formatted key: `iterationKey` to the consensus state key which
+stores the underlying consensus state. This efficient iteration key will be formatted like so: `iterateConsensusStates{BigEndianRevisionBytes}{BigEndianHeightBytes}`.
+This ensures that the lexicographic order of iteration keys match the height order of the consensus states. Thus, we can use the SDK store's
+Iterators to iterate over the consensus states in ascending/descending order by providing a mapping from `iterationKey -> consensusStateKey -> ConsensusState`.
+A future version of IBC may choose to replace the ICS24 ConsensusState path with the more efficient format and make this indirection unnecessary.
+*/
 
 const KeyIterateConsensusStatePrefix = "iterateConsensusStates"
 
@@ -231,34 +251,34 @@ func GetPreviousConsensusState(clientStore storetypes.KVStore, cdc codec.BinaryC
 // PruneAllExpiredConsensusStates iterates over all consensus states for a given
 // client store. If a consensus state is expired, it is deleted and its metadata
 // is deleted. The number of consensus states pruned is returned.
-//func PruneAllExpiredConsensusStates(
-//	ctx sdk.Context, clientStore storetypes.KVStore,
-//	cdc codec.BinaryCodec, clientState *ClientState,
-//) int {
-//	var heights []exported.Height
-//
-//	pruneCb := func(height exported.Height) bool {
-//		consState, found := GetConsensusState(clientStore, cdc, height)
-//		if !found { // consensus state should always be found
-//			return true
-//		}
-//
-//		if clientState.IsExpired(consState.Timestamp, ctx.BlockTime()) {
-//			heights = append(heights, height)
-//		}
-//
-//		return false
-//	}
-//
-//	IterateConsensusStateAscending(clientStore, pruneCb)
-//
-//	for _, height := range heights {
-//		deleteConsensusState(clientStore, height)
-//		deleteConsensusMetadata(clientStore, height)
-//	}
-//
-//	return len(heights)
-//}
+func PruneAllExpiredConsensusStates(
+	ctx sdk.Context, clientStore storetypes.KVStore,
+	cdc codec.BinaryCodec, clientState *ClientState,
+) int {
+	var heights []exported.Height
+
+	pruneCb := func(height exported.Height) bool {
+		consState, found := GetConsensusState(clientStore, cdc, height)
+		if !found { // consensus state should always be found
+			return true
+		}
+
+		if clientState.IsExpired(consState.Timestamp, ctx.BlockTime()) {
+			heights = append(heights, height)
+		}
+
+		return false
+	}
+
+	IterateConsensusStateAscending(clientStore, pruneCb)
+
+	for _, height := range heights {
+		deleteConsensusState(clientStore, height)
+		deleteConsensusMetadata(clientStore, height)
+	}
+
+	return len(heights)
+}
 
 // Helper function for GetNextConsensusState and GetPreviousConsensusState
 func getTmConsensusState(clientStore storetypes.KVStore, cdc codec.BinaryCodec, key []byte) (*ConsensusState, bool) {

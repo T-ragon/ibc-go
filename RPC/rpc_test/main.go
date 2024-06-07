@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 	pb "github.com/cosmos/ibc-go/v8/RPC"
+	V1 "github.com/cosmos/ibc-go/v8/proto/ibc/lightclients/zkp/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/types/known/anypb"
 	"google.golang.org/protobuf/types/known/wrapperspb"
 	"log"
 	"net"
-	"testing"
 )
 
 type Server struct {
@@ -22,7 +22,12 @@ func (s *Server) MustEmbedUnimplementedGreetsServer() {
 }
 
 func (s *Server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	log.Println(in.Name, in.Message)
+	ap := V1.AggregatePacket{}
+	err := ap.XXX_Unmarshal(in.Message.Value)
+	if err != nil {
+		return nil, err
+	}
+	log.Println(ap.Signer)
 
 	n := &pb.Wrapper{
 		Value: &wrapperspb.StringValue{
@@ -39,15 +44,9 @@ func (s *Server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	}, nil
 }
 
-func TestingCreateClient(t *testing.T) {
-	//lis, _ := net.Listen("tcp", "8002")
-	//server := grpc.NewServer()
-	//RPC 服务需要注册
-
-}
 func main() {
 	//协议类型，以及ip，port
-	lis, err := net.Listen("tcp", ":8002")
+	lis, err := net.Listen("tcp", ":8012")
 	if err != nil {
 		fmt.Println(err)
 		return

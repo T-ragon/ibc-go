@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package ibc.lightclients.zkp.v1;
+
+option go_package = ".";
+
+message Height{
+  // the revision that the client is currently on
+  uint64 revision_number = 1;
+  // the height within the given revision
+  uint64 revision_height = 2;
+}

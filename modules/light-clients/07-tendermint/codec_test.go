@@ -44,6 +44,8 @@ func TestCodecTypeRegistration(t *testing.T) {
 		},
 	}
 
+	t.Log(testCases[0].typeURL)
+
 	for _, tc := range testCases {
 		tc := tc
 

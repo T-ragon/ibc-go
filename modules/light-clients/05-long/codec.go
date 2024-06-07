@@ -2,10 +2,11 @@ package _5_long
 
 import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+
 	"github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
-// RegisterInterfaces registers the long concrete client-related
+// RegisterInterfaces registers the tendermint concrete client-related
 // implementations and interfaces.
 func RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 	registry.RegisterImplementations(
@@ -15,5 +16,13 @@ func RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 	registry.RegisterImplementations(
 		(*exported.ConsensusState)(nil),
 		&ConsensusState{},
+	)
+	registry.RegisterImplementations(
+		(*exported.ClientMessage)(nil),
+		&Header{},
+	)
+	registry.RegisterImplementations(
+		(*exported.ClientMessage)(nil),
+		&Misbehaviour{},
 	)
 }
