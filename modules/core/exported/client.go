@@ -16,6 +16,9 @@ const (
 	// TypeClientMisbehaviour is the shared evidence misbehaviour type
 	TypeClientMisbehaviour string = "client_misbehaviour"
 
+	//AggreLite is used to indicate that the light client is a Aggregate Light client
+	AggreLite string = "05-aggrelite"
+
 	// Solomachine is used to indicate that the light client is a solo machine.
 	Solomachine string = "06-solomachine"
 

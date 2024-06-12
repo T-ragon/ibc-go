@@ -4,6 +4,7 @@ package ibc.lightclients.aggrelite;
 
 option go_package = "aggrelite";
 
+
 message Height {
 
   // the revision that the client is currently on
