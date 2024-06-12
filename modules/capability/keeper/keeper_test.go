@@ -12,9 +12,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 
-	"github.com/cosmos/ibc-go/modules/capability"
-	"github.com/cosmos/ibc-go/modules/capability/keeper"
-	"github.com/cosmos/ibc-go/modules/capability/types"
+	"github.com/T-ragon/ibc-go/modules/capability"
+	"github.com/T-ragon/ibc-go/modules/capability/keeper"
+	"github.com/T-ragon/ibc-go/modules/capability/types"
 )
 
 var (

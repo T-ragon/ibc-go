@@ -7,7 +7,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/cosmos/ibc-go/modules/capability/types"
+	"github.com/T-ragon/ibc-go/modules/capability/types"
 )
 
 // Simulation parameter constants

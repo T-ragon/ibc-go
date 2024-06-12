@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/ibc-go/modules/capability/types"
+	"github.com/T-ragon/ibc-go/modules/capability/types"
 )
 
 func TestCapabilityKey(t *testing.T) {

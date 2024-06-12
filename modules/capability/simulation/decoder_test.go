@@ -10,9 +10,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/kv"
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 
-	"github.com/cosmos/ibc-go/modules/capability"
-	"github.com/cosmos/ibc-go/modules/capability/simulation"
-	"github.com/cosmos/ibc-go/modules/capability/types"
+	"github.com/T-ragon/ibc-go/modules/capability"
+	"github.com/T-ragon/ibc-go/modules/capability/simulation"
+	"github.com/T-ragon/ibc-go/modules/capability/types"
 )
 
 func TestDecodeStore(t *testing.T) {
