@@ -11,7 +11,7 @@ import (
 
 	tmcrypto "github.com/cometbft/cometbft/proto/tendermint/crypto"
 
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
 )
 
 // var representing the proofspecs for a SDK chain

@@ -6,9 +6,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	ibcexported "github.com/T-ragon/ibc-go/v9/modules/core/exported"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 // AccountKeeper defines the expected account keeper

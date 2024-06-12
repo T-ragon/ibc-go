@@ -1,10 +1,10 @@
-module github.com/cosmos/ibc-go/modules/apps/callbacks
+module github.com/T-ragon/ibc-go/modules/apps/callbacks
 
 go 1.21
 
 toolchain go1.21.0
 
-replace github.com/cosmos/ibc-go/v8 => ../../../
+//replace github.com/T-ragon/ibc-go/v9 => ../../../
 
 replace github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 
@@ -27,7 +27,6 @@ require (
 	github.com/cosmos/cosmos-sdk v0.50.3
 	github.com/cosmos/gogoproto v1.4.11
 	github.com/cosmos/ibc-go/modules/capability v1.0.0
-	github.com/cosmos/ibc-go/v8 v8.0.0
 	github.com/spf13/cast v1.5.1
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0

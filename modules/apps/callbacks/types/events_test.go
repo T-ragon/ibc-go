@@ -3,10 +3,10 @@ package types_test
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
 	"github.com/cosmos/ibc-go/modules/apps/callbacks/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
 )
 
 func (s *CallbacksTypesTestSuite) TestEvents() {

@@ -9,9 +9,9 @@ import (
 	banktestutil "github.com/cosmos/cosmos-sdk/x/bank/testutil"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	transferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
-	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	transferkeeper "github.com/T-ragon/ibc-go/v9/modules/apps/transfer/keeper"
+	transfertypes "github.com/T-ragon/ibc-go/v9/modules/apps/transfer/types"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
 )
 
 func (suite *KeeperTestSuite) TestMigratorMigrateParams() {

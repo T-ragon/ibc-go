@@ -7,12 +7,12 @@ import (
 
 	tmtypes "github.com/cometbft/cometbft/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
-	solomachine "github.com/cosmos/ibc-go/v8/modules/light-clients/06-solomachine"
-	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	ibctestingmock "github.com/cosmos/ibc-go/v8/testing/mock"
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	solomachine "github.com/T-ragon/ibc-go/v9/modules/light-clients/06-solomachine"
+	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
+	ibctestingmock "github.com/T-ragon/ibc-go/v9/testing/mock"
 )
 
 func (suite *TendermintTestSuite) TestVerifyMisbehaviour() {

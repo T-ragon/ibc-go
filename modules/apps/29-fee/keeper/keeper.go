@@ -7,11 +7,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	"github.com/T-ragon/ibc-go/v9/modules/apps/29-fee/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	porttypes "github.com/T-ragon/ibc-go/v9/modules/core/05-port/types"
+	ibcexported "github.com/T-ragon/ibc-go/v9/modules/core/exported"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	"github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 // Middleware must implement types.ChannelKeeper and types.PortKeeper expected interfaces

@@ -13,7 +13,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/cosmos/ibc-go/modules/capability/types"
+	"github.com/T-ragon/ibc-go/modules/capability/types"
 )
 
 type (

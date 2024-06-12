@@ -7,10 +7,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	controllertypes "github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/controller/types"
+	ibcexported "github.com/T-ragon/ibc-go/v9/modules/core/exported"
 	capabilitykeeper "github.com/cosmos/ibc-go/modules/capability/keeper"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	controllertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 // MigrateICS27ChannelCapability performs a search on a prefix store using the provided store key and module name.

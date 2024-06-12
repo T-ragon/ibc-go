@@ -10,8 +10,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
+	ibcerrors "github.com/T-ragon/ibc-go/v9/modules/core/errors"
+	ibcexported "github.com/T-ragon/ibc-go/v9/modules/core/exported"
 )
 
 var (

@@ -7,8 +7,8 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	icatypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
+	icatypes "github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/types"
+	porttypes "github.com/T-ragon/ibc-go/v9/modules/core/05-port/types"
 )
 
 // GetICS4Wrapper is a getter for the keeper's ICS4Wrapper.

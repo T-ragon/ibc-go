@@ -3,10 +3,10 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 // IBCModule defines an interface that implements all the callbacks

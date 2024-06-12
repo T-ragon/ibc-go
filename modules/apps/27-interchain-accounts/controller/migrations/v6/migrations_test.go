@@ -7,14 +7,14 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	v6 "github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/controller/migrations/v6"
+	"github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/controller/types"
+	icatypes "github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	host "github.com/T-ragon/ibc-go/v9/modules/core/24-host"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
+	ibcmock "github.com/T-ragon/ibc-go/v9/testing/mock"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	v6 "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/migrations/v6"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
-	icatypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
-	ibcmock "github.com/cosmos/ibc-go/v8/testing/mock"
 )
 
 type MigrationsTestSuite struct {

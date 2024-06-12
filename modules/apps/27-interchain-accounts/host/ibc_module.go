@@ -7,14 +7,14 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	"github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/host/keeper"
+	"github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/host/types"
+	icatypes "github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/types"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	porttypes "github.com/T-ragon/ibc-go/v9/modules/core/05-port/types"
+	ibcerrors "github.com/T-ragon/ibc-go/v9/modules/core/errors"
+	ibcexported "github.com/T-ragon/ibc-go/v9/modules/core/exported"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/keeper"
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
-	icatypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/types"
-	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v8/modules/core/05-port/types"
-	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
-	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 var (

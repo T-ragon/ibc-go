@@ -7,8 +7,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
-	ibctesting "github.com/cosmos/ibc-go/v8/testing"
+	"github.com/T-ragon/ibc-go/v9/modules/apps/27-interchain-accounts/host/types"
+	ibctesting "github.com/T-ragon/ibc-go/v9/testing"
 )
 
 func TestMsgUpdateParamsValidateBasic(t *testing.T) {

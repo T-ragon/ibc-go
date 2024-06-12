@@ -8,7 +8,7 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmtypes "github.com/cometbft/cometbft/types"
 
-	"github.com/cosmos/ibc-go/v8/testing/mock"
+	"github.com/T-ragon/ibc-go/v9/testing/mock"
 )
 
 const chainID = "testChain"

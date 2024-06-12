@@ -1,8 +1,8 @@
 package keeper
 
 import (
-	"github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v8/modules/core/exported"
+	"github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
 )
 
 // UnmarshalClientState attempts to decode and return an ClientState object from
