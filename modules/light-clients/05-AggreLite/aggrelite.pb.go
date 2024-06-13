@@ -30,7 +30,7 @@ var _ = time.Kitchen
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// ClientState from Tendermint tracks the current validator set, latest height,
+// ClientState from Aggrelite tracks the current validator set, latest height,
 // and a possible frozen height.
 type ClientState struct {
 	ChainId    string   `protobuf:"bytes,1,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty"`
@@ -95,7 +95,7 @@ func (m *ClientState) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ClientState proto.InternalMessageInfo
 
-// ConsensusState defines the consensus state from Tendermint.
+// ConsensusState defines the consensus state from AggreLite.
 type ConsensusState struct {
 	// timestamp that corresponds to the block height in which the ConsensusState
 	// was stored.
@@ -180,9 +180,9 @@ func (m *Misbehaviour) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Misbehaviour proto.InternalMessageInfo
 
-// Header defines the Tendermint client consensus Header.
+// Header defines the AggreLite client consensus Header.
 // It encapsulates all the information necessary to update from a trusted
-// Tendermint ConsensusState. The inclusion of TrustedHeight and
+// AggreLite ConsensusState. The inclusion of TrustedHeight and
 // TrustedValidators allows this update to process correctly, so long as the
 // ConsensusState for the TrustedHeight exists, this removes race conditions
 // among relayers The SignedHeader and ValidatorSet are the new untrusted update
@@ -308,15 +308,15 @@ func (m *Fraction) GetDenominator() uint64 {
 }
 
 func init() {
-	proto.RegisterType((*ClientState)(nil), "ibc.lightclients.tendermint.v1.ClientState")
-	proto.RegisterType((*ConsensusState)(nil), "ibc.lightclients.tendermint.v1.ConsensusState")
-	proto.RegisterType((*Misbehaviour)(nil), "ibc.lightclients.tendermint.v1.Misbehaviour")
-	proto.RegisterType((*Header)(nil), "ibc.lightclients.tendermint.v1.Header")
-	proto.RegisterType((*Fraction)(nil), "ibc.lightclients.tendermint.v1.Fraction")
+	proto.RegisterType((*ClientState)(nil), "ibc.lightclients.aggrelite.v1.ClientState")
+	proto.RegisterType((*ConsensusState)(nil), "ibc.lightclients.aggrelite.v1.ConsensusState")
+	proto.RegisterType((*Misbehaviour)(nil), "ibc.lightclients.aggrelite.v1.Misbehaviour")
+	proto.RegisterType((*Header)(nil), "ibc.lightclients.aggrelite.v1.Header")
+	proto.RegisterType((*Fraction)(nil), "ibc.lightclients.aggrelite.v1.Fraction")
 }
 
 func init() {
-	proto.RegisterFile("ibc/lightclients/tendermint/v1/tendermint.proto", fileDescriptor_c6d6cf2b288949be)
+	proto.RegisterFile("ibc/lightclients/aggrelite/v1/aggrelite.proto", fileDescriptor_c6d6cf2b288949be)
 }
 
 var fileDescriptor_c6d6cf2b288949be = []byte{
