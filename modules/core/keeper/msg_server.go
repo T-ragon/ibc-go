@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"github.com/T-ragon/ibc-go/v9/proto/ibc/lightclients/aggrelite"
 
 	metrics "github.com/hashicorp/go-metrics"
 
@@ -443,6 +444,11 @@ func (k Keeper) ChannelCloseConfirm(goCtx context.Context, msg *channeltypes.Msg
 	return &channeltypes.MsgChannelCloseConfirmResponse{}, nil
 }
 
+// AggregatePacket defines a rpc handler method for AggregatePacket
+func (K Keeper) AggregatePacket(goCtx context.Context, msg *aggrelite.AggregatePacket) (*channeltypes.MsgRecvPacketResponse, error) {
+	return &channeltypes.MsgRecvPacketResponse{Result: channeltypes.SUCCESS_AGGRELITE}, nil
+}
+
 // RecvPacket defines a rpc handler method for MsgRecvPacket.
 func (k Keeper) RecvPacket(goCtx context.Context, msg *channeltypes.MsgRecvPacket) (*channeltypes.MsgRecvPacketResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
@@ -487,7 +493,7 @@ func (k Keeper) RecvPacket(goCtx context.Context, msg *channeltypes.MsgRecvPacke
 	}
 
 	// Perform application logic callback
-	//
+	// 跨链交易
 	// Cache context so that we may discard state changes from callback if the acknowledgement is unsuccessful.
 	cacheCtx, writeFn = ctx.CacheContext()
 	ack := cbs.OnRecvPacket(cacheCtx, msg.Packet, relayer)

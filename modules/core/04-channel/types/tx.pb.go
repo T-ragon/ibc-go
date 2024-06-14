@@ -6,6 +6,7 @@ package types
 import (
 	context "context"
 	fmt "fmt"
+	"github.com/T-ragon/ibc-go/v9/proto/ibc/lightclients/aggrelite"
 	_ "github.com/cosmos/cosmos-sdk/types/msgservice"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	grpc1 "github.com/cosmos/gogoproto/grpc"
@@ -31,7 +32,7 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // ResponseResultType defines the possible outcomes of the execution of a message
-type ResponseResultType int32
+type  ResponseResultType int32
 
 const (
 	// Default zero value enumeration
@@ -42,6 +43,8 @@ const (
 	SUCCESS ResponseResultType = 2
 	// The message was executed unsuccessfully
 	FAILURE ResponseResultType = 3
+	//Aggrelite Client Specified
+	SUCCESS_AGGRELITE ResponseResultType = 4;
 )
 
 var ResponseResultType_name = map[int32]string{
@@ -2051,6 +2054,8 @@ type MsgServer interface {
 	ChannelCloseConfirm(context.Context, *MsgChannelCloseConfirm) (*MsgChannelCloseConfirmResponse, error)
 	// RecvPacket defines a rpc handler method for MsgRecvPacket.
 	RecvPacket(context.Context, *MsgRecvPacket) (*MsgRecvPacketResponse, error)
+	//AggregatePacket defines a rpc handler method for AggregatePacket
+	AggregatePacket(ctx context.Context, packet *aggrelite.AggregatePacket) (*MsgRecvPacketResponse, error)
 	// Timeout defines a rpc handler method for MsgTimeout.
 	Timeout(context.Context, *MsgTimeout) (*MsgTimeoutResponse, error)
 	// TimeoutOnClose defines a rpc handler method for MsgTimeoutOnClose.
@@ -2081,6 +2086,9 @@ type MsgServer interface {
 type UnimplementedMsgServer struct {
 }
 
+func (*UnimplementedMsgServer) AggregatePacket(ctx context.Context, req *aggrelite.AggregatePacket) (*MsgRecvPacketResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AggregatePacket not implemented")
+}
 func (*UnimplementedMsgServer) ChannelOpenInit(ctx context.Context, req *MsgChannelOpenInit) (*MsgChannelOpenInitResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChannelOpenInit not implemented")
 }

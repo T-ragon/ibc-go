@@ -29,9 +29,9 @@ func NewConsensusState(
 	}
 }
 
-// ClientType returns Tendermint
+// ClientType returns AggreLite
 func (ConsensusState) ClientType() string {
-	return exported.Tendermint
+	return exported.AggreLite
 }
 
 // GetRoot returns the commitment Root for the specific
