@@ -24,12 +24,12 @@ func (h Header) ConsensusState() *ConsensusState {
 	}
 }
 
-// ClientType defines that the Header is a Tendermint consensus algorithm
+// ClientType defines that the Header is a aggrelite consensus algorithm
 func (Header) ClientType() string {
-	return exported.Tendermint
+	return exported.AggreLite
 }
 
-// GetHeight returns the current height. It returns 0 if the tendermint
+// GetHeight returns the current height. It returns 0 if the aggrelite
 // header is nil.
 // NOTE: the header.Header is checked to be non nil in ValidateBasic.
 func (h Header) GetHeight() exported.Height {
@@ -38,7 +38,7 @@ func (h Header) GetHeight() exported.Height {
 }
 
 // GetTime returns the current block timestamp. It returns a zero time if
-// the tendermint header is nil.
+// the aggrelite header is nil.
 // NOTE: the header.Header is checked to be non nil in ValidateBasic.
 func (h Header) GetTime() time.Time {
 	return h.Header.Time
@@ -50,14 +50,14 @@ func (h Header) GetTime() time.Time {
 // with MsgCreateClient
 func (h Header) ValidateBasic() error {
 	if h.SignedHeader == nil {
-		return errorsmod.Wrap(clienttypes.ErrInvalidHeader, "tendermint signed header cannot be nil")
+		return errorsmod.Wrap(clienttypes.ErrInvalidHeader, "aggrelite signed header cannot be nil")
 	}
 	if h.Header == nil {
-		return errorsmod.Wrap(clienttypes.ErrInvalidHeader, "tendermint header cannot be nil")
+		return errorsmod.Wrap(clienttypes.ErrInvalidHeader, "aggrelite header cannot be nil")
 	}
 	tmSignedHeader, err := tmtypes.SignedHeaderFromProto(h.SignedHeader)
 	if err != nil {
-		return errorsmod.Wrap(err, "header is not a tendermint header")
+		return errorsmod.Wrap(err, "header is not a aggrelite header")
 	}
 	if err := tmSignedHeader.ValidateBasic(h.Header.GetChainID()); err != nil {
 		return errorsmod.Wrap(err, "header failed basic validation")
@@ -74,7 +74,7 @@ func (h Header) ValidateBasic() error {
 	}
 	tmValset, err := tmtypes.ValidatorSetFromProto(h.ValidatorSet)
 	if err != nil {
-		return errorsmod.Wrap(err, "validator set is not tendermint validator set")
+		return errorsmod.Wrap(err, "validator set is not aggrelite validator set")
 	}
 	if !bytes.Equal(h.Header.ValidatorsHash, tmValset.Hash()) {
 		return errorsmod.Wrap(clienttypes.ErrInvalidHeader, "validator set does not match hash")

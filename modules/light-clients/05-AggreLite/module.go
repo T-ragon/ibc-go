@@ -19,12 +19,12 @@ var (
 	_ appmodule.AppModule   = (*AppModule)(nil)
 )
 
-// AppModuleBasic defines the basic application module used by the tendermint light client.
+// AppModuleBasic defines the basic application module used by the aggrelite light client.
 // Only the RegisterInterfaces function needs to be implemented. All other function perform
 // a no-op.
 type AppModuleBasic struct{}
 
-// Name returns the tendermint module name.
+// Name returns the aggrelite module name.
 func (AppModuleBasic) Name() string {
 	return ModuleName
 }
@@ -35,21 +35,21 @@ func (AppModule) IsOnePerModuleType() {}
 // IsAppModule implements the appmodule.AppModule interface.
 func (AppModule) IsAppModule() {}
 
-// RegisterLegacyAminoCodec performs a no-op. The Tendermint client does not support amino.
+// RegisterLegacyAminoCodec performs a no-op. The aggrelite client does not support amino.
 func (AppModuleBasic) RegisterLegacyAminoCodec(*codec.LegacyAmino) {}
 
 // RegisterInterfaces registers module concrete types into protobuf Any. This allows core IBC
-// to unmarshal tendermint light client types.
+// to unmarshal aggrelite light client types.
 func (AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 	RegisterInterfaces(registry)
 }
 
-// DefaultGenesis performs a no-op. Genesis is not supported for the tendermint light client.
+// DefaultGenesis performs a no-op. Genesis is not supported for the aggrelite light client.
 func (AppModuleBasic) DefaultGenesis(cdc codec.JSONCodec) json.RawMessage {
 	return nil
 }
 
-// ValidateGenesis performs a no-op. Genesis is not supported for the tendermint light cilent.
+// ValidateGenesis performs a no-op. Genesis is not supported for the aggrelite light cilent.
 func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncodingConfig, bz json.RawMessage) error {
 	return nil
 }
@@ -67,12 +67,12 @@ func (AppModuleBasic) GetQueryCmd() *cobra.Command {
 	return nil
 }
 
-// AppModule is the application module for the Tendermint client module
+// AppModule is the application module for the aggrelite client module
 type AppModule struct {
 	AppModuleBasic
 }
 
-// NewAppModule creates a new Tendermint client module
+// NewAppModule creates a new aggrelite client module
 func NewAppModule() AppModule {
 	return AppModule{}
 }

@@ -27,9 +27,9 @@ func NewMisbehaviour(clientID string, header1, header2 *Header) *Misbehaviour {
 	}
 }
 
-// ClientType is Tendermint light client
+// ClientType is aggrelite light client
 func (Misbehaviour) ClientType() string {
-	return exported.Tendermint
+	return exported.AggreLite
 }
 
 // GetTime returns the timestamp at which misbehaviour occurred. It uses the
@@ -110,11 +110,11 @@ func (misbehaviour Misbehaviour) ValidateBasic() error {
 func validCommit(chainID string, blockID tmtypes.BlockID, commit *tmproto.Commit, valSet *tmproto.ValidatorSet) (err error) {
 	tmCommit, err := tmtypes.CommitFromProto(commit)
 	if err != nil {
-		return errorsmod.Wrap(err, "commit is not tendermint commit type")
+		return errorsmod.Wrap(err, "commit is not aggrelite commit type")
 	}
 	tmValset, err := tmtypes.ValidatorSetFromProto(valSet)
 	if err != nil {
-		return errorsmod.Wrap(err, "validator set is not tendermint validator set type")
+		return errorsmod.Wrap(err, "validator set is not aggrelite validator set type")
 	}
 
 	if err := tmValset.VerifyCommitLight(chainID, blockID, tmCommit.Height, tmCommit); err != nil {

@@ -6,7 +6,7 @@ import (
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
 )
 
-// RegisterInterfaces registers the tendermint concrete client-related
+// RegisterInterfaces registers the aggrelite concrete client-related
 // implementations and interfaces.
 func RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 	registry.RegisterImplementations(

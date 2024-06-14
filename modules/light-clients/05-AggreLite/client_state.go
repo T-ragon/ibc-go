@@ -48,7 +48,7 @@ func (cs ClientState) GetChainID() string {
 	return cs.ChainId
 }
 
-// ClientType is tendermint.
+// ClientType is aggrelite.
 func (ClientState) ClientType() string {
 	return exported.AggreLite
 }
@@ -73,7 +73,7 @@ func (ClientState) GetTimestampAtHeight(
 	return consState.GetTimestamp(), nil
 }
 
-// Status returns the status of the tendermint client.
+// Status returns the status of the aggrelite client.
 // The client may be:
 // - Active: FrozenHeight is zero and client is not expired
 // - Frozen: Frozen Height is not zero
@@ -120,14 +120,14 @@ func (cs ClientState) Validate() error {
 
 	// NOTE: the value of tmtypes.MaxChainIDLen may change in the future.
 	// If this occurs, the code here must account for potential difference
-	// between the tendermint version being run by the counterparty chain
-	// and the tendermint version used by this light client.
+	// between the aggrelite version being run by the counterparty chain
+	// and the aggrelite version used by this light client.
 	// https://github.com/cosmos/ibc-go/issues/177
 	if len(cs.ChainId) > tmtypes.MaxChainIDLen {
 		return errorsmod.Wrapf(ErrInvalidChainID, "chainID is too long; got: %d, max: %d", len(cs.ChainId), tmtypes.MaxChainIDLen)
 	}
 
-	if err := light.ValidateTrustLevel(cs.TrustLevel.ToTendermint()); err != nil {
+	if err := light.ValidateTrustLevel(cs.TrustLevel.Toaggrelite()); err != nil {
 		return err
 	}
 	if cs.TrustingPeriod <= 0 {
@@ -146,7 +146,7 @@ func (cs ClientState) Validate() error {
 			"latest height revision number must match chain id revision number (%d != %d)", cs.LatestHeight.RevisionNumber, clienttypes.ParseChainID(cs.ChainId))
 	}
 	if cs.LatestHeight.RevisionHeight == 0 {
-		return errorsmod.Wrapf(ErrInvalidHeaderHeight, "tendermint client's latest height revision height cannot be zero")
+		return errorsmod.Wrapf(ErrInvalidHeaderHeight, "aggrelite client's latest height revision height cannot be zero")
 	}
 	if cs.TrustingPeriod >= cs.UnbondingPeriod {
 		return errorsmod.Wrapf(
@@ -187,7 +187,7 @@ func (cs ClientState) ZeroCustomFields() exported.ClientState {
 	}
 }
 
-// Initialize checks that the initial consensus state is an 07-tendermint consensus state and
+// Initialize checks that the initial consensus state is an 07-aggrelite consensus state and
 // sets the client state, consensus state and associated metadata in the provided client store.
 func (cs ClientState) Initialize(ctx sdk.Context, cdc codec.BinaryCodec, clientStore storetypes.KVStore, consState exported.ConsensusState) error {
 	consensusState, ok := consState.(*ConsensusState)

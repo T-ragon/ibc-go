@@ -8,14 +8,14 @@ import (
 
 	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
-	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
+	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-aggrelite"
 )
 
-// PruneExpiredConsensusStates prunes all expired tendermint consensus states. This function
+// PruneExpiredConsensusStates prunes all expired aggrelite consensus states. This function
 // may optionally be called during in-place store migrations. The ibc store key must be provided.
 func PruneExpiredConsensusStates(ctx sdk.Context, cdc codec.BinaryCodec, clientKeeper ClientKeeper) (int, error) {
 	var clientIDs []string
-	clientKeeper.IterateClientStates(ctx, []byte(exported.Tendermint), func(clientID string, _ exported.ClientState) bool {
+	clientKeeper.IterateClientStates(ctx, []byte(exported.aggrelite), func(clientID string, _ exported.ClientState) bool {
 		clientIDs = append(clientIDs, clientID)
 		return false
 	})
@@ -34,14 +34,14 @@ func PruneExpiredConsensusStates(ctx sdk.Context, cdc codec.BinaryCodec, clientK
 
 		tmClientState, ok := clientState.(*ibctm.ClientState)
 		if !ok {
-			return 0, errorsmod.Wrap(clienttypes.ErrInvalidClient, "client state is not tendermint even though client id contains 07-tendermint")
+			return 0, errorsmod.Wrap(clienttypes.ErrInvalidClient, "client state is not aggrelite even though client id contains 07-aggrelite")
 		}
 
 		totalPruned += ibctm.PruneAllExpiredConsensusStates(ctx, clientStore, cdc, tmClientState)
 	}
 
 	clientLogger := clientKeeper.Logger(ctx)
-	clientLogger.Info("pruned expired tendermint consensus states", "total", totalPruned)
+	clientLogger.Info("pruned expired aggrelite consensus states", "total", totalPruned)
 
 	return totalPruned, nil
 }

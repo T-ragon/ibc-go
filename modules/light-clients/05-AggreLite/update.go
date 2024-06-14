@@ -35,7 +35,7 @@ func (cs *ClientState) VerifyClientMessage(
 }
 
 // verifyHeader returns an error if:
-// - the client or header provided are not parseable to tendermint types
+// - the client or header provided are not parseable to aggrelite types
 // - the header is invalid
 // - header height is less than or equal to the trusted header height
 // - header revision is not equal to trusted header revision
@@ -70,17 +70,17 @@ func (cs *ClientState) verifyHeader(
 
 	tmTrustedValidators, err := tmtypes.ValidatorSetFromProto(header.TrustedValidators)
 	if err != nil {
-		return errorsmod.Wrap(err, "trusted validator set in not tendermint validator set type")
+		return errorsmod.Wrap(err, "trusted validator set in not aggrelite validator set type")
 	}
 
 	tmSignedHeader, err := tmtypes.SignedHeaderFromProto(header.SignedHeader)
 	if err != nil {
-		return errorsmod.Wrap(err, "signed header in not tendermint signed header type")
+		return errorsmod.Wrap(err, "signed header in not aggrelite signed header type")
 	}
 
 	tmValidatorSet, err := tmtypes.ValidatorSetFromProto(header.ValidatorSet)
 	if err != nil {
-		return errorsmod.Wrap(err, "validator set in not tendermint validator set type")
+		return errorsmod.Wrap(err, "validator set in not aggrelite validator set type")
 	}
 
 	// assert header height is newer than consensus state
@@ -112,7 +112,7 @@ func (cs *ClientState) verifyHeader(
 	err = light.Verify(
 		&signedHeader,
 		tmTrustedValidators, tmSignedHeader, tmValidatorSet,
-		cs.TrustingPeriod, currentTimestamp, cs.MaxClockDrift, cs.TrustLevel.ToTendermint(),
+		cs.TrustingPeriod, currentTimestamp, cs.MaxClockDrift, cs.TrustLevel.Toaggrelite(),
 	)
 	if err != nil {
 		return errorsmod.Wrap(err, "failed to verify header")
@@ -209,7 +209,7 @@ func (cs ClientState) UpdateStateOnMisbehaviour(ctx sdk.Context, cdc codec.Binar
 func checkTrustedHeader(header *Header, consState *ConsensusState) error {
 	tmTrustedValidators, err := tmtypes.ValidatorSetFromProto(header.TrustedValidators)
 	if err != nil {
-		return errorsmod.Wrap(err, "trusted validator set in not tendermint validator set type")
+		return errorsmod.Wrap(err, "trusted validator set in not aggrelite validator set type")
 	}
 
 	// assert that trustedVals is NextValidators of last trusted header

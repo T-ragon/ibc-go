@@ -5,7 +5,7 @@ import (
 	"github.com/cometbft/cometbft/light"
 )
 
-// DefaultTrustLevel is the tendermint light client default trust level
+// DefaultTrustLevel is the aggrelite light client default trust level
 var DefaultTrustLevel = NewFractionFromTm(light.DefaultTrustLevel)
 
 // NewFractionFromTm returns a new Fraction instance from a tmmath.Fraction
@@ -16,8 +16,8 @@ func NewFractionFromTm(f tmmath.Fraction) Fraction {
 	}
 }
 
-// ToTendermint converts Fraction to tmmath.Fraction
-func (f Fraction) ToTendermint() tmmath.Fraction {
+// Toaggrelite converts Fraction to tmmath.Fraction
+func (f Fraction) Toaggrelite() tmmath.Fraction {
 	return tmmath.Fraction{
 		Numerator:   f.Numerator,
 		Denominator: f.Denominator,

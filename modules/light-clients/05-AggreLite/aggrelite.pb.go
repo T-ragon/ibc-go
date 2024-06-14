@@ -426,7 +426,7 @@ func (m *ClientState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		for iNdEx := len(m.UpgradePath) - 1; iNdEx >= 0; iNdEx-- {
 			i -= len(m.UpgradePath[iNdEx])
 			copy(dAtA[i:], m.UpgradePath[iNdEx])
-			i = encodeVarintTendermint(dAtA, i, uint64(len(m.UpgradePath[iNdEx])))
+			i = encodeVarintaggrelite(dAtA, i, uint64(len(m.UpgradePath[iNdEx])))
 			i--
 			dAtA[i] = 0x4a
 		}
@@ -439,7 +439,7 @@ func (m *ClientState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 					return 0, err
 				}
 				i -= size
-				i = encodeVarintTendermint(dAtA, i, uint64(size))
+				i = encodeVarintaggrelite(dAtA, i, uint64(size))
 			}
 			i--
 			dAtA[i] = 0x42
@@ -451,7 +451,7 @@ func (m *ClientState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			return 0, err
 		}
 		i -= size
-		i = encodeVarintTendermint(dAtA, i, uint64(size))
+		i = encodeVarintaggrelite(dAtA, i, uint64(size))
 	}
 	i--
 	dAtA[i] = 0x3a
@@ -461,7 +461,7 @@ func (m *ClientState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			return 0, err
 		}
 		i -= size
-		i = encodeVarintTendermint(dAtA, i, uint64(size))
+		i = encodeVarintaggrelite(dAtA, i, uint64(size))
 	}
 	i--
 	dAtA[i] = 0x32
@@ -470,7 +470,7 @@ func (m *ClientState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		return 0, err3
 	}
 	i -= n3
-	i = encodeVarintTendermint(dAtA, i, uint64(n3))
+	i = encodeVarintaggrelite(dAtA, i, uint64(n3))
 	i--
 	dAtA[i] = 0x2a
 	n4, err4 := github_com_cosmos_gogoproto_types.StdDurationMarshalTo(m.UnbondingPeriod, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdDuration(m.UnbondingPeriod):])
@@ -478,7 +478,7 @@ func (m *ClientState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		return 0, err4
 	}
 	i -= n4
-	i = encodeVarintTendermint(dAtA, i, uint64(n4))
+	i = encodeVarintaggrelite(dAtA, i, uint64(n4))
 	i--
 	dAtA[i] = 0x22
 	n5, err5 := github_com_cosmos_gogoproto_types.StdDurationMarshalTo(m.TrustingPeriod, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdDuration(m.TrustingPeriod):])
@@ -486,7 +486,7 @@ func (m *ClientState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		return 0, err5
 	}
 	i -= n5
-	i = encodeVarintTendermint(dAtA, i, uint64(n5))
+	i = encodeVarintaggrelite(dAtA, i, uint64(n5))
 	i--
 	dAtA[i] = 0x1a
 	{
@@ -495,14 +495,14 @@ func (m *ClientState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			return 0, err
 		}
 		i -= size
-		i = encodeVarintTendermint(dAtA, i, uint64(size))
+		i = encodeVarintaggrelite(dAtA, i, uint64(size))
 	}
 	i--
 	dAtA[i] = 0x12
 	if len(m.ChainId) > 0 {
 		i -= len(m.ChainId)
 		copy(dAtA[i:], m.ChainId)
-		i = encodeVarintTendermint(dAtA, i, uint64(len(m.ChainId)))
+		i = encodeVarintaggrelite(dAtA, i, uint64(len(m.ChainId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -532,7 +532,7 @@ func (m *ConsensusState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if len(m.NextValidatorsHash) > 0 {
 		i -= len(m.NextValidatorsHash)
 		copy(dAtA[i:], m.NextValidatorsHash)
-		i = encodeVarintTendermint(dAtA, i, uint64(len(m.NextValidatorsHash)))
+		i = encodeVarintaggrelite(dAtA, i, uint64(len(m.NextValidatorsHash)))
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -542,7 +542,7 @@ func (m *ConsensusState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			return 0, err
 		}
 		i -= size
-		i = encodeVarintTendermint(dAtA, i, uint64(size))
+		i = encodeVarintaggrelite(dAtA, i, uint64(size))
 	}
 	i--
 	dAtA[i] = 0x12
@@ -551,7 +551,7 @@ func (m *ConsensusState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		return 0, err8
 	}
 	i -= n8
-	i = encodeVarintTendermint(dAtA, i, uint64(n8))
+	i = encodeVarintaggrelite(dAtA, i, uint64(n8))
 	i--
 	dAtA[i] = 0xa
 	return len(dAtA) - i, nil
@@ -584,7 +584,7 @@ func (m *Misbehaviour) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				return 0, err
 			}
 			i -= size
-			i = encodeVarintTendermint(dAtA, i, uint64(size))
+			i = encodeVarintaggrelite(dAtA, i, uint64(size))
 		}
 		i--
 		dAtA[i] = 0x1a
@@ -596,7 +596,7 @@ func (m *Misbehaviour) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				return 0, err
 			}
 			i -= size
-			i = encodeVarintTendermint(dAtA, i, uint64(size))
+			i = encodeVarintaggrelite(dAtA, i, uint64(size))
 		}
 		i--
 		dAtA[i] = 0x12
@@ -604,7 +604,7 @@ func (m *Misbehaviour) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if len(m.ClientId) > 0 {
 		i -= len(m.ClientId)
 		copy(dAtA[i:], m.ClientId)
-		i = encodeVarintTendermint(dAtA, i, uint64(len(m.ClientId)))
+		i = encodeVarintaggrelite(dAtA, i, uint64(len(m.ClientId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -638,7 +638,7 @@ func (m *Header) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				return 0, err
 			}
 			i -= size
-			i = encodeVarintTendermint(dAtA, i, uint64(size))
+			i = encodeVarintaggrelite(dAtA, i, uint64(size))
 		}
 		i--
 		dAtA[i] = 0x22
@@ -649,7 +649,7 @@ func (m *Header) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			return 0, err
 		}
 		i -= size
-		i = encodeVarintTendermint(dAtA, i, uint64(size))
+		i = encodeVarintaggrelite(dAtA, i, uint64(size))
 	}
 	i--
 	dAtA[i] = 0x1a
@@ -660,7 +660,7 @@ func (m *Header) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				return 0, err
 			}
 			i -= size
-			i = encodeVarintTendermint(dAtA, i, uint64(size))
+			i = encodeVarintaggrelite(dAtA, i, uint64(size))
 		}
 		i--
 		dAtA[i] = 0x12
@@ -672,7 +672,7 @@ func (m *Header) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				return 0, err
 			}
 			i -= size
-			i = encodeVarintTendermint(dAtA, i, uint64(size))
+			i = encodeVarintaggrelite(dAtA, i, uint64(size))
 		}
 		i--
 		dAtA[i] = 0xa
@@ -701,20 +701,20 @@ func (m *Fraction) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if m.Denominator != 0 {
-		i = encodeVarintTendermint(dAtA, i, uint64(m.Denominator))
+		i = encodeVarintaggrelite(dAtA, i, uint64(m.Denominator))
 		i--
 		dAtA[i] = 0x10
 	}
 	if m.Numerator != 0 {
-		i = encodeVarintTendermint(dAtA, i, uint64(m.Numerator))
+		i = encodeVarintaggrelite(dAtA, i, uint64(m.Numerator))
 		i--
 		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
 
-func encodeVarintTendermint(dAtA []byte, offset int, v uint64) int {
-	offset -= sovTendermint(v)
+func encodeVarintaggrelite(dAtA []byte, offset int, v uint64) int {
+	offset -= sovaggrelite(v)
 	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
@@ -732,30 +732,30 @@ func (m *ClientState) Size() (n int) {
 	_ = l
 	l = len(m.ChainId)
 	if l > 0 {
-		n += 1 + l + sovTendermint(uint64(l))
+		n += 1 + l + sovaggrelite(uint64(l))
 	}
 	l = m.TrustLevel.Size()
-	n += 1 + l + sovTendermint(uint64(l))
+	n += 1 + l + sovaggrelite(uint64(l))
 	l = github_com_cosmos_gogoproto_types.SizeOfStdDuration(m.TrustingPeriod)
-	n += 1 + l + sovTendermint(uint64(l))
+	n += 1 + l + sovaggrelite(uint64(l))
 	l = github_com_cosmos_gogoproto_types.SizeOfStdDuration(m.UnbondingPeriod)
-	n += 1 + l + sovTendermint(uint64(l))
+	n += 1 + l + sovaggrelite(uint64(l))
 	l = github_com_cosmos_gogoproto_types.SizeOfStdDuration(m.MaxClockDrift)
-	n += 1 + l + sovTendermint(uint64(l))
+	n += 1 + l + sovaggrelite(uint64(l))
 	l = m.FrozenHeight.Size()
-	n += 1 + l + sovTendermint(uint64(l))
+	n += 1 + l + sovaggrelite(uint64(l))
 	l = m.LatestHeight.Size()
-	n += 1 + l + sovTendermint(uint64(l))
+	n += 1 + l + sovaggrelite(uint64(l))
 	if len(m.ProofSpecs) > 0 {
 		for _, e := range m.ProofSpecs {
 			l = e.Size()
-			n += 1 + l + sovTendermint(uint64(l))
+			n += 1 + l + sovaggrelite(uint64(l))
 		}
 	}
 	if len(m.UpgradePath) > 0 {
 		for _, s := range m.UpgradePath {
 			l = len(s)
-			n += 1 + l + sovTendermint(uint64(l))
+			n += 1 + l + sovaggrelite(uint64(l))
 		}
 	}
 	if m.AllowUpdateAfterExpiry {
@@ -774,12 +774,12 @@ func (m *ConsensusState) Size() (n int) {
 	var l int
 	_ = l
 	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.Timestamp)
-	n += 1 + l + sovTendermint(uint64(l))
+	n += 1 + l + sovaggrelite(uint64(l))
 	l = m.Root.Size()
-	n += 1 + l + sovTendermint(uint64(l))
+	n += 1 + l + sovaggrelite(uint64(l))
 	l = len(m.NextValidatorsHash)
 	if l > 0 {
-		n += 1 + l + sovTendermint(uint64(l))
+		n += 1 + l + sovaggrelite(uint64(l))
 	}
 	return n
 }
@@ -792,15 +792,15 @@ func (m *Misbehaviour) Size() (n int) {
 	_ = l
 	l = len(m.ClientId)
 	if l > 0 {
-		n += 1 + l + sovTendermint(uint64(l))
+		n += 1 + l + sovaggrelite(uint64(l))
 	}
 	if m.Header1 != nil {
 		l = m.Header1.Size()
-		n += 1 + l + sovTendermint(uint64(l))
+		n += 1 + l + sovaggrelite(uint64(l))
 	}
 	if m.Header2 != nil {
 		l = m.Header2.Size()
-		n += 1 + l + sovTendermint(uint64(l))
+		n += 1 + l + sovaggrelite(uint64(l))
 	}
 	return n
 }
@@ -813,17 +813,17 @@ func (m *Header) Size() (n int) {
 	_ = l
 	if m.SignedHeader != nil {
 		l = m.SignedHeader.Size()
-		n += 1 + l + sovTendermint(uint64(l))
+		n += 1 + l + sovaggrelite(uint64(l))
 	}
 	if m.ValidatorSet != nil {
 		l = m.ValidatorSet.Size()
-		n += 1 + l + sovTendermint(uint64(l))
+		n += 1 + l + sovaggrelite(uint64(l))
 	}
 	l = m.TrustedHeight.Size()
-	n += 1 + l + sovTendermint(uint64(l))
+	n += 1 + l + sovaggrelite(uint64(l))
 	if m.TrustedValidators != nil {
 		l = m.TrustedValidators.Size()
-		n += 1 + l + sovTendermint(uint64(l))
+		n += 1 + l + sovaggrelite(uint64(l))
 	}
 	return n
 }
@@ -835,19 +835,19 @@ func (m *Fraction) Size() (n int) {
 	var l int
 	_ = l
 	if m.Numerator != 0 {
-		n += 1 + sovTendermint(uint64(m.Numerator))
+		n += 1 + sovaggrelite(uint64(m.Numerator))
 	}
 	if m.Denominator != 0 {
-		n += 1 + sovTendermint(uint64(m.Denominator))
+		n += 1 + sovaggrelite(uint64(m.Denominator))
 	}
 	return n
 }
 
-func sovTendermint(x uint64) (n int) {
+func sovaggrelite(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-func sozTendermint(x uint64) (n int) {
-	return sovTendermint(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+func sozaggrelite(x uint64) (n int) {
+	return sovaggrelite(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
 func (m *ClientState) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
@@ -857,7 +857,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
 			if shift >= 64 {
-				return ErrIntOverflowTendermint
+				return ErrIntOverflowaggrelite
 			}
 			if iNdEx >= l {
 				return io.ErrUnexpectedEOF
@@ -885,7 +885,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -899,11 +899,11 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			}
 			intStringLen := int(stringLen)
 			if intStringLen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -917,7 +917,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -930,11 +930,11 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -950,7 +950,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -963,11 +963,11 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -983,7 +983,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -996,11 +996,11 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1016,7 +1016,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1029,11 +1029,11 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1049,7 +1049,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1062,11 +1062,11 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1082,7 +1082,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1095,11 +1095,11 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1115,7 +1115,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1128,11 +1128,11 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1149,7 +1149,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1163,11 +1163,11 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			}
 			intStringLen := int(stringLen)
 			if intStringLen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1181,7 +1181,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var v int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1201,7 +1201,7 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			var v int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1216,12 +1216,12 @@ func (m *ClientState) Unmarshal(dAtA []byte) error {
 			m.AllowUpdateAfterMisbehaviour = bool(v != 0)
 		default:
 			iNdEx = preIndex
-			skippy, err := skipTendermint(dAtA[iNdEx:])
+			skippy, err := skipaggrelite(dAtA[iNdEx:])
 			if err != nil {
 				return err
 			}
 			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
@@ -1243,7 +1243,7 @@ func (m *ConsensusState) Unmarshal(dAtA []byte) error {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
 			if shift >= 64 {
-				return ErrIntOverflowTendermint
+				return ErrIntOverflowaggrelite
 			}
 			if iNdEx >= l {
 				return io.ErrUnexpectedEOF
@@ -1271,7 +1271,7 @@ func (m *ConsensusState) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1284,11 +1284,11 @@ func (m *ConsensusState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1304,7 +1304,7 @@ func (m *ConsensusState) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1317,11 +1317,11 @@ func (m *ConsensusState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1337,7 +1337,7 @@ func (m *ConsensusState) Unmarshal(dAtA []byte) error {
 			var byteLen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1350,11 +1350,11 @@ func (m *ConsensusState) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if byteLen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + byteLen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1366,12 +1366,12 @@ func (m *ConsensusState) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
-			skippy, err := skipTendermint(dAtA[iNdEx:])
+			skippy, err := skipaggrelite(dAtA[iNdEx:])
 			if err != nil {
 				return err
 			}
 			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
@@ -1393,7 +1393,7 @@ func (m *Misbehaviour) Unmarshal(dAtA []byte) error {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
 			if shift >= 64 {
-				return ErrIntOverflowTendermint
+				return ErrIntOverflowaggrelite
 			}
 			if iNdEx >= l {
 				return io.ErrUnexpectedEOF
@@ -1421,7 +1421,7 @@ func (m *Misbehaviour) Unmarshal(dAtA []byte) error {
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1435,11 +1435,11 @@ func (m *Misbehaviour) Unmarshal(dAtA []byte) error {
 			}
 			intStringLen := int(stringLen)
 			if intStringLen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1453,7 +1453,7 @@ func (m *Misbehaviour) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1466,11 +1466,11 @@ func (m *Misbehaviour) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1489,7 +1489,7 @@ func (m *Misbehaviour) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1502,11 +1502,11 @@ func (m *Misbehaviour) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1520,12 +1520,12 @@ func (m *Misbehaviour) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
-			skippy, err := skipTendermint(dAtA[iNdEx:])
+			skippy, err := skipaggrelite(dAtA[iNdEx:])
 			if err != nil {
 				return err
 			}
 			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
@@ -1547,7 +1547,7 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
 			if shift >= 64 {
-				return ErrIntOverflowTendermint
+				return ErrIntOverflowaggrelite
 			}
 			if iNdEx >= l {
 				return io.ErrUnexpectedEOF
@@ -1575,7 +1575,7 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1588,11 +1588,11 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1611,7 +1611,7 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1624,11 +1624,11 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1647,7 +1647,7 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1660,11 +1660,11 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1680,7 +1680,7 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1693,11 +1693,11 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 				}
 			}
 			if msglen < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			postIndex := iNdEx + msglen
 			if postIndex < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
@@ -1711,12 +1711,12 @@ func (m *Header) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
-			skippy, err := skipTendermint(dAtA[iNdEx:])
+			skippy, err := skipaggrelite(dAtA[iNdEx:])
 			if err != nil {
 				return err
 			}
 			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
@@ -1738,7 +1738,7 @@ func (m *Fraction) Unmarshal(dAtA []byte) error {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
 			if shift >= 64 {
-				return ErrIntOverflowTendermint
+				return ErrIntOverflowaggrelite
 			}
 			if iNdEx >= l {
 				return io.ErrUnexpectedEOF
@@ -1766,7 +1766,7 @@ func (m *Fraction) Unmarshal(dAtA []byte) error {
 			m.Numerator = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1785,7 +1785,7 @@ func (m *Fraction) Unmarshal(dAtA []byte) error {
 			m.Denominator = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return ErrIntOverflowTendermint
+					return ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
@@ -1799,12 +1799,12 @@ func (m *Fraction) Unmarshal(dAtA []byte) error {
 			}
 		default:
 			iNdEx = preIndex
-			skippy, err := skipTendermint(dAtA[iNdEx:])
+			skippy, err := skipaggrelite(dAtA[iNdEx:])
 			if err != nil {
 				return err
 			}
 			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTendermint
+				return ErrInvalidLengthaggrelite
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
@@ -1818,7 +1818,7 @@ func (m *Fraction) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func skipTendermint(dAtA []byte) (n int, err error) {
+func skipaggrelite(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
 	depth := 0
@@ -1826,7 +1826,7 @@ func skipTendermint(dAtA []byte) (n int, err error) {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
 			if shift >= 64 {
-				return 0, ErrIntOverflowTendermint
+				return 0, ErrIntOverflowaggrelite
 			}
 			if iNdEx >= l {
 				return 0, io.ErrUnexpectedEOF
@@ -1843,7 +1843,7 @@ func skipTendermint(dAtA []byte) (n int, err error) {
 		case 0:
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return 0, ErrIntOverflowTendermint
+					return 0, ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return 0, io.ErrUnexpectedEOF
@@ -1859,7 +1859,7 @@ func skipTendermint(dAtA []byte) (n int, err error) {
 			var length int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
-					return 0, ErrIntOverflowTendermint
+					return 0, ErrIntOverflowaggrelite
 				}
 				if iNdEx >= l {
 					return 0, io.ErrUnexpectedEOF
@@ -1872,14 +1872,14 @@ func skipTendermint(dAtA []byte) (n int, err error) {
 				}
 			}
 			if length < 0 {
-				return 0, ErrInvalidLengthTendermint
+				return 0, ErrInvalidLengthaggrelite
 			}
 			iNdEx += length
 		case 3:
 			depth++
 		case 4:
 			if depth == 0 {
-				return 0, ErrUnexpectedEndOfGroupTendermint
+				return 0, ErrUnexpectedEndOfGroupaggrelite
 			}
 			depth--
 		case 5:
@@ -1888,7 +1888,7 @@ func skipTendermint(dAtA []byte) (n int, err error) {
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
 		if iNdEx < 0 {
-			return 0, ErrInvalidLengthTendermint
+			return 0, ErrInvalidLengthaggrelite
 		}
 		if depth == 0 {
 			return iNdEx, nil
@@ -1898,7 +1898,7 @@ func skipTendermint(dAtA []byte) (n int, err error) {
 }
 
 var (
-	ErrInvalidLengthTendermint        = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowTendermint          = fmt.Errorf("proto: integer overflow")
-	ErrUnexpectedEndOfGroupTendermint = fmt.Errorf("proto: unexpected end of group")
+	ErrInvalidLengthaggrelite        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowaggrelite          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupaggrelite = fmt.Errorf("proto: unexpected end of group")
 )

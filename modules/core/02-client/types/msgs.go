@@ -336,8 +336,8 @@ func (msg *MsgIBCSoftwareUpgrade) ValidateBasic() error {
 	}
 
 	// for the time being, we should implicitly be on tendermint when using ibc-go
-	if clientState.ClientType() != exported.Tendermint {
-		return errorsmod.Wrapf(ErrInvalidUpgradeClient, "upgraded client state must be a Tendermint client")
+	if clientState.ClientType() != exported.Tendermint || clientState.ClientType() != exported.AggreLite {
+		return errorsmod.Wrapf(ErrInvalidUpgradeClient, "upgraded client state must be a Tendermint or AggreLite client")
 	}
 
 	return msg.Plan.ValidateBasic()
