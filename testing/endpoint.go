@@ -18,7 +18,7 @@ import (
 	commitmenttypes "github.com/T-ragon/ibc-go/v9/modules/core/23-commitment/types"
 	host "github.com/T-ragon/ibc-go/v9/modules/core/24-host"
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
-	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-AggreLite"
+	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggreLite"
 	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
 )
 

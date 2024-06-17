@@ -1,4 +1,4 @@
-package _5_AggreLite
+package _5_aggreLite
 
 import (
 	tmmath "github.com/cometbft/cometbft/libs/math"

@@ -6,7 +6,7 @@ import (
 	connectiontypes "github.com/T-ragon/ibc-go/v9/modules/core/03-connection/types"
 	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
-	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-AggreLite"
+	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggreLite"
 	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
 	"github.com/T-ragon/ibc-go/v9/testing/mock"
 )

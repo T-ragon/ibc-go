@@ -1,4 +1,4 @@
-package _5_AggreLite
+package _5_aggreLite
 
 import (
 	"time"
@@ -32,16 +32,6 @@ func NewConsensusState(
 // ClientType returns AggreLite
 func (ConsensusState) ClientType() string {
 	return exported.AggreLite
-}
-
-// GetRoot returns the commitment Root for the specific
-func (cs ConsensusState) GetRoot() exported.Root {
-	return cs.Root
-}
-
-// GetTimestamp returns block time in nanoseconds of the header that created consensus state
-func (cs ConsensusState) GetTimestamp() uint64 {
-	return uint64(cs.Timestamp.UnixNano())
 }
 
 // ValidateBasic defines a basic validation for the aggrelite consensus state.

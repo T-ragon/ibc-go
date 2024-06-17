@@ -1,4 +1,4 @@
-package _5_AggreLite
+package _5_aggreLite
 
 import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
