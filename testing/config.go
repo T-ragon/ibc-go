@@ -6,6 +6,7 @@ import (
 	connectiontypes "github.com/T-ragon/ibc-go/v9/modules/core/03-connection/types"
 	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-AggreLite"
 	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
 	"github.com/T-ragon/ibc-go/v9/testing/mock"
 )
@@ -21,6 +22,21 @@ type TendermintConfig struct {
 	MaxClockDrift   time.Duration
 }
 
+type AggreLiteConfig struct {
+	TrustLevel      aggrelite.Fraction
+	TrustingPeriod  time.Duration
+	UnbondingPeriod time.Duration
+	MaxClockDrift   time.Duration
+}
+
+func NewAggreLiteConfig() *AggreLiteConfig {
+	return &AggreLiteConfig{
+		TrustLevel:      aggrelite.Fraction(DefaultTrustLevel),
+		TrustingPeriod:  TrustingPeriod,
+		UnbondingPeriod: UnbondingPeriod,
+		MaxClockDrift:   MaxClockDrift,
+	}
+}
 func NewTendermintConfig() *TendermintConfig {
 	return &TendermintConfig{
 		TrustLevel:      DefaultTrustLevel,
@@ -28,6 +44,10 @@ func NewTendermintConfig() *TendermintConfig {
 		UnbondingPeriod: UnbondingPeriod,
 		MaxClockDrift:   MaxClockDrift,
 	}
+}
+
+func (*AggreLiteConfig) GetClientType() string {
+	return exported.AggreLite
 }
 
 func (*TendermintConfig) GetClientType() string {
