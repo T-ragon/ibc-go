@@ -1,9 +1,8 @@
 package _5_aggreLite
 
 import (
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 )
 
 // RegisterInterfaces registers the aggrelite concrete client-related

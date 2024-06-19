@@ -1,14 +1,44 @@
 package _5_aggreLite
 
 import (
+	"fmt"
+	"github.com/gogo/protobuf/proto"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
+
+	protov2 "google.golang.org/protobuf/proto"
 )
 
+//	func TestRegisterInterfaces(t *testing.T) {
+//		proto.RegisterType((*ClientState)(nil), "ibc.lightclients.aggrelite.v1.ClientState")
+//		println(sdk.MsgTypeURL(&ClientState{}))
+//		a := sdk.MsgTypeURL(&tendermint.ClientState{})
+//		println(a)
+//	}
+func MsgTypeURL(msg proto.Message) {
+	if m, ok := msg.(protov2.Message); ok {
+		println("/" + string(m.ProtoReflect().Descriptor().FullName()))
+	}
+
+	println("/" + proto.MessageName(msg))
+}
+func TestRegisterInterfaces(t *testing.T) {
+	fmt.Println("Testing ClientState registration")
+	MsgTypeURL(&ClientState{})
+	b := proto.MessageName(&ClientState{})
+	println("/" + b)
+
+	a := sdk.MsgTypeURL(&ClientState{})
+	println(a)
+
+	if proto.MessageName(&ClientState{}) == "" {
+		t.Fatalf("ClientState not registered properly")
+	}
+}
 func TestCodecTypeRegistration(t *testing.T) {
 	testCases := []struct {
 		name    string
@@ -42,6 +72,7 @@ func TestCodecTypeRegistration(t *testing.T) {
 		},
 	}
 
+	t.Log(testCases[0].typeURL, testCases[1].typeURL)
 	for _, tc := range testCases {
 		tc := tc
 		t.Log(tc.typeURL)

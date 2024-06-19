@@ -1,4 +1,4 @@
-package tendermint_test
+package tendermint
 
 import (
 	"testing"
@@ -7,8 +7,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
-
-	tendermint "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
+	//tendermint "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
 )
 
 func TestCodecTypeRegistration(t *testing.T) {
@@ -19,22 +18,22 @@ func TestCodecTypeRegistration(t *testing.T) {
 	}{
 		{
 			"success: ClientState",
-			sdk.MsgTypeURL(&tendermint.ClientState{}),
+			sdk.MsgTypeURL(&ClientState{}),
 			true,
 		},
 		{
 			"success: ConsensusState",
-			sdk.MsgTypeURL(&tendermint.ConsensusState{}),
+			sdk.MsgTypeURL(&ConsensusState{}),
 			true,
 		},
 		{
 			"success: Header",
-			sdk.MsgTypeURL(&tendermint.Header{}),
+			sdk.MsgTypeURL(&Header{}),
 			true,
 		},
 		{
 			"success: Misbehaviour",
-			sdk.MsgTypeURL(&tendermint.Misbehaviour{}),
+			sdk.MsgTypeURL(&Misbehaviour{}),
 			true,
 		},
 		{
@@ -43,12 +42,12 @@ func TestCodecTypeRegistration(t *testing.T) {
 			false,
 		},
 	}
-
+	t.Log(testCases[0].typeURL)
 	for _, tc := range testCases {
 		tc := tc
 
 		t.Run(tc.name, func(t *testing.T) {
-			encodingCfg := moduletestutil.MakeTestEncodingConfig(tendermint.AppModuleBasic{})
+			encodingCfg := moduletestutil.MakeTestEncodingConfig(AppModuleBasic{})
 			msg, err := encodingCfg.Codec.InterfaceRegistry().Resolve(tc.typeURL)
 
 			if tc.expPass {

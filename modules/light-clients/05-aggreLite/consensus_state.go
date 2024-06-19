@@ -34,6 +34,16 @@ func (ConsensusState) ClientType() string {
 	return exported.AggreLite
 }
 
+// GetRoot returns the commitment Root for the specific
+func (cs ConsensusState) GetRoot() exported.Root {
+	return cs.Root
+}
+
+// GetTimestamp returns block time in nanoseconds of the header that created consensus state
+func (cs ConsensusState) GetTimestamp() uint64 {
+	return uint64(cs.Timestamp.UnixNano())
+}
+
 // ValidateBasic defines a basic validation for the aggrelite consensus state.
 // NOTE: ProcessedTimestamp may be zero if this is an initial consensus state passed in by relayer
 // as opposed to a consensus state constructed by the chain.

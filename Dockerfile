@@ -1,5 +1,5 @@
 FROM golang:1.21-alpine3.18 as builder
-ARG IBC_GO_VERSION
+ARG IBC_GO_VERSION=v8.1.x
 
 RUN set -eux; apk add --no-cache git libusb-dev linux-headers gcc musl-dev make;
 
