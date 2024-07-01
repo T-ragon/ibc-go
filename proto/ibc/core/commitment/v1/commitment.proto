@@ -37,3 +37,6 @@ message MerklePath {
 message MerkleProof {
   repeated cosmos.ics23.v1.CommitmentProof proofs = 1;
 }
+
+
+

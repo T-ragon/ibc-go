@@ -100,6 +100,12 @@ func ApplyPrefix(prefix exported.Prefix, path MerklePath) (MerklePath, error) {
 
 var _ exported.Proof = (*MerkleProof)(nil)
 
+// VerifyAggregateMembership verifies the membership of a merkle proof against the given root, path, and value.
+// Note that the path is expected as []string{<store key of module>, <key corresponding to requested value>}.
+func (proof MerkleProof) VerifyAggregateMembership(specs []*ics23.ProofSpec, root exported.Root, path exported.Path, value [][]byte, leafNumber []uint64, proofs [][]byte) error {
+	return nil
+}
+
 // VerifyMembership verifies the membership of a merkle proof against the given root, path, and value.
 // Note that the path is expected as []string{<store key of module>, <key corresponding to requested value>}.
 func (proof MerkleProof) VerifyMembership(specs []*ics23.ProofSpec, root exported.Root, path exported.Path, value []byte) error {

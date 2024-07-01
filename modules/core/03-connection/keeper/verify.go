@@ -195,6 +195,45 @@ func (k Keeper) VerifyChannelState(
 	return nil
 }
 
+// VerifyAggregatePacketCommitment verifies a aggregate proof of an outgoing packet commitment at
+// the specified port, specified channel, and specified sequence.
+// Here values are the set of cross tx
+func (k Keeper) VerifyAggregatePacketCommitment(
+	ctx sdk.Context,
+	connection exported.ConnectionI,
+	height exported.Height,
+	proof [][]byte,
+	portID,
+	channelID string,
+	sequence uint64,
+	leafNumber []uint64,
+	values [][]byte) error {
+	clientID := connection.GetClientID()
+	clientState, clientStore, err := k.getClientStateAndVerificationStore(ctx, clientID)
+	if err != nil {
+		return err
+	}
+
+	//get time and block delay
+	timeDelay := connection.GetDelayPeriod()
+	blockDelay := k.getBlockDelay(ctx, connection)
+
+	merklePath := commitmenttypes.NewMerklePath(host.PacketCommitmentPath(portID, channelID, sequence))
+	merklePath, err = commitmenttypes.ApplyPrefix(connection.GetCounterparty().GetPrefix(), merklePath)
+	if err != nil {
+		return err
+	}
+
+	if err := clientState.VerifyAggregateMembership(
+		ctx, clientStore, k.cdc, height,
+		timeDelay, blockDelay, merklePath,
+		leafNumber, values, proof,
+	); err != nil {
+		return errorsmod.Wrapf(err, "failed packet commitment verification for client (%s)", clientID)
+	}
+	return nil
+}
+
 // VerifyPacketCommitment verifies a proof of an outgoing packet commitment at
 // the specified port, specified channel, and specified sequence.
 func (k Keeper) VerifyPacketCommitment(

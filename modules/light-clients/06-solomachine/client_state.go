@@ -52,6 +52,20 @@ func (cs ClientState) GetTimestampAtHeight(
 	return cs.ConsensusState.Timestamp, nil
 }
 
+func (cs ClientState) VerifyAggregateMembership(
+	ctx sdk.Context,
+	clientStore storetypes.KVStore,
+	cdc codec.BinaryCodec,
+	height exported.Height,
+	delayTimePeriod uint64,
+	delayBlockPeriod uint64,
+	path exported.Path,
+	leafNumber []uint64,
+	commitmentBytes [][]byte,
+	proof [][]byte) error {
+	return nil
+}
+
 // Status returns the status of the solo machine client.
 // The client may be:
 // - Active: if frozen sequence is 0

@@ -13,6 +13,19 @@ import (
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
 )
 
+// CommitPackets returns the packet commitment bytes of a set of packets. The commitment consists of
+// sha256_hash(timeout_timestamp + timeout_height.RevisionNumber + timeout_height.RevisionHeight + sha256_hash(data))
+// from a given packet. This results in a fixed length preimage.
+// NOTE: sdk.Uint64ToBigEndian sets the uint64 to a slice of length 8.
+func CommitPackets(cdc codec.BinaryCodec, packets []exported.PacketI) [][]byte {
+	var hashes [][]byte
+	for _, packet := range packets {
+		hash := CommitPacket(cdc, packet)
+		hashes = append(hashes, hash)
+	}
+	return hashes
+}
+
 // CommitPacket returns the packet commitment bytes. The commitment consists of:
 // sha256_hash(timeout_timestamp + timeout_height.RevisionNumber + timeout_height.RevisionHeight + sha256_hash(data))
 // from a given packet. This results in a fixed length preimage.

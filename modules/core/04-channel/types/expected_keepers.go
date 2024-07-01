@@ -35,6 +35,17 @@ type ConnectionKeeper interface {
 		channelID string,
 		channel exported.ChannelI,
 	) error
+	VerifyAggregatePacketCommitment(
+		ctx sdk.Context,
+		connection exported.ConnectionI,
+		height exported.Height,
+		proof [][]byte,
+		portID,
+		channelID string,
+		sequence uint64,
+		leafNumber []uint64,
+		commitmentBytes [][]byte,
+	) error
 	VerifyPacketCommitment(
 		ctx sdk.Context,
 		connection exported.ConnectionI,

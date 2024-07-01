@@ -25,6 +25,20 @@ func NewClientState(height clienttypes.Height) exported.ClientState {
 	}
 }
 
+func (cs ClientState) VerifyAggregateMembership(
+	ctx sdk.Context,
+	clientStore storetypes.KVStore,
+	cdc codec.BinaryCodec,
+	height exported.Height,
+	delayTimePeriod uint64,
+	delayBlockPeriod uint64,
+	path exported.Path,
+	leafNumber []uint64,
+	commitmentBytes [][]byte,
+	proof [][]byte) error {
+	return nil
+}
+
 // ClientType returns the 09-localhost client type.
 func (ClientState) ClientType() string {
 	return exported.Localhost

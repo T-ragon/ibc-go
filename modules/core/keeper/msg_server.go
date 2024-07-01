@@ -2,9 +2,10 @@ package keeper
 
 import (
 	"context"
-	"github.com/T-ragon/ibc-go/v9/proto/ibc/lightclients/aggrelite"
-
+	"fmt"
+	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
 	metrics "github.com/hashicorp/go-metrics"
+	"reflect"
 
 	errorsmod "cosmossdk.io/errors"
 
@@ -444,9 +445,104 @@ func (k Keeper) ChannelCloseConfirm(goCtx context.Context, msg *channeltypes.Msg
 	return &channeltypes.MsgChannelCloseConfirmResponse{}, nil
 }
 
-// AggregatePacket defines a rpc handler method for AggregatePacket
-func (K Keeper) AggregatePacket(goCtx context.Context, msg *aggrelite.AggregatePacket) (*channeltypes.MsgRecvPacketResponse, error) {
-	return &channeltypes.MsgRecvPacketResponse{Result: channeltypes.SUCCESS_AGGRELITE}, nil
+// RecvAggregatePacket AggregatePacket defines a rpc handler method for AggregatePacket
+func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.MsgAggregatePacket) (*channeltypes.MsgAggregatePacketResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goctx)
+
+	relayer, err := sdk.AccAddressFromBech32(msg.Signer)
+	if err != nil {
+		ctx.Logger().Error("receive packet failed", "error", errorsmod.Wrap(err, "Invalid address for msg Signer"))
+		return nil, errorsmod.Wrap(err, "Invalid address for msg Signer")
+	}
+	module, capability, err := k.ChannelKeeper.LookupModuleByChannel(ctx, msg.Packets[0].DestinationPort, msg.Packets[0].DestinationChannel)
+	if err != nil {
+		ctx.Logger().Error("receive packet failed", "port-id", msg.Packets[0].SourcePort, "channel-id", msg.Packets[0].SourceChannel, "error", errorsmod.Wrap(err, "could not retrieve module from port-id"))
+		return nil, errorsmod.Wrap(err, "could not retrieve module from port-id")
+	}
+
+	//Retrieve callbacks from router
+	cbs, ok := k.Router.GetRoute(module)
+	if !ok {
+		ctx.Logger().Error("receive packet failed", "port-id", msg.Packets[0].SourcePort, "error", errorsmod.Wrapf(porttypes.ErrInvalidRoute, "route not found to module: %s", module))
+		return nil, errorsmod.Wrapf(porttypes.ErrInvalidRoute, "route not found to module: %s", module)
+	}
+
+	// Perform TAO verification
+	//
+	// If the packet was already received, perform a no-op
+	// Use a cached context to prevent accidental state changes
+	var proofArray [][]byte
+	for _, proof := range msg.Proof {
+		data, err := k.cdc.Marshal(proof)
+		if err != nil {
+			fmt.Println("Marshaing error:", err)
+			continue
+		}
+		proofArray = append(proofArray, data)
+	}
+	//使用匿名函数
+	convertToPacketI := func(slice interface{}) []exported.PacketI {
+		v := reflect.ValueOf(slice)
+		if v.Kind() != reflect.Slice {
+			panic("convertToPacketI slice is not a slice")
+		}
+		packetIArray := make([]exported.PacketI, v.Len())
+		for i := 0; i < v.Len(); i++ {
+			packetIArray[i] = v.Index(i).Interface().(exported.PacketI)
+		}
+		return packetIArray
+	}
+	packets := convertToPacketI(msg.Packets)
+	cacheCtx, writeFn := ctx.CacheContext()
+	err = k.ChannelKeeper.RecvAggregatePacket(cacheCtx, capability, packets, proofArray, msg.PacketsLeafNumber, msg.ProofHeight)
+
+	switch err {
+	case nil:
+		writeFn()
+	case channeltypes.ErrNoOpMsg:
+		// no-ops do not need event emission as they will be ignored
+		ctx.Logger().Debug("no-op on redundant relay", "port-id", msg.Packets[0].SourcePort, "channel-id", msg.Packets[0].SourceChannel)
+		return &channeltypes.MsgAggregatePacketResponse{Result: channeltypes.NOOP}, nil
+	default:
+		ctx.Logger().Error("receive packet failed", "port-id", msg.Packets[0].SourcePort, "channel-id", msg.Packets[0].SourceChannel, "error", errorsmod.Wrap(err, "receive packet verification failed"))
+		return nil, errorsmod.Wrap(err, "receive packet verification failed")
+	}
+
+	// Perform application logic callback
+	// 跨链交易
+	// Cache context so that we may discard state changes from callback if the acknowledgement is unsuccessful.
+	cacheCtx, writeFn = ctx.CacheContext()
+	ack := cbs.OnRecvPacket(cacheCtx, *msg.Packets[0], relayer)
+	if ack == nil || ack.Success() {
+		writeFn()
+	} else {
+		// Modify events in cached context to reflect unsuccessful acknowledgement
+		ctx.EventManager().EmitEvents(convertToErrorEvents(cacheCtx.EventManager().Events()))
+	}
+
+	// Set packet acknowledgement only if the acknowledgement is not nil.
+	// NOTE: IBC applications modules may call the WriteAcknowledgement asynchronously if the
+	// acknowledgement is nil.
+	if ack != nil {
+		if err := k.ChannelKeeper.WriteAcknowledgement(ctx, capability, msg.Packets[0], ack); err != nil {
+			return nil, err
+		}
+	}
+
+	defer telemetry.IncrCounterWithLabels(
+		[]string{"tx", "msg", "ibc", channeltypes.EventTypeRecvPacket},
+		1,
+		[]metrics.Label{
+			telemetry.NewLabel(coretypes.LabelSourcePort, msg.Packets[0].SourcePort),
+			telemetry.NewLabel(coretypes.LabelSourceChannel, msg.Packets[0].SourceChannel),
+			telemetry.NewLabel(coretypes.LabelDestinationPort, msg.Packets[0].DestinationPort),
+			telemetry.NewLabel(coretypes.LabelDestinationChannel, msg.Packets[0].DestinationChannel),
+		},
+	)
+
+	ctx.Logger().Info("receive packet callback succeeded", "port-id", msg.Packets[0].SourcePort, "channel-id", msg.Packets[0].SourceChannel, "result", channeltypes.SUCCESS.String())
+
+	return &channeltypes.MsgAggregatePacketResponse{Result: channeltypes.SUCCESS}, nil
 }
 
 // RecvPacket defines a rpc handler method for MsgRecvPacket.

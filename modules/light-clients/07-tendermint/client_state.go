@@ -43,6 +43,20 @@ func NewClientState(
 	}
 }
 
+func (cs ClientState) VerifyAggregateMembership(
+	ctx sdk.Context,
+	clientStore storetypes.KVStore,
+	cdc codec.BinaryCodec,
+	height exported.Height,
+	delayTimePeriod uint64,
+	delayBlockPeriod uint64,
+	path exported.Path,
+	leafNumber []uint64,
+	commitmentBytes [][]byte,
+	proof [][]byte) error {
+	return nil
+}
+
 // GetChainID returns the chain-id
 func (cs ClientState) GetChainID() string {
 	return cs.ChainId

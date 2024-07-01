@@ -36,6 +36,9 @@ service Msg {
   // RecvPacket defines a rpc handler method for MsgRecvPacket.
   rpc RecvPacket(MsgRecvPacket) returns (MsgRecvPacketResponse);
 
+  //RecvAggregatePacket defines a rpc handler method for MsgRecvAggregatePacket
+  rpc RecvAggregatePacket(MsgAggregatePacket) returns (MsgAggregatePacketResponse);
+
   // Timeout defines a rpc handler method for MsgTimeout.
   rpc Timeout(MsgTimeout) returns (MsgTimeoutResponse);
 
@@ -222,6 +225,59 @@ message MsgRecvPacket {
 
 // MsgRecvPacketResponse defines the Msg/RecvPacket response type.
 message MsgRecvPacketResponse {
+  option (gogoproto.goproto_getters) = false;
+
+  ResponseResultType result = 1;
+}
+
+enum HashOp {
+  // NO_HASH is the default if no data passed. Note this is an illegal argument some places.
+  NO_HASH     = 0;
+  SHA256      = 1;
+  SHA512      = 2;
+  KECCAK256   = 3;
+  RIPEMD160   = 4;
+  BITCOIN     = 5; // ripemd160(sha256(x))
+  SHA512_256  = 6;
+  BLAKE2B_512 = 7;
+  BLAKE2S_256 = 8;
+  BLAKE3      = 9;
+}
+
+//InnerOp
+message InnerOp{
+  HashOp hash = 1;
+  bytes prefix = 2;
+  bytes suffix = 3;
+}
+
+message ProofMeta {
+  bytes hash_value = 1;
+  InnerOp path_inner_op = 2;
+}
+
+//SubProof
+message SubProof {
+  option (gogoproto.goproto_getters) = false;
+
+  uint64 number = 1;
+  repeated ProofMeta proof_meta_list = 2;
+}
+
+//MsgRecvAggregatePacket receives incoming IBC packet
+message MsgAggregatePacket {
+  option (cosmos.msg.v1.signer) = "signer";
+  option (gogoproto.goproto_getters) = false;
+
+  repeated Packet packets = 1;
+  repeated uint64 packets_leaf_number = 2;
+  repeated SubProof proof = 3;
+  string signer = 4;
+  ibc.core.client.v1.Height proof_height     = 5 [(gogoproto.nullable) = false];
+}
+
+// MsgRecvPacketResponse defines the Msg/RecvAggregatePacket response type.
+message MsgAggregatePacketResponse {
   option (gogoproto.goproto_getters) = false;
 
   ResponseResultType result = 1;

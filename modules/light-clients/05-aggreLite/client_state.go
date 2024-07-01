@@ -1,6 +1,13 @@
 package _5_aggreLite
 
 import (
+	"bytes"
+	"crypto"
+	"errors"
+	"fmt"
+	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
+	"hash"
+	"sort"
 	"strings"
 	"time"
 
@@ -201,6 +208,190 @@ func (cs ClientState) Initialize(ctx sdk.Context, cdc codec.BinaryCodec, clientS
 	setConsensusMetadata(ctx, clientStore, cs.GetLatestHeight())
 
 	return nil
+}
+
+// VerifyAggregateMembership is a generic proof verification method which verifies a proof of the existence of a value at a given CommitmentPath at the specified height.
+// The caller is expected to construct the full CommitmentPath from a CommitmentPrefix and a standardized path (as defined in ICS 24).
+// If a zero proof height is passed in, it will fail to retrieve the associated consensus state.
+func (cs ClientState) VerifyAggregateMembership(
+	ctx sdk.Context,
+	clientStore storetypes.KVStore,
+	cdc codec.BinaryCodec,
+	height exported.Height,
+	delayTimePeriod uint64,
+	delayBlockPeriod uint64,
+	path exported.Path,
+	leafNumber []uint64,
+	values [][]byte,
+	proof [][]byte) error {
+	if cs.GetLatestHeight().LT(height) {
+		return errorsmod.Wrapf(
+			ibcerrors.ErrInvalidHeight,
+			"client state height < proof height (%d < %d), please ensure the client has been updated", cs.GetLatestHeight(), height,
+		)
+	}
+
+	if err := verifyDelayPeriodPassed(ctx, clientStore, height, delayTimePeriod, delayBlockPeriod); err != nil {
+		return err
+	}
+
+	consensusState, found := GetConsensusState(clientStore, cdc, height)
+	if !found {
+		return errorsmod.Wrap(clienttypes.ErrConsensusStateNotFound, "please ensure the proof was constructed against a height that exists on the client")
+	}
+
+	//values 就是所有跨链交易的哈希值
+	return verifyAggregateProof(cdc, leafNumber, values, proof, consensusState.Root.Hash)
+}
+
+// doHash will preform the specified hash on the preimage.
+// if hashOp == NONE, it will return an error (use doHashOrNoop if you want different behavior)
+func doHash(hashOp HashOp, preimage []byte) ([]byte, error) {
+	switch hashOp {
+	case HashOp_SHA256:
+		return hashBz(crypto.SHA256, preimage)
+	case HashOp_SHA512:
+		return hashBz(crypto.SHA512, preimage)
+	case HashOp_RIPEMD160:
+		return hashBz(crypto.RIPEMD160, preimage)
+	case HashOp_BITCOIN:
+		// ripemd160(sha256(x))
+		sha := crypto.SHA256.New()
+		sha.Write(preimage)
+		tmp := sha.Sum(nil)
+		hash := crypto.RIPEMD160.New()
+		hash.Write(tmp)
+		return hash.Sum(nil), nil
+	case HashOp_SHA512_256:
+		hash := crypto.SHA512_256.New()
+		hash.Write(preimage)
+		return hash.Sum(nil), nil
+	}
+	return nil, fmt.Errorf("unsupported hashop: %d", hashOp)
+}
+
+func extractRightFromInnerOp(rop *channeltypes.InnerOp) ([]byte, error) {
+	if len(rop.Suffix) == 0 {
+		return nil, errors.New("suffix is empty, no right value")
+	}
+
+	lengthByte := byte(0x20)
+	suffix := rop.Suffix
+
+	//check if suffix starts with lengthByte
+	if suffix[0] != lengthByte {
+		return nil, errors.New("suffix length does not match")
+	}
+
+	//extract the right value
+	right := suffix[1:]
+
+	return right, nil
+}
+
+type hasher interface {
+	New() hash.Hash
+}
+
+func hashBz(h hasher, preimage []byte) ([]byte, error) {
+	hh := h.New()
+	hh.Write(preimage)
+	return hh.Sum(nil), nil
+}
+
+// leafNumber 指明叶子结点位于哪一层
+func verifyAggregateProof(cdc codec.BinaryCodec,
+	leafNumber []uint64,
+	values [][]byte,
+	proof [][]byte,
+	root []byte) error {
+	//首先解码，得到subproof
+	var subProofs []channeltypes.SubProof
+	for i, subProof := range proof {
+		err := cdc.Unmarshal(subProof, &subProofs[i])
+		if err != nil {
+			return errorsmod.Wrap(commitmenttypes.ErrInvalidProof, "failed to unmarshal proof into AggreLite Subproof")
+		}
+	}
+
+	// 结合 leafNumber 检查values是否存在于subProofs
+	for j, value := range values {
+		valueLevel := leafNumber[j]
+		found := false
+		for _, subProof := range subProofs {
+			// 找到叶子结点所在的层次
+			if subProof.Number == valueLevel {
+				for _, proofMeta := range subProof.ProofMetaList {
+					meta1 := proofMeta.HashValue
+					meta2, err := extractRightFromInnerOp(proofMeta.PathInnerOp)
+					if err != nil {
+						return err
+					}
+					//meta2, err := cdc.Marshal(proofMeta.PathInnerOp) //meta2 还需要斟酌
+					if bytes.Equal(meta1, value) || bytes.Equal(meta2, value) {
+						found = true
+						break
+					}
+				}
+			}
+			if found {
+				break
+			}
+		}
+		if !found {
+			return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
+		}
+	}
+
+	// 对SubProof原地排序
+	sort.Slice(subProofs, func(i, j int) bool {
+		return subProofs[i].Number > subProofs[j].Number
+	})
+
+	for i := 0; i < len(subProofs)-2; i++ {
+		currentProof := subProofs[i]
+		nextProof := subProofs[i+1]
+		for _, proofMeta := range currentProof.ProofMetaList {
+			meta1 := proofMeta.HashValue
+			preimage := proofMeta.PathInnerOp.Prefix
+			preimage = append(preimage, meta1...)
+			preimage = append(preimage, proofMeta.PathInnerOp.Suffix...)
+			combinedHash, err := doHash(HashOp_SHA256, preimage)
+			if err != nil {
+				return err
+			}
+			found := false
+			for _, nextProofMeta := range nextProof.ProofMetaList {
+				meta1_netxt := nextProofMeta.HashValue
+				meta2_next, _ := extractRightFromInnerOp(nextProofMeta.PathInnerOp)
+				if bytes.Equal(combinedHash, meta1_netxt) || bytes.Equal(combinedHash, meta2_next) {
+					found = true
+					break
+				}
+			}
+			if !found {
+				return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
+			}
+		}
+	}
+
+	//最后一层只有两个结点
+	finalSubProof := subProofs[len(subProofs)-1].ProofMetaList
+	for _, proofMeta := range finalSubProof {
+		meta1 := proofMeta.HashValue
+		preimage := proofMeta.PathInnerOp.Prefix
+		preimage = append(preimage, meta1...)
+		preimage = append(preimage, proofMeta.PathInnerOp.Suffix...)
+		combinedHash, err := doHash(HashOp_SHA256, preimage)
+		if err != nil {
+			return err
+		}
+		if bytes.Equal(root, combinedHash) {
+			return nil
+		}
+	}
+
+	return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
 }
 
 // VerifyMembership is a generic proof verification method which verifies a proof of the existence of a value at a given CommitmentPath at the specified height.
