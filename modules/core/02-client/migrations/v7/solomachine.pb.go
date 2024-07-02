@@ -100,6 +100,7 @@ type ClientState struct {
 	AllowUpdateAfterProposal bool `protobuf:"varint,4,opt,name=allow_update_after_proposal,json=allowUpdateAfterProposal,proto3" json:"allow_update_after_proposal,omitempty"`
 }
 
+
 func (m *ClientState) Reset()         { *m = ClientState{} }
 func (m *ClientState) String() string { return proto.CompactTextString(m) }
 func (*ClientState) ProtoMessage()    {}

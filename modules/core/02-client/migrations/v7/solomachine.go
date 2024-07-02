@@ -47,6 +47,11 @@ func (cs ClientState) UnpackInterfaces(unpacker codectypes.AnyUnpacker) error {
 	return cs.ConsensusState.UnpackInterfaces(unpacker)
 }
 
+func (cs ClientState) VerifyAggregateMembership(ctx sdk.Context, clientStore storetypes.KVStore, cdc codec.BinaryCodec, height exported.Height, delayTimePeriod uint64, delayBlockPeriod uint64, path exported.Path, leafNumber []uint64, value [][]byte, proof [][]byte) error {
+	//TODO implement me
+	panic("implement me")
+}
+
 // UnpackInterfaces implements the UnpackInterfaceMessages.UnpackInterfaces method
 func (cs ConsensusState) UnpackInterfaces(unpacker codectypes.AnyUnpacker) error {
 	return unpacker.UnpackAny(cs.PublicKey, new(cryptotypes.PubKey))
