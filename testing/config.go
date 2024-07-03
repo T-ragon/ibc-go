@@ -31,7 +31,7 @@ type AggreLiteConfig struct {
 
 func NewAggreLiteConfig() *AggreLiteConfig {
 	return &AggreLiteConfig{
-		TrustLevel:      aggrelite.Fraction(DefaultTrustLevel),
+		TrustLevel:      DefaultAggreliteTrustLevel,
 		TrustingPeriod:  TrustingPeriod,
 		UnbondingPeriod: UnbondingPeriod,
 		MaxClockDrift:   MaxClockDrift,

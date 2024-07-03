@@ -256,6 +256,10 @@ message ProofMeta {
   InnerOp path_inner_op = 2;
 }
 
+message StorageHash{
+  repeated bytes hash_value = 1;
+}
+
 //SubProof
 message SubProof {
   option (gogoproto.goproto_getters) = false;

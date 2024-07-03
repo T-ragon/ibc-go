@@ -2,6 +2,7 @@ package ibctesting
 
 import (
 	"fmt"
+	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggreLite"
 	"strings"
 
 	"github.com/stretchr/testify/require"
@@ -18,7 +19,6 @@ import (
 	commitmenttypes "github.com/T-ragon/ibc-go/v9/modules/core/23-commitment/types"
 	host "github.com/T-ragon/ibc-go/v9/modules/core/24-host"
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
-	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggreLite"
 	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
 )
 
@@ -52,12 +52,21 @@ func NewEndpoint(
 	}
 }
 
+func NewDefaultAggreliteEndpoint(chain *TestChain) *Endpoint {
+	return &Endpoint{
+		Chain:            chain,
+		ClientConfig:     NewAggreLiteConfig(),
+		ConnectionConfig: NewConnectionConfig(),
+		ChannelConfig:    NewChannelConfig(),
+	}
+}
+
 // NewDefaultEndpoint constructs a new endpoint using default values.
 // CONTRACT: the counterparty endpoitn must be set by the caller.
 func NewDefaultEndpoint(chain *TestChain) *Endpoint {
 	return &Endpoint{
 		Chain:            chain,
-		ClientConfig:     NewAggreLiteConfig(),
+		ClientConfig:     NewTendermintConfig(),
 		ConnectionConfig: NewConnectionConfig(),
 		ChannelConfig:    NewChannelConfig(),
 	}

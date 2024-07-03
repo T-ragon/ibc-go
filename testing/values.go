@@ -14,6 +14,7 @@ import (
 	ibctransfertypes "github.com/T-ragon/ibc-go/v9/modules/apps/transfer/types"
 	connectiontypes "github.com/T-ragon/ibc-go/v9/modules/core/03-connection/types"
 	commitmenttypes "github.com/T-ragon/ibc-go/v9/modules/core/23-commitment/types"
+	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggrelite"
 	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
 	"github.com/T-ragon/ibc-go/v9/testing/mock"
 	"github.com/T-ragon/ibc-go/v9/testing/simapp"
@@ -51,11 +52,11 @@ var (
 	DefaultOpenInitVersion *connectiontypes.Version
 
 	// DefaultTrustLevel sets params variables used to create a TM client
-	DefaultTrustLevel = ibctm.DefaultTrustLevel
-
-	TestAccAddress = "cosmos17dtl0mjt3t77kpuhg2edqzjpszulwhgzuj9ljs"
-	TestCoin       = sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(100))
-	TestCoins      = sdk.NewCoins(TestCoin)
+	DefaultTrustLevel          = ibctm.DefaultTrustLevel
+	DefaultAggreliteTrustLevel = aggrelite.DefaultTrustLevel
+	TestAccAddress             = "cosmos17dtl0mjt3t77kpuhg2edqzjpszulwhgzuj9ljs"
+	TestCoin                   = sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(100))
+	TestCoins                  = sdk.NewCoins(TestCoin)
 
 	UpgradePath = []string{"upgrade", "upgradedIBCState"}
 
