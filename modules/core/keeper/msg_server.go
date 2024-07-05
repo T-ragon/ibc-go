@@ -449,6 +449,8 @@ func (k Keeper) ChannelCloseConfirm(goCtx context.Context, msg *channeltypes.Msg
 func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.MsgAggregatePacket) (*channeltypes.MsgAggregatePacketResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goctx)
 
+	fmt.Println("Relayer Message received!", msg)
+	ctx.Logger().Info("Relayer Message received!", msg)
 	relayer, err := sdk.AccAddressFromBech32(msg.Signer)
 	if err != nil {
 		ctx.Logger().Error("receive packet failed", "error", errorsmod.Wrap(err, "Invalid address for msg Signer"))
