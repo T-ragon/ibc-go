@@ -257,7 +257,7 @@ message ProofMeta {
 }
 
 message StorageHash{
-  repeated bytes hash_value = 1;
+  bytes hash_value = 1;
 }
 
 //SubProof
