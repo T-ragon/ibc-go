@@ -1,4 +1,4 @@
-package _5_aggreLite
+package _5_aggrelite
 
 import (
 	storetypes "cosmossdk.io/store/types"

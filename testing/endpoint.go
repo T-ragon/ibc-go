@@ -2,7 +2,7 @@ package ibctesting
 
 import (
 	"fmt"
-	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggreLite"
+	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggrelite"
 	"strings"
 
 	"github.com/stretchr/testify/require"

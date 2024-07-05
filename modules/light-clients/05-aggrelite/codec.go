@@ -1,4 +1,4 @@
-package _5_aggreLite
+package _5_aggrelite
 
 import (
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"

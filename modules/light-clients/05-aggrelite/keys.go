@@ -1,4 +1,4 @@
-package _5_aggreLite
+package _5_aggrelite
 
 const (
 	ModuleName = "05-aggrelite"
