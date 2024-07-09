@@ -17,7 +17,7 @@ func NewFractionFromTm(f tmmath.Fraction) Fraction {
 }
 
 // Toaggrelite converts Fraction to tmmath.Fraction
-func (f Fraction) Toaggrelite() tmmath.Fraction {
+func (f Fraction) ToAggrelite() tmmath.Fraction {
 	return tmmath.Fraction{
 		Numerator:   f.Numerator,
 		Denominator: f.Denominator,

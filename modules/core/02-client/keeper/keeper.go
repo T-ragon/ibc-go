@@ -22,6 +22,7 @@ import (
 	host "github.com/T-ragon/ibc-go/v9/modules/core/24-host"
 	ibcerrors "github.com/T-ragon/ibc-go/v9/modules/core/errors"
 	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
+	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggrelite"
 	ibctm "github.com/T-ragon/ibc-go/v9/modules/light-clients/07-tendermint"
 	localhost "github.com/T-ragon/ibc-go/v9/modules/light-clients/09-localhost"
 )
@@ -252,7 +253,7 @@ func (k Keeper) GetLatestClientConsensusState(ctx sdk.Context, clientID string) 
 // GetSelfConsensusState introspects the (self) past historical info at a given height
 // and returns the expected consensus state at that height.
 // For now, can only retrieve self consensus states for the current revision
-func (k Keeper) GetSelfConsensusState(ctx sdk.Context, height exported.Height) (exported.ConsensusState, error) {
+func (k Keeper) GetSelfConsensusState(ctx sdk.Context, height exported.Height, clientState exported.ClientState) (exported.ConsensusState, error) {
 	selfHeight, ok := height.(types.Height)
 	if !ok {
 		return nil, errorsmod.Wrapf(ibcerrors.ErrInvalidType, "expected %T, got %T", types.Height{}, height)
@@ -267,78 +268,152 @@ func (k Keeper) GetSelfConsensusState(ctx sdk.Context, height exported.Height) (
 		return nil, errorsmod.Wrapf(err, "height %d", selfHeight.RevisionHeight)
 	}
 
-	consensusState := &ibctm.ConsensusState{
-		Timestamp:          histInfo.Header.Time,
-		Root:               commitmenttypes.NewMerkleRoot(histInfo.Header.GetAppHash()),
-		NextValidatorsHash: histInfo.Header.NextValidatorsHash,
+	if clientState.ClientType() == exported.AggreLite {
+		consensusState := &aggrelite.ConsensusState{
+			Timestamp:          histInfo.Header.Time,
+			Root:               commitmenttypes.NewMerkleRoot(histInfo.Header.GetAppHash()),
+			NextValidatorsHash: histInfo.Header.NextValidatorsHash,
+		}
+		return consensusState, nil
+	} else {
+		consensusState := &ibctm.ConsensusState{
+			Timestamp:          histInfo.Header.Time,
+			Root:               commitmenttypes.NewMerkleRoot(histInfo.Header.GetAppHash()),
+			NextValidatorsHash: histInfo.Header.NextValidatorsHash,
+		}
+		return consensusState, nil
 	}
-	return consensusState, nil
 }
 
 // ValidateSelfClient validates the client parameters for a client of the running chain
 // This function is only used to validate the client state the counterparty stores for this chain
 // Client must be in same revision as the executing chain
 func (k Keeper) ValidateSelfClient(ctx sdk.Context, clientState exported.ClientState) error {
-	tmClient, ok := clientState.(*ibctm.ClientState)
-	if !ok {
-		return errorsmod.Wrapf(types.ErrInvalidClient, "client must be a Tendermint client, expected: %T, got: %T",
-			&ibctm.ClientState{}, tmClient)
-	}
+	if clientState.ClientType() == exported.AggreLite {
+		alClient, ok := clientState.(*aggrelite.ClientState)
+		if !ok {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "client must be a Tendermint client, expected: %T, got: %T",
+				&aggrelite.ClientState{}, alClient)
+		}
 
-	if !tmClient.FrozenHeight.IsZero() {
-		return types.ErrClientFrozen
-	}
+		if !alClient.FrozenHeight.IsZero() {
+			return types.ErrClientFrozen
+		}
 
-	if ctx.ChainID() != tmClient.ChainId {
-		return errorsmod.Wrapf(types.ErrInvalidClient, "invalid chain-id. expected: %s, got: %s",
-			ctx.ChainID(), tmClient.ChainId)
-	}
+		if ctx.ChainID() != alClient.ChainId {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "invalid chain-id. expected: %s, got: %s",
+				ctx.ChainID(), alClient.ChainId)
+		}
 
-	revision := types.ParseChainID(ctx.ChainID())
+		revision := types.ParseChainID(ctx.ChainID())
 
-	// client must be in the same revision as executing chain
-	if tmClient.LatestHeight.RevisionNumber != revision {
-		return errorsmod.Wrapf(types.ErrInvalidClient, "client is not in the same revision as the chain. expected revision: %d, got: %d",
-			tmClient.LatestHeight.RevisionNumber, revision)
-	}
+		// client must be in the same revision as executing chain
+		if alClient.LatestHeight.RevisionNumber != revision {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "client is not in the same revision as the chain. expected revision: %d, got: %d",
+				alClient.LatestHeight.RevisionNumber, revision)
+		}
 
-	selfHeight := types.NewHeight(revision, uint64(ctx.BlockHeight()))
-	if tmClient.LatestHeight.GTE(selfHeight) {
-		return errorsmod.Wrapf(types.ErrInvalidClient, "client has LatestHeight %d greater than or equal to chain height %d",
-			tmClient.LatestHeight, selfHeight)
-	}
+		selfHeight := types.NewHeight(revision, uint64(ctx.BlockHeight()))
+		if alClient.LatestHeight.GTE(selfHeight) {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "client has LatestHeight %d greater than or equal to chain height %d",
+				alClient.LatestHeight, selfHeight)
+		}
 
-	expectedProofSpecs := commitmenttypes.GetSDKSpecs()
-	if !reflect.DeepEqual(expectedProofSpecs, tmClient.ProofSpecs) {
-		return errorsmod.Wrapf(types.ErrInvalidClient, "client has invalid proof specs. expected: %v got: %v",
-			expectedProofSpecs, tmClient.ProofSpecs)
-	}
+		expectedProofSpecs := commitmenttypes.GetSDKSpecs()
+		if !reflect.DeepEqual(expectedProofSpecs, alClient.ProofSpecs) {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "client has invalid proof specs. expected: %v got: %v",
+				expectedProofSpecs, alClient.ProofSpecs)
+		}
 
-	if err := light.ValidateTrustLevel(tmClient.TrustLevel.ToTendermint()); err != nil {
-		return errorsmod.Wrapf(types.ErrInvalidClient, "trust-level invalid: %v", err)
-	}
+		if err := light.ValidateTrustLevel(alClient.TrustLevel.ToAggrelite()); err != nil {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "trust-level invalid: %v", err)
+		}
 
-	expectedUbdPeriod, err := k.stakingKeeper.UnbondingTime(ctx)
-	if err != nil {
-		return errorsmod.Wrapf(err, "failed to retrieve unbonding period")
-	}
+		expectedUbdPeriod, err := k.stakingKeeper.UnbondingTime(ctx)
+		if err != nil {
+			return errorsmod.Wrapf(err, "failed to retrieve unbonding period")
+		}
 
-	if expectedUbdPeriod != tmClient.UnbondingPeriod {
-		return errorsmod.Wrapf(types.ErrInvalidClient, "invalid unbonding period. expected: %s, got: %s",
-			expectedUbdPeriod, tmClient.UnbondingPeriod)
-	}
+		if expectedUbdPeriod != alClient.UnbondingPeriod {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "invalid unbonding period. expected: %s, got: %s",
+				expectedUbdPeriod, alClient.UnbondingPeriod)
+		}
 
-	if tmClient.UnbondingPeriod < tmClient.TrustingPeriod {
-		return errorsmod.Wrapf(types.ErrInvalidClient, "unbonding period must be greater than trusting period. unbonding period (%d) < trusting period (%d)",
-			tmClient.UnbondingPeriod, tmClient.TrustingPeriod)
-	}
+		if alClient.UnbondingPeriod < alClient.TrustingPeriod {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "unbonding period must be greater than trusting period. unbonding period (%d) < trusting period (%d)",
+				alClient.UnbondingPeriod, alClient.TrustingPeriod)
+		}
 
-	if len(tmClient.UpgradePath) != 0 {
-		// For now, SDK IBC implementation assumes that upgrade path (if defined) is defined by SDK upgrade module
-		expectedUpgradePath := []string{upgradetypes.StoreKey, upgradetypes.KeyUpgradedIBCState}
-		if !reflect.DeepEqual(expectedUpgradePath, tmClient.UpgradePath) {
-			return errorsmod.Wrapf(types.ErrInvalidClient, "upgrade path must be the upgrade path defined by upgrade module. expected %v, got %v",
-				expectedUpgradePath, tmClient.UpgradePath)
+		if len(alClient.UpgradePath) != 0 {
+			// For now, SDK IBC implementation assumes that upgrade path (if defined) is defined by SDK upgrade module
+			expectedUpgradePath := []string{upgradetypes.StoreKey, upgradetypes.KeyUpgradedIBCState}
+			if !reflect.DeepEqual(expectedUpgradePath, alClient.UpgradePath) {
+				return errorsmod.Wrapf(types.ErrInvalidClient, "upgrade path must be the upgrade path defined by upgrade module. expected %v, got %v",
+					expectedUpgradePath, alClient.UpgradePath)
+			}
+		}
+	} else {
+		tmClient, ok := clientState.(*ibctm.ClientState)
+		if !ok {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "client must be a Tendermint client, expected: %T, got: %T",
+				&ibctm.ClientState{}, tmClient)
+		}
+
+		if !tmClient.FrozenHeight.IsZero() {
+			return types.ErrClientFrozen
+		}
+
+		if ctx.ChainID() != tmClient.ChainId {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "invalid chain-id. expected: %s, got: %s",
+				ctx.ChainID(), tmClient.ChainId)
+		}
+
+		revision := types.ParseChainID(ctx.ChainID())
+
+		// client must be in the same revision as executing chain
+		if tmClient.LatestHeight.RevisionNumber != revision {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "client is not in the same revision as the chain. expected revision: %d, got: %d",
+				tmClient.LatestHeight.RevisionNumber, revision)
+		}
+
+		selfHeight := types.NewHeight(revision, uint64(ctx.BlockHeight()))
+		if tmClient.LatestHeight.GTE(selfHeight) {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "client has LatestHeight %d greater than or equal to chain height %d",
+				tmClient.LatestHeight, selfHeight)
+		}
+
+		expectedProofSpecs := commitmenttypes.GetSDKSpecs()
+		if !reflect.DeepEqual(expectedProofSpecs, tmClient.ProofSpecs) {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "client has invalid proof specs. expected: %v got: %v",
+				expectedProofSpecs, tmClient.ProofSpecs)
+		}
+
+		if err := light.ValidateTrustLevel(tmClient.TrustLevel.ToTendermint()); err != nil {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "trust-level invalid: %v", err)
+		}
+
+		expectedUbdPeriod, err := k.stakingKeeper.UnbondingTime(ctx)
+		if err != nil {
+			return errorsmod.Wrapf(err, "failed to retrieve unbonding period")
+		}
+
+		if expectedUbdPeriod != tmClient.UnbondingPeriod {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "invalid unbonding period. expected: %s, got: %s",
+				expectedUbdPeriod, tmClient.UnbondingPeriod)
+		}
+
+		if tmClient.UnbondingPeriod < tmClient.TrustingPeriod {
+			return errorsmod.Wrapf(types.ErrInvalidClient, "unbonding period must be greater than trusting period. unbonding period (%d) < trusting period (%d)",
+				tmClient.UnbondingPeriod, tmClient.TrustingPeriod)
+		}
+
+		if len(tmClient.UpgradePath) != 0 {
+			// For now, SDK IBC implementation assumes that upgrade path (if defined) is defined by SDK upgrade module
+			expectedUpgradePath := []string{upgradetypes.StoreKey, upgradetypes.KeyUpgradedIBCState}
+			if !reflect.DeepEqual(expectedUpgradePath, tmClient.UpgradePath) {
+				return errorsmod.Wrapf(types.ErrInvalidClient, "upgrade path must be the upgrade path defined by upgrade module. expected %v, got %v",
+					expectedUpgradePath, tmClient.UpgradePath)
+			}
 		}
 	}
 	return nil

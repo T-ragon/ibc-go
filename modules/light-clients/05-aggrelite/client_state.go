@@ -134,7 +134,7 @@ func (cs ClientState) Validate() error {
 		return errorsmod.Wrapf(ErrInvalidChainID, "chainID is too long; got: %d, max: %d", len(cs.ChainId), tmtypes.MaxChainIDLen)
 	}
 
-	if err := light.ValidateTrustLevel(cs.TrustLevel.Toaggrelite()); err != nil {
+	if err := light.ValidateTrustLevel(cs.TrustLevel.ToAggrelite()); err != nil {
 		return err
 	}
 	if cs.TrustingPeriod <= 0 {
@@ -390,7 +390,6 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 			return nil
 		}
 	}
-
 	return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
 }
 
