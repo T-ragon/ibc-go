@@ -112,7 +112,7 @@ func (cs *ClientState) verifyHeader(
 	err = light.Verify(
 		&signedHeader,
 		tmTrustedValidators, tmSignedHeader, tmValidatorSet,
-		cs.TrustingPeriod, currentTimestamp, cs.MaxClockDrift, cs.TrustLevel.Toaggrelite(),
+		cs.TrustingPeriod, currentTimestamp, cs.MaxClockDrift, cs.TrustLevel.ToAggrelite(),
 	)
 	if err != nil {
 		return errorsmod.Wrap(err, "failed to verify header")
