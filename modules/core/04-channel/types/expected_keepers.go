@@ -46,6 +46,12 @@ type ConnectionKeeper interface {
 		leafNumber []uint64,
 		commitmentBytes [][]byte,
 	) error
+
+	SetTxHashValue(
+		ctx sdk.Context,
+		connection exported.ConnectionI,
+		key []byte,
+		value []byte) error
 	VerifyPacketCommitment(
 		ctx sdk.Context,
 		connection exported.ConnectionI,

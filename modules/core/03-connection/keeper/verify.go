@@ -234,6 +234,19 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	return nil
 }
 
+func (k Keeper) SetTxHashValue(ctx sdk.Context,
+	connection exported.ConnectionI,
+	key []byte,
+	value []byte) error {
+	clientID := connection.GetClientID()
+	_, clientStore, err := k.getClientStateAndVerificationStore(ctx, clientID)
+	if err != nil {
+		return err
+	}
+	clientStore.Set(key, value)
+	return nil
+}
+
 // VerifyPacketCommitment verifies a proof of an outgoing packet commitment at
 // the specified port, specified channel, and specified sequence.
 func (k Keeper) VerifyPacketCommitment(

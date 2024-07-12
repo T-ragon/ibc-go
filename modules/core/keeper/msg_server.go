@@ -445,6 +445,26 @@ func (k Keeper) ChannelCloseConfirm(goCtx context.Context, msg *channeltypes.Msg
 	return &channeltypes.MsgChannelCloseConfirmResponse{}, nil
 }
 
+func (k Keeper) ChannelSetRootHashValue(goctx context.Context, msg *channeltypes.MsgSetHashValue) (*channeltypes.MsgSetHashValueResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goctx)
+
+	// Lookup module by channel capability
+	module, _, err := k.ChannelKeeper.LookupModuleByChannel(ctx, msg.Key.DestinationPort, msg.Key.DestinationChannel)
+	if err != nil {
+		ctx.Logger().Error("receive packet failed", "port-id", msg.Key.SourcePort, "channel-id", msg.Key.SourceChannel, "error", errorsmod.Wrap(err, "could not retrieve module from port-id"))
+		return nil, errorsmod.Wrap(err, "could not retrieve module from port-id")
+	}
+	// Retrieve callbacks from router
+	_, ok := k.Router.GetRoute(module)
+	if !ok {
+		ctx.Logger().Error("receive packet failed", "port-id", msg.Key.SourcePort, "error", errorsmod.Wrapf(porttypes.ErrInvalidRoute, "route not found to module: %s", module))
+		return nil, errorsmod.Wrapf(porttypes.ErrInvalidRoute, "route not found to module: %s", module)
+	}
+
+	err = k.ChannelKeeper.SetTxHashValue(ctx, msg.Key, msg.Value)
+	return &channeltypes.MsgSetHashValueResponse{Result: channeltypes.SUCCESS}, nil
+}
+
 // RecvAggregatePacket AggregatePacket defines a rpc handler method for AggregatePacket
 func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.MsgAggregatePacket) (*channeltypes.MsgAggregatePacketResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goctx)

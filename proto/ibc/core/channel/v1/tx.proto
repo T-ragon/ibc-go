@@ -74,6 +74,9 @@ service Msg {
 
   // PruneAcknowledgements defines a rpc handler method for MsgPruneAcknowledgements.
   rpc PruneAcknowledgements(MsgPruneAcknowledgements) returns (MsgPruneAcknowledgementsResponse);
+
+  //Set a tx root hash
+  rpc ChannelSetRootHashValue(MsgSetHashValue) returns (MsgSetHashValueResponse);
 }
 
 // ResponseResultType defines the possible outcomes of the execution of a message
@@ -109,6 +112,7 @@ message MsgChannelOpenInitResponse {
   string channel_id = 1;
   string version    = 2;
 }
+
 
 // MsgChannelOpenInit defines a msg sent by a Relayer to try to open a channel
 // on Chain B. The version field within the Channel field has been deprecated. Its
@@ -413,6 +417,18 @@ message MsgChannelUpgradeAck {
 
 // MsgChannelUpgradeAckResponse defines MsgChannelUpgradeAck response type
 message MsgChannelUpgradeAckResponse {
+  option (gogoproto.goproto_getters) = false;
+
+  ResponseResultType result = 1;
+}
+
+//MsgSetHashValue set a hash value in the clienStore tree
+message MsgSetHashValue {
+  Packet key = 1;
+  bytes  value = 2;
+}
+
+message MsgSetHashValueResponse {
   option (gogoproto.goproto_getters) = false;
 
   ResponseResultType result = 1;

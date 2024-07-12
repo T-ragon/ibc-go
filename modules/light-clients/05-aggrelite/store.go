@@ -44,6 +44,10 @@ var (
 	KeyIteration = []byte("/iterationKey")
 )
 
+func setHashValue(clientStore storetypes.KVStore, cdc codec.BinaryCodec) {
+
+}
+
 // setClientState stores the client state
 func setClientState(clientStore storetypes.KVStore, cdc codec.BinaryCodec, clientState *ClientState) {
 	key := host.ClientStateKey()

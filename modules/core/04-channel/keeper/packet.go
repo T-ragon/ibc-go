@@ -271,6 +271,53 @@ func (k Keeper) RecvAggregatePacket(
 	return nil
 }
 
+func (k Keeper) SetTxHashValue(
+	ctx sdk.Context,
+	packet exported.PacketI,
+	valueHash []byte) error {
+	channel, found := k.GetChannel(ctx, packet.GetDestPort(), packet.GetDestChannel())
+	if !found {
+		return errorsmod.Wrap(types.ErrChannelNotFound, packet.GetDestChannel())
+	}
+
+	if !slices.Contains([]types.State{types.OPEN, types.FLUSHING, types.FLUSHCOMPLETE}, channel.State) {
+		return errorsmod.Wrapf(types.ErrInvalidChannelState, "expected channel state to be one of [%s, %s, %s], but got %s", types.OPEN, types.FLUSHING, types.FLUSHCOMPLETE, channel.State)
+	}
+
+	// packet must come from the channel's counterparty
+	if packet.GetSourcePort() != channel.Counterparty.PortId {
+		return errorsmod.Wrapf(
+			types.ErrInvalidPacket,
+			"packet source port doesn't match the counterparty's port (%s ≠ %s)", packet.GetSourcePort(), channel.Counterparty.PortId,
+		)
+	}
+
+	if packet.GetSourceChannel() != channel.Counterparty.ChannelId {
+		return errorsmod.Wrapf(
+			types.ErrInvalidPacket,
+			"packet source channel doesn't match the counterparty's channel (%s ≠ %s)", packet.GetSourceChannel(), channel.Counterparty.ChannelId,
+		)
+	}
+
+	connectionEnd, found := k.connectionKeeper.GetConnection(ctx, channel.ConnectionHops[0])
+	if !found {
+		return errorsmod.Wrap(connectiontypes.ErrConnectionNotFound, channel.ConnectionHops[0])
+	}
+
+	if connectionEnd.GetState() != int32(connectiontypes.OPEN) {
+		return errorsmod.Wrapf(
+			connectiontypes.ErrInvalidConnectionState,
+			"connection state is not OPEN (got %s)", connectiontypes.State(connectionEnd.GetState()).String(),
+		)
+	}
+	key := types.CommitPacket(k.cdc, packet)
+	if err := k.connectionKeeper.SetTxHashValue(
+		ctx, connectionEnd, key, valueHash); err != nil {
+		return errorsmod.Wrap(err, "could not set key value of tx")
+	}
+	return nil
+}
+
 // RecvPacket is called by a module in order to receive & process an IBC packet
 // sent on the corresponding channel end on the counterparty chain.
 func (k Keeper) RecvPacket(

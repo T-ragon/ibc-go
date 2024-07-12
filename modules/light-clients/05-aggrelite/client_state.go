@@ -9,6 +9,7 @@ import (
 	"hash"
 	"sort"
 	"strings"
+	"testing"
 	"time"
 
 	ics23 "github.com/cosmos/ics23/go"
@@ -210,6 +211,10 @@ func (cs ClientState) Initialize(ctx sdk.Context, cdc codec.BinaryCodec, clientS
 	return nil
 }
 
+func (cs ClientState) SetHashValue(ctx sdk.Context, key []byte, value []byte, clientStore storetypes.KVStore) {
+
+}
+
 // VerifyAggregateMembership is a generic proof verification method which verifies a proof of the existence of a value at a given CommitmentPath at the specified height.
 // The caller is expected to construct the full CommitmentPath from a CommitmentPrefix and a standardized path (as defined in ICS 24).
 // If a zero proof height is passed in, it will fail to retrieve the associated consensus state.
@@ -297,6 +302,10 @@ func hashBz(h hasher, preimage []byte) ([]byte, error) {
 	hh := h.New()
 	hh.Write(preimage)
 	return hh.Sum(nil), nil
+}
+
+func TestVerifyAggregateProof(t *testing.T) {
+
 }
 
 // leafNumber 指明叶子结点位于哪一层

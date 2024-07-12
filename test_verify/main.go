@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
@@ -34,7 +35,7 @@ func NewNode(left, right *Node) *Node {
 // NewLeafNode creates a new leaf node
 func NewLeafNode(data []byte) *Node {
 	hash := sha256.Sum256(data)
-	return &Node{Data: hash[:]}
+	return &Node{Data: hash[:], Left: nil, Right: nil}
 }
 
 // BuildMerkleTree builds a Merkle tree from a list of leaf nodes
@@ -56,13 +57,40 @@ func BuildMerkleTree(leafNodes []*Node) *Node {
 	return BuildMerkleTree(parentNodes)
 }
 
+func doHash(data []byte) []byte {
+	hash := sha256.Sum256(data)
+	return hash[:]
+}
+
+func VerifyLeafWithProof(leafData []byte, subProofs []SubProof, root []byte) bool {
+	currentHash := doHash(leafData)
+
+	//迭代计算上一层的哈希值
+	for _, subProof := range subProofs {
+		found := false
+		for _, proofMeta := range *subProof.ProofMetaList {
+			//check if the current hash matches one of the meta hashes
+			if bytes.Equal(currentHash, proofMeta.M1) || bytes.Equal(currentHash, proofMeta.M2) {
+				combinedDate := append(proofMeta.M1, proofMeta.M2...)
+				currentHash = doHash(combinedDate)
+				found = true
+				break
+			}
+		}
+		if !found {
+			return false
+		}
+	}
+	return bytes.Equal(currentHash, root)
+}
+
 // PrintTree prints the Merkle tree in a tree structure
 func PrintTree(node *Node, level int) {
 	if node == nil {
 		return
 	}
 	indent := strings.Repeat("  ", level)
-	fmt.Printf("%sNode Hash: %s\n", indent, hex.EncodeToString(node.Data))
+	fmt.Printf("%slevel:%d, Node Hash: %s\n", indent, level, hex.EncodeToString(node.Data))
 	PrintTree(node.Left, level+1)
 	PrintTree(node.Right, level+1)
 }
@@ -78,7 +106,7 @@ func CollectProofs(node *Node, level int, proofs *[]SubProof) {
 			ProofMetaList: &[]ProofMeta{}})
 	}
 	if node.Left != nil && node.Right != nil {
-		*(*proofs)[level].ProofMetaList = append(*(*proofs)[level].ProofMetaList, ProofMeta{
+		*(*proofs)[level-1].ProofMetaList = append(*(*proofs)[level-1].ProofMetaList, ProofMeta{
 			M1: node.Left.Data,
 			M2: node.Right.Data,
 		})
@@ -92,7 +120,7 @@ func PrintSubProofs(proofs []SubProof) {
 	for _, proof := range proofs {
 		fmt.Printf("Level %d:\n", proof.Number)
 		for _, meta := range *proof.ProofMetaList {
-			fmt.Printf("  (M1: %s, M2: %s\n)", hex.EncodeToString(meta.M1), hex.EncodeToString(meta.M2))
+			fmt.Printf("  (M1: %s, M2: %s)\n", hex.EncodeToString(meta.M1), hex.EncodeToString(meta.M2))
 		}
 	}
 }
@@ -118,18 +146,22 @@ func main() {
 
 	// Build the Merkle tree
 	root := BuildMerkleTree(leafNodes)
-
-	// Print the Merkle tree nodes' hashes in tree structure
-	fmt.Println("Merkle Tree Nodes' Hashes:")
+	rootHash := root.Data
+	//// Print the Merkle tree nodes' hashes in tree structure
+	//fmt.Println("Merkle Tree Nodes' Hashes:")
 	PrintTree(root, 0)
-
-	// Print the Merkle root
-	fmt.Printf("Merkle Root: %s\n", hex.EncodeToString(root.Data))
-
 	// Collect proofs
 	var proofs []SubProof
-	CollectProofs(root, 0, &proofs)
+	CollectProofs(root, 1, &proofs)
+	var subProofs []SubProof
+	for i := 3; i > 0; i-- {
+		subProofs = append(subProofs, proofs[i-1])
+	}
+	PrintSubProofs(subProofs)
 
-	//Print the Subproofs
-	PrintSubProofs(proofs)
+	if VerifyLeafWithProof(leafData[0], subProofs, rootHash) {
+		fmt.Println("Leaf 1 Verified")
+	} else {
+		fmt.Println("Leaf 1 Verified failed!")
+	}
 }
