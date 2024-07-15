@@ -47,6 +47,11 @@ type ConnectionKeeper interface {
 		commitmentBytes [][]byte,
 	) error
 
+	IsHashExisted(
+		ctx sdk.Context,
+		connection exported.ConnectionI,
+		key []byte,
+		value []byte) error
 	SetTxHashValue(
 		ctx sdk.Context,
 		connection exported.ConnectionI,

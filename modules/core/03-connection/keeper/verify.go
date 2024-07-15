@@ -1,6 +1,8 @@
 package keeper
 
 import (
+	"bytes"
+	"errors"
 	"math"
 
 	errorsmod "cosmossdk.io/errors"
@@ -234,6 +236,22 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	return nil
 }
 
+func (k Keeper) IsHashExisted(
+	ctx sdk.Context,
+	connection exported.ConnectionI,
+	key []byte,
+	value []byte) error {
+	clientID := connection.GetClientID()
+	_, clientStore, err := k.getClientStateAndVerificationStore(ctx, clientID)
+	if err != nil {
+		return nil
+	}
+	expectedKey := clientStore.Get(key)
+	if bytes.Equal(value, expectedKey) {
+		return nil
+	}
+	return errorsmod.Wrapf(errors.New("Not match!"), "Hash key value not matched!")
+}
 func (k Keeper) SetTxHashValue(ctx sdk.Context,
 	connection exported.ConnectionI,
 	key []byte,

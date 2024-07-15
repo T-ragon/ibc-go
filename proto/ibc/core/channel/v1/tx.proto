@@ -77,6 +77,9 @@ service Msg {
 
   //Set a tx root hash
   rpc ChannelSetRootHashValue(MsgSetHashValue) returns (MsgSetHashValueResponse);
+
+  //Compare a tx root hash
+  rpc ChannelIsRootHashExisted(MsgCompareHashValue) returns (MsgCompareHashValueResponse);
 }
 
 // ResponseResultType defines the possible outcomes of the execution of a message
@@ -429,6 +432,17 @@ message MsgSetHashValue {
 }
 
 message MsgSetHashValueResponse {
+  option (gogoproto.goproto_getters) = false;
+
+  ResponseResultType result = 1;
+}
+
+message MsgCompareHashValue{
+  Packet key = 1;
+  bytes  value = 2;
+}
+
+message MsgCompareHashValueResponse {
   option (gogoproto.goproto_getters) = false;
 
   ResponseResultType result = 1;
