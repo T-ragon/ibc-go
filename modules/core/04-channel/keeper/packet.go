@@ -109,10 +109,11 @@ func (k Keeper) SendPacket(
 func (k Keeper) RecvAggregatePacket(
 	ctx sdk.Context,
 	chanCap *capabilitytypes.Capability,
-	packets []exported.PacketI,
+	packets []*types.Packet,
 	proof [][]byte,
 	leafNumber []uint64,
 	proofHeight exported.Height,
+	leafOps []*types.LeafOp,
 ) error {
 	channel, found := k.GetChannel(ctx, packets[0].GetDestPort(), packets[0].GetDestChannel())
 	if !found {
@@ -145,6 +146,7 @@ func (k Keeper) RecvAggregatePacket(
 		)
 	}
 
+	//这里可能要写一个循环进行循环检测
 	// packet must come from the channel's counterparty
 	if packets[0].GetSourcePort() != channel.Counterparty.PortId {
 		return errorsmod.Wrapf(
@@ -182,11 +184,22 @@ func (k Keeper) RecvAggregatePacket(
 		return errorsmod.Wrap(timeout.ErrTimeoutElapsed(selfHeight, selfTimestamp), "packet timeout elapsed")
 	}
 
+	sourcePorts := make([]string, len(packets))
+	sourceChannels := make([]string, len(packets))
+	sourceSequences := make([]uint64, len(packets))
+	for i, packet := range packets {
+		sourcePorts[i] = packet.GetSourcePort()
+		sourceChannels[i] = packet.GetSourceChannel()
+		sourceSequences[i] = packet.GetSequence()
+	}
+	commits := make([][]byte, len(packets))
 	// 所有packets格式化后的commitments
-	commitments := types.CommitPackets(k.cdc, packets)
+	for i, packet := range packets {
+		commits[i] = types.MainCommitPacket(packet)
+	}
 	if err := k.connectionKeeper.VerifyAggregatePacketCommitment(
-		ctx, connectionEnd, proofHeight, proof, packets[0].GetSourcePort(), packets[0].GetSourceChannel(),
-		packets[0].GetSequence(), leafNumber, commitments,
+		ctx, connectionEnd, proofHeight, proof, sourcePorts, sourceChannels,
+		sourceSequences, leafNumber, commits, leafOps,
 	); err != nil {
 		return errorsmod.Wrap(err, "couldn't verify counterparty packet commitment")
 	}
@@ -238,14 +251,14 @@ func (k Keeper) RecvAggregatePacket(
 			return types.ErrNoOpMsg
 		}
 
-		// REPLAY PROTECTION: Ordered channels require packets to be received in a strict order.
-		// Any out of order or previously received packets are rejected.
-		if packets[0].GetSequence() != nextSequenceRecv {
-			return errorsmod.Wrapf(
-				types.ErrPacketSequenceOutOfOrder,
-				"packet sequence ≠ next receive sequence (%d ≠ %d)", packets[0].GetSequence(), nextSequenceRecv,
-			)
-		}
+		//// REPLAY PROTECTION: Ordered channels require packets to be received in a strict order.
+		//// Any out of order or previously received packets are rejected.
+		//if packets[0].GetSequence() != nextSequenceRecv {
+		//	return errorsmod.Wrapf(
+		//		types.ErrPacketSequenceOutOfOrder,
+		//		"packet sequence ≠ next receive sequence (%d ≠ %d)", packets[0].GetSequence(), nextSequenceRecv,
+		//	)
+		//}
 
 		// All verification complete, update state
 		// In ordered case, we must increment nextSequenceRecv
@@ -267,7 +280,7 @@ func (k Keeper) RecvAggregatePacket(
 	)
 
 	// emit an event that the relayer can query for
-	emitRecvPacketEvent(ctx, packets[0], channel)
+	emitRecvAggregatePacketEvent(ctx, packets[0], channel)
 	return nil
 }
 

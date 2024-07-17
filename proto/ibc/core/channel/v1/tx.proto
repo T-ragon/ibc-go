@@ -261,6 +261,7 @@ message InnerOp{
 message ProofMeta {
   bytes hash_value = 1;
   InnerOp path_inner_op = 2;
+  bytes real_value = 3;
 }
 
 message StorageHash{
@@ -275,6 +276,44 @@ message SubProof {
   repeated ProofMeta proof_meta_list = 2;
 }
 
+/**
+LengthOp defines how to process the key and value of the LeafOp
+to include length information. After encoding the length with the given
+algorithm, the length will be prepended to the key and value bytes.
+(Each one with it's own encoded length)
+*/
+enum LengthOp {
+  // NO_PREFIX don't include any length info
+  NO_PREFIX = 0;
+  // VAR_PROTO uses protobuf (and go-amino) varint encoding of the length
+  VAR_PROTO = 1;
+  // VAR_RLP uses rlp int encoding of the length
+  VAR_RLP = 2;
+  // FIXED32_BIG uses big-endian encoding of the length as a 32 bit integer
+  FIXED32_BIG = 3;
+  // FIXED32_LITTLE uses little-endian encoding of the length as a 32 bit integer
+  FIXED32_LITTLE = 4;
+  // FIXED64_BIG uses big-endian encoding of the length as a 64 bit integer
+  FIXED64_BIG = 5;
+  // FIXED64_LITTLE uses little-endian encoding of the length as a 64 bit integer
+  FIXED64_LITTLE = 6;
+  // REQUIRE_32_BYTES is like NONE, but will fail if the input is not exactly 32 bytes (sha256 output)
+  REQUIRE_32_BYTES = 7;
+  // REQUIRE_64_BYTES is like NONE, but will fail if the input is not exactly 64 bytes (sha512 output)
+  REQUIRE_64_BYTES = 8;
+}
+
+message LeafOp {
+  HashOp   hash          = 1;
+  HashOp   prehash_key   = 2;
+  HashOp   prehash_value = 3;
+  LengthOp length        = 4;
+  // prefix is a fixed bytes that may optionally be included at the beginning to differentiate
+  // a leaf node from an inner node.
+  bytes prefix = 5;
+}
+
+
 //MsgRecvAggregatePacket receives incoming IBC packet
 message MsgAggregatePacket {
   option (cosmos.msg.v1.signer) = "signer";
@@ -285,6 +324,7 @@ message MsgAggregatePacket {
   repeated SubProof proof = 3;
   string signer = 4;
   ibc.core.client.v1.Height proof_height     = 5 [(gogoproto.nullable) = false];
+  repeated LeafOp leafops = 6;
 }
 
 // MsgRecvPacketResponse defines the Msg/RecvAggregatePacket response type.

@@ -206,10 +206,11 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	height exported.Height,
 	proof [][]byte,
 	portID,
-	channelID string,
-	sequence uint64,
+	channelID []string,
+	sequence []uint64,
 	leafNumber []uint64,
-	values [][]byte) error {
+	values [][]byte,
+	leafOps []*channeltypes.LeafOp) error {
 	clientID := connection.GetClientID()
 	clientState, clientStore, err := k.getClientStateAndVerificationStore(ctx, clientID)
 	if err != nil {
@@ -220,16 +221,20 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	timeDelay := connection.GetDelayPeriod()
 	blockDelay := k.getBlockDelay(ctx, connection)
 
-	merklePath := commitmenttypes.NewMerklePath(host.PacketCommitmentPath(portID, channelID, sequence))
-	merklePath, err = commitmenttypes.ApplyPrefix(connection.GetCounterparty().GetPrefix(), merklePath)
-	if err != nil {
-		return err
+	keyArr := make([][]byte, len(channelID))
+	for i := 0; i < len(channelID); i++ {
+		merklePath := commitmenttypes.NewMerklePath(host.PacketCommitmentPath(portID[i], channelID[i], sequence[i]))
+		merklePath, err = commitmenttypes.ApplyPrefix(connection.GetCounterparty().GetPrefix(), merklePath)
+		if err != nil {
+			return err
+		}
+		keyArr[i], _ = merklePath.GetKey(uint64(len(merklePath.KeyPath) - 1 - 0))
 	}
 
 	if err := clientState.VerifyAggregateMembership(
 		ctx, clientStore, k.cdc, height,
-		timeDelay, blockDelay, merklePath,
-		leafNumber, values, proof,
+		timeDelay, blockDelay, keyArr,
+		leafNumber, values, proof, leafOps,
 	); err != nil {
 		return errorsmod.Wrapf(err, "failed packet commitment verification for client (%s)", clientID)
 	}

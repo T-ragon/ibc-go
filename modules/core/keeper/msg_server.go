@@ -2,12 +2,9 @@ package keeper
 
 import (
 	"context"
-	"fmt"
-	"github.com/T-ragon/ibc-go/v9/modules/core/exported"
-	metrics "github.com/hashicorp/go-metrics"
-	"reflect"
-
 	errorsmod "cosmossdk.io/errors"
+	"fmt"
+	metrics "github.com/hashicorp/go-metrics"
 
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -486,7 +483,6 @@ func (k Keeper) ChannelIsRootHashExisted(goctx context.Context, msg *channeltype
 func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.MsgAggregatePacket) (*channeltypes.MsgAggregatePacketResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goctx)
 
-	fmt.Println("Relayer Message received!", msg)
 	ctx.Logger().Info("Relayer Message received!", msg)
 	relayer, err := sdk.AccAddressFromBech32(msg.Signer)
 	if err != nil {
@@ -519,21 +515,21 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 		}
 		proofArray = append(proofArray, data)
 	}
-	//使用匿名函数
-	convertToPacketI := func(slice interface{}) []exported.PacketI {
-		v := reflect.ValueOf(slice)
-		if v.Kind() != reflect.Slice {
-			panic("convertToPacketI slice is not a slice")
-		}
-		packetIArray := make([]exported.PacketI, v.Len())
-		for i := 0; i < v.Len(); i++ {
-			packetIArray[i] = v.Index(i).Interface().(exported.PacketI)
-		}
-		return packetIArray
-	}
-	packets := convertToPacketI(msg.Packets)
+	////使用匿名函数
+	//convertToPacketI := func(slice interface{}) []exported.PacketI {
+	//	v := reflect.ValueOf(slice)
+	//	if v.Kind() != reflect.Slice {
+	//		panic("convertToPacketI slice is not a slice")
+	//	}
+	//	packetIArray := make([]exported.PacketI, v.Len())
+	//	for i := 0; i < v.Len(); i++ {
+	//		packetIArray[i] = v.Index(i).Interface().(exported.PacketI)
+	//	}
+	//	return packetIArray
+	//}
+	//packets := convertToPacketI(msg.Packets)
 	cacheCtx, writeFn := ctx.CacheContext()
-	err = k.ChannelKeeper.RecvAggregatePacket(cacheCtx, capability, packets, proofArray, msg.PacketsLeafNumber, msg.ProofHeight)
+	err = k.ChannelKeeper.RecvAggregatePacket(cacheCtx, capability, msg.Packets, proofArray, msg.PacketsLeafNumber, msg.ProofHeight, msg.Leafops)
 
 	switch err {
 	case nil:

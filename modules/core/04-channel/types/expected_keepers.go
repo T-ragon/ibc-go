@@ -40,11 +40,12 @@ type ConnectionKeeper interface {
 		connection exported.ConnectionI,
 		height exported.Height,
 		proof [][]byte,
-		portID,
-		channelID string,
-		sequence uint64,
+		portID []string,
+		channelID []string,
+		sequence []uint64,
 		leafNumber []uint64,
 		commitmentBytes [][]byte,
+		leafOps []*LeafOp,
 	) error
 
 	IsHashExisted(

@@ -9,14 +9,13 @@ import (
 	"hash"
 	"sort"
 	"strings"
-	"testing"
 	"time"
 
 	ics23 "github.com/cosmos/ics23/go"
 
 	errorsmod "cosmossdk.io/errors"
 	storetypes "cosmossdk.io/store/types"
-
+	"github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -225,10 +224,11 @@ func (cs ClientState) VerifyAggregateMembership(
 	height exported.Height,
 	delayTimePeriod uint64,
 	delayBlockPeriod uint64,
-	path exported.Path,
+	keyArr [][]byte,
 	leafNumber []uint64,
 	values [][]byte,
-	proof [][]byte) error {
+	proof [][]byte,
+	leafOps []*channeltypes.LeafOp) error {
 	if cs.GetLatestHeight().LT(height) {
 		return errorsmod.Wrapf(
 			ibcerrors.ErrInvalidHeight,
@@ -246,7 +246,7 @@ func (cs ClientState) VerifyAggregateMembership(
 	}
 
 	//values 就是所有跨链交易的哈希值
-	return verifyAggregateProof(cdc, leafNumber, values, proof, consensusState.Root.Hash)
+	return verifyAggregateProof(cdc, leafNumber, values, proof, consensusState.Root.Hash, keyArr, leafOps)
 }
 
 // doHash will preform the specified hash on the preimage.
@@ -294,6 +294,17 @@ func extractRightFromInnerOp(rop *channeltypes.InnerOp) ([]byte, error) {
 	return right, nil
 }
 
+func checkInnerOpIsContainBytes(iop *channeltypes.InnerOp, value []byte) (error, bool) {
+	if len(iop.Suffix) == 0 {
+		left := iop.Prefix[:len(iop.Prefix)-1]
+		leftstr := string(left)
+		return nil, strings.HasSuffix(leftstr, string(value))
+	} else {
+		rightstr := string(iop.Suffix)
+		return nil, strings.HasSuffix(rightstr, string(value))
+	}
+}
+
 type hasher interface {
 	New() hash.Hash
 }
@@ -304,8 +315,118 @@ func hashBz(h hasher, preimage []byte) ([]byte, error) {
 	return hh.Sum(nil), nil
 }
 
-func TestVerifyAggregateProof(t *testing.T) {
+func calculateLeaf(values [][]byte, leafOp *ics23.LeafOp, key [][]byte) {
+	for i := 0; i < len(values); i++ {
+		values[i], _ = leafOp.Apply(key[i], values[i])
+	}
+}
 
+func MainVerifyAggregateProof(
+	leafNumber []uint64,
+	values [][]byte,
+	key [][]byte,
+	leafOp ics23.LeafOp,
+	subProofs []*types.SubProof,
+	root []byte) (error, bool) {
+	fmt.Println("values", values)
+	// 结合 leafNumber 检查values是否存在于subProofs
+	calculateLeaf(values, &leafOp, key)
+	fmt.Println("修改后的values", values)
+	for j, value := range values {
+		valueLevel := leafNumber[j]
+		found := false
+		for _, subProof := range subProofs {
+			// 找到叶子结点所在的层次
+			if subProof.Number == valueLevel {
+				for _, proofMeta := range subProof.ProofMetaList {
+					meta1 := proofMeta.HashValue
+					err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
+					if err != nil {
+						return err, false
+					}
+					if bytes.Equal(meta1, value) || contains {
+						found = true
+						break
+					}
+				}
+			}
+			if found {
+				break
+			}
+		}
+		if !found {
+			fmt.Println("1111111111111111")
+			return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf "), false
+		}
+	}
+
+	// 对SubProof原地排序
+	sort.Slice(subProofs, func(i, j int) bool {
+		return subProofs[i].Number > subProofs[j].Number
+	})
+
+	for i := 0; i < len(subProofs)-2; i++ {
+		currentProof := subProofs[i]
+		nextProof := subProofs[i+1]
+		for _, proofMeta := range currentProof.ProofMetaList {
+			meta1 := proofMeta.HashValue
+			if len(proofMeta.RealValue) != 0 {
+				meta1 = proofMeta.RealValue
+			}
+			fmt.Println(meta1)
+			preimage := proofMeta.PathInnerOp.Prefix
+			preimage = append(preimage, meta1...)
+			preimage = append(preimage, proofMeta.PathInnerOp.Suffix...)
+			combinedHash, err := doHash(HashOp_SHA256, preimage)
+			fmt.Println("第", currentProof.Number, combinedHash)
+			if err != nil {
+				return err, false
+			}
+			found := false
+			for _, nextProofMeta := range nextProof.ProofMetaList {
+				meta1_netxt := nextProofMeta.HashValue
+				_, contains := checkInnerOpIsContainBytes(nextProofMeta.PathInnerOp, combinedHash)
+				if bytes.Equal(combinedHash, meta1_netxt) || contains {
+					found = true
+					break
+				}
+			}
+			if !found {
+				fmt.Println("2222222222222222222")
+				return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf "), false
+			}
+		}
+	}
+
+	//最后一层只有两个结点
+	finalSubProof := subProofs[len(subProofs)-1].ProofMetaList
+	for _, proofMeta := range finalSubProof {
+		meta1 := proofMeta.HashValue
+		preimage := proofMeta.PathInnerOp.Prefix
+		preimage = append(preimage, meta1...)
+		preimage = append(preimage, proofMeta.PathInnerOp.Suffix...)
+		combinedHash, err := doHash(HashOp_SHA256, preimage)
+		if err != nil {
+			return err, false
+		}
+		fmt.Println(combinedHash)
+		if bytes.Equal(root, combinedHash) {
+			fmt.Println("Verified Successfully!")
+			return nil, true
+		}
+	}
+	fmt.Println("111111111111111111111")
+	return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf "), false
+}
+
+func toIcs23(leafOp *types.LeafOp) *ics23.LeafOp {
+	return &ics23.LeafOp{
+		Hash:         ics23.HashOp(leafOp.Hash),
+		PrehashKey:   ics23.HashOp(leafOp.PrehashKey),
+		PrehashValue: ics23.HashOp(leafOp.PrehashValue),
+		Length:       ics23.LengthOp(leafOp.Length),
+		Prefix:       leafOp.Prefix,
+	}
 }
 
 // leafNumber 指明叶子结点位于哪一层
@@ -313,7 +434,9 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 	leafNumber []uint64,
 	values [][]byte,
 	proof [][]byte,
-	root []byte) error {
+	root []byte,
+	keyArr [][]byte,
+	leafOps []*types.LeafOp) error {
 	//首先解码，得到subproof
 	var subProofs []channeltypes.SubProof
 	for i, subProof := range proof {
@@ -322,7 +445,7 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 			return errorsmod.Wrap(commitmenttypes.ErrInvalidProof, "failed to unmarshal proof into AggreLite Subproof")
 		}
 	}
-
+	calculateLeaf(values, toIcs23(leafOps[0]), keyArr)
 	// 结合 leafNumber 检查values是否存在于subProofs
 	for j, value := range values {
 		valueLevel := leafNumber[j]
@@ -332,12 +455,11 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 			if subProof.Number == valueLevel {
 				for _, proofMeta := range subProof.ProofMetaList {
 					meta1 := proofMeta.HashValue
-					meta2, err := extractRightFromInnerOp(proofMeta.PathInnerOp)
+					err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
 					if err != nil {
 						return err
 					}
-					//meta2, err := cdc.Marshal(proofMeta.PathInnerOp) //meta2 还需要斟酌
-					if bytes.Equal(meta1, value) || bytes.Equal(meta2, value) {
+					if bytes.Equal(meta1, value) || contains {
 						found = true
 						break
 					}
@@ -362,6 +484,9 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 		nextProof := subProofs[i+1]
 		for _, proofMeta := range currentProof.ProofMetaList {
 			meta1 := proofMeta.HashValue
+			if len(proofMeta.RealValue) != 0 {
+				meta1 = proofMeta.RealValue
+			}
 			preimage := proofMeta.PathInnerOp.Prefix
 			preimage = append(preimage, meta1...)
 			preimage = append(preimage, proofMeta.PathInnerOp.Suffix...)
@@ -372,8 +497,8 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 			found := false
 			for _, nextProofMeta := range nextProof.ProofMetaList {
 				meta1_netxt := nextProofMeta.HashValue
-				meta2_next, _ := extractRightFromInnerOp(nextProofMeta.PathInnerOp)
-				if bytes.Equal(combinedHash, meta1_netxt) || bytes.Equal(combinedHash, meta2_next) {
+				_, contains := checkInnerOpIsContainBytes(nextProofMeta.PathInnerOp, combinedHash)
+				if bytes.Equal(combinedHash, meta1_netxt) || contains {
 					found = true
 					break
 				}
