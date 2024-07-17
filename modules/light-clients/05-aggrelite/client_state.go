@@ -447,32 +447,56 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 	}
 	calculateLeaf(values, toIcs23(leafOps[0]), keyArr)
 	// 结合 leafNumber 检查values是否存在于subProofs
+	subProofMap := make(map[uint64]*types.SubProof)
+	for i, subProof := range subProofs {
+		subProofMap[subProofs[i].Number] = &subProof
+	}
 	for j, value := range values {
-		valueLevel := leafNumber[j]
+		subProof := subProofMap[uint64(j)]
 		found := false
-		for _, subProof := range subProofs {
-			// 找到叶子结点所在的层次
-			if subProof.Number == valueLevel {
-				for _, proofMeta := range subProof.ProofMetaList {
-					meta1 := proofMeta.HashValue
-					err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
-					if err != nil {
-						return err
-					}
-					if bytes.Equal(meta1, value) || contains {
-						found = true
-						break
-					}
+		if subProof != nil {
+			for _, proofMeta := range subProof.ProofMetaList {
+				meta1 := proofMeta.HashValue
+				err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
+				if err != nil {
+					return err
 				}
-			}
-			if found {
-				break
+				if bytes.Equal(meta1, value) || contains {
+					found = true
+					break
+				}
 			}
 		}
 		if !found {
 			return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
 		}
 	}
+	//for j, value := range values {
+	//	valueLevel := leafNumber[j]
+	//	found := false
+	//	for _, subProof := range subProofs {
+	//		// 找到叶子结点所在的层次
+	//		if subProof.Number == valueLevel {
+	//			for _, proofMeta := range subProof.ProofMetaList {
+	//				meta1 := proofMeta.HashValue
+	//				err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
+	//				if err != nil {
+	//					return err
+	//				}
+	//				if bytes.Equal(meta1, value) || contains {
+	//					found = true
+	//					break
+	//				}
+	//			}
+	//		}
+	//		if found {
+	//			break
+	//		}
+	//	}
+	//	if !found {
+	//		return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
+	//	}
+	//}
 
 	// 对SubProof原地排序
 	sort.Slice(subProofs, func(i, j int) bool {
