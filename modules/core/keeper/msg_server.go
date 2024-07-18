@@ -521,24 +521,24 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 	//
 	// If the packet was already received, perform a no-op
 	// Use a cached context to prevent accidental state changes
-	var proofArray [][]byte
-	for _, proof := range msg.Proof {
-		data, err := k.cdc.Marshal(proof)
+	proofArray := make([][]byte, len(msg.Packets))
+	for i, proof := range msg.Proof {
+		data, err := proof.Marshal()
 		if err != nil {
 			fmt.Println("Marshaing error:", err)
 			continue
 		}
-		proofArray = append(proofArray, data)
+		proofArray[i] = data
 	}
 
-	var leafOps [][]byte
-	for _, leaf := range msg.Leafops {
-		data, err := k.cdc.Marshal(leaf)
+	leafOps := make([][]byte, len(msg.Packets))
+	for i, leaf := range msg.Leafops {
+		data, err := leaf.Marshal()
 		if err != nil {
 			fmt.Println("Marshaing error:", err)
 			continue
 		}
-		leafOps = append(leafOps, data)
+		leafOps[i] = data
 	}
 	cacheCtx, writeFn := ctx.CacheContext()
 	err = k.ChannelKeeper.RecvAggregatePacket(cacheCtx, capability, msg.Packets, proofArray, msg.PacketsLeafNumber, msg.ProofHeight, leafOps)

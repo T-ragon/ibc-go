@@ -431,18 +431,18 @@ func toIcs23(leafOp *types.LeafOp) *ics23.LeafOp {
 
 func unMarshaSubProof(cdc codec.BinaryCodec, bytes [][]byte, subProofs []*channeltypes.SubProof) {
 	for i, subProof := range bytes {
-		err := cdc.Unmarshal(subProof, subProofs[i])
+		err := subProofs[i].Unmarshal(subProof)
 		if err != nil {
-			panic(err)
+			panic(errors.New("failed to unmarshal subProof"))
 		}
 	}
 }
 
 func unMarShaLeafs(cdc codec.BinaryCodec, bytes [][]byte, leafOps []*channeltypes.LeafOp) {
 	for i, leaf := range bytes {
-		err := cdc.Unmarshal(leaf, leafOps[i])
+		err := leafOps[i].Unmarshal(leaf)
 		if err != nil {
-			panic(err)
+			panic(errors.New("failed to unmarshal leaf"))
 		}
 	}
 }
