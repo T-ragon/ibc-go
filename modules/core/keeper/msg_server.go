@@ -521,7 +521,7 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 	//
 	// If the packet was already received, perform a no-op
 	// Use a cached context to prevent accidental state changes
-	proofArray := make([][]byte, len(msg.Packets))
+	proofArray := make([][]byte, len(msg.Proof))
 	for i, proof := range msg.Proof {
 		data, err := proof.Marshal()
 		if err != nil {
@@ -531,7 +531,7 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 		proofArray[i] = data
 	}
 
-	leafOps := make([][]byte, len(msg.Packets))
+	leafOps := make([][]byte, len(msg.Leafops))
 	for i, leaf := range msg.Leafops {
 		data, err := leaf.Marshal()
 		if err != nil {
