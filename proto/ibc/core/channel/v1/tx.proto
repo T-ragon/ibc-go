@@ -467,8 +467,11 @@ message MsgChannelUpgradeAckResponse {
 
 //MsgSetHashValue set a hash value in the clienStore tree
 message MsgSetHashValue {
+  option (cosmos.msg.v1.signer) = "signer";
+
   Packet key = 1;
   bytes  value = 2;
+  string signer = 3;
 }
 
 message MsgSetHashValueResponse {
@@ -478,8 +481,11 @@ message MsgSetHashValueResponse {
 }
 
 message MsgCompareHashValue{
+  option (cosmos.msg.v1.signer) = "signer";
+
   Packet key = 1;
   bytes  value = 2;
+  string signer = 3;
 }
 
 message MsgCompareHashValueResponse {
