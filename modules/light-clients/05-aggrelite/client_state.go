@@ -235,7 +235,7 @@ func (cs ClientState) VerifyAggregateMembership(
 			"client state height < proof height (%d < %d), please ensure the client has been updated", cs.GetLatestHeight(), height,
 		)
 	}
-
+	fmt.Println("***************************Height current******************************", height.GetRevisionHeight(), height.GetRevisionNumber())
 	if err := verifyDelayPeriodPassed(ctx, clientStore, height, delayTimePeriod, delayBlockPeriod); err != nil {
 		return err
 	}
