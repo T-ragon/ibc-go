@@ -468,33 +468,64 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 		leafOpss[i] = &channeltypes.LeafOp{}
 	}
 	unMarshaSubProof(cdc, proofs, subProofs)
+	for i := 0; i < len(subProofs); i++ {
+		for j := 0; j < len(subProofs[i].ProofMetaList); j++ {
+			fmt.Printf("SubProof HashValue%d\n", subProofs[i].ProofMetaList[j].HashValue)
+		}
+	}
 	unMarShaLeafs(cdc, leafOps, leafOpss)
 	calculateLeaf(values, toIcs23(leafOpss[0]), keyArr)
 	// 结合 leafNumber 检查values是否存在于subProofs
-	subProofMap := make(map[uint64]*types.SubProof)
-	for _, subProof := range subProofs {
-		subProofMap[subProof.Number] = subProof
-	}
 	for j, value := range values {
-		subProof := subProofMap[leafNumber[j]]
+		valueLevel := leafNumber[j]
 		found := false
-		if subProof != nil {
-			for _, proofMeta := range subProof.ProofMetaList {
-				meta1 := proofMeta.HashValue
-				err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
-				if err != nil {
-					return err
+		for _, subProof := range subProofs {
+			// 找到叶子结点所在的层次
+			if subProof.Number == valueLevel {
+				for _, proofMeta := range subProof.ProofMetaList {
+					meta1 := proofMeta.HashValue
+					err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
+					if err != nil {
+						return err
+					}
+					if bytes.Equal(meta1, value) || contains {
+						found = true
+						break
+					}
 				}
-				if bytes.Equal(meta1, value) || contains {
-					found = true
-					break
-				}
+			}
+			if found {
+				break
 			}
 		}
 		if !found {
 			return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
 		}
 	}
+	//subProofMap := make(map[uint64]*types.SubProof)
+	//for _, subProof := range subProofs {
+	//	subProofMap[subProof.Number] = subProof
+	//}
+	//for j, value := range values {
+	//	subProof := subProofMap[leafNumber[j]]
+	//	found := false
+	//	if subProof != nil {
+	//		for _, proofMeta := range subProof.ProofMetaList {
+	//			meta1 := proofMeta.HashValue
+	//			err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
+	//			if err != nil {
+	//				return err
+	//			}
+	//			if bytes.Equal(meta1, value) || contains {
+	//				found = true
+	//				break
+	//			}
+	//		}
+	//	}
+	//	if !found {
+	//		return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
+	//	}
+	//}
 
 	// 对SubProof原地排序
 	sort.Slice(subProofs, func(i, j int) bool {
@@ -526,7 +557,7 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 				}
 			}
 			if !found {
-				return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
+				return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof in nextnevel ")
 			}
 		}
 	}

@@ -213,6 +213,7 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	values [][]byte,
 	leafOps [][]byte) error {
 	clientID := connection.GetClientID()
+	fmt.Println("*************************Verify.go **************** ClientID*****************************", clientID)
 	clientState, clientStore, err := k.getClientStateAndVerificationStore(ctx, clientID)
 	if err != nil {
 		return err
@@ -226,10 +227,10 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	keyArr := make([][]byte, len(channelID))
 	for i := 0; i < len(channelID); i++ {
 		merklePath := commitmenttypes.NewMerklePath(host.PacketCommitmentPath(portID[i], channelID[i], sequence[i]))
-		merklePath, err = commitmenttypes.ApplyPrefix(connection.GetCounterparty().GetPrefix(), merklePath) //这行代码
-		if err != nil {
-			return err
-		}
+		merklePath = commitmenttypes.NewMerklePath(append([]string{"ibc"}, merklePath.KeyPath...)...) //这行代码
+		fmt.Println("merklePath old\n", merklePath)
+		merklePathNew, _ := commitmenttypes.ApplyPrefix(connection.GetCounterparty().GetPrefix(), merklePath)
+		fmt.Println("merklePathNew new\n", merklePathNew)
 		keyArr[i], _ = merklePath.GetKey(uint64(len(merklePath.KeyPath) - 1 - 0))
 	}
 

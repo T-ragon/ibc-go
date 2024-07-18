@@ -597,6 +597,6 @@ func main() {
 		if err != nil {
 			return
 		}
+		fmt.Printf("Hash Value%d\n", sps[i].ProofMetaList[0].HashValue)
 	}
-	fmt.Println(sps)
 }
