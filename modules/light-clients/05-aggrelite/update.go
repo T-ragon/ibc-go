@@ -192,8 +192,8 @@ func (cs ClientState) pruneOldestConsensusState(ctx sdk.Context, cdc codec.Binar
 
 	// if pruneHeight is set, delete consensus state and metadata
 	if pruneHeight != nil {
-		deleteConsensusState(clientStore, pruneHeight)
-		deleteConsensusMetadata(clientStore, pruneHeight)
+		//deleteConsensusState(clientStore, pruneHeight)
+		//deleteConsensusMetadata(clientStore, pruneHeight)
 	}
 }
 
