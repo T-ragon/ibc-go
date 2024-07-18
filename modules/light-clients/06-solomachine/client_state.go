@@ -59,10 +59,12 @@ func (cs ClientState) VerifyAggregateMembership(
 	height exported.Height,
 	delayTimePeriod uint64,
 	delayBlockPeriod uint64,
-	path exported.Path,
+	keyArr [][]byte,
 	leafNumber []uint64,
-	commitmentBytes [][]byte,
-	proof [][]byte) error {
+	values [][]byte,
+	proof [][]byte,
+	leafOps [][]byte,
+) error {
 	return nil
 }
 
