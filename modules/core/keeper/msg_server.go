@@ -531,6 +531,7 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 		proofArray[i] = data
 	}
 
+	ctx.Logger().Info("proofArray", proofArray)
 	leafOps := make([][]byte, len(msg.Leafops))
 	for i, leaf := range msg.Leafops {
 		data, err := leaf.Marshal()
@@ -540,6 +541,8 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 		}
 		leafOps[i] = data
 	}
+
+	ctx.Logger().Info("leafOps", leafOps)
 	cacheCtx, writeFn := ctx.CacheContext()
 	err = k.ChannelKeeper.RecvAggregatePacket(cacheCtx, capability, msg.Packets, proofArray, msg.PacketsLeafNumber, msg.ProofHeight, leafOps)
 

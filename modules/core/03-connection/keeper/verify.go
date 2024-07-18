@@ -3,6 +3,7 @@ package keeper
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"math"
 
 	errorsmod "cosmossdk.io/errors"
@@ -216,7 +217,8 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	if err != nil {
 		return err
 	}
-
+	fmt.Println("proofs passed to verify.go", proof)
+	fmt.Println("leafops passed to verify.go", leafOps)
 	//get time and block delay
 	timeDelay := connection.GetDelayPeriod()
 	blockDelay := k.getBlockDelay(ctx, connection)

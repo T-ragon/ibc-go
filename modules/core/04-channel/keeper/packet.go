@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"bytes"
+	"fmt"
 	ics23 "github.com/cosmos/ics23/go"
 	"slices"
 	"strconv"
@@ -142,6 +143,8 @@ func (k Keeper) RecvAggregatePacket(
 	proofHeight exported.Height,
 	leafOps [][]byte,
 ) error {
+	fmt.Println("Proofs passed to Packet", proof)
+	fmt.Println("leafOps passed to Packet", leafOps)
 	destPort := packets[0].GetDestPort()
 	destChannel := packets[0].GetDestChannel()
 	channel, found := k.GetChannel(ctx, destPort, destChannel)

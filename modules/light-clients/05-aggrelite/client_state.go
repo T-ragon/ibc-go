@@ -246,6 +246,8 @@ func (cs ClientState) VerifyAggregateMembership(
 	}
 
 	//values 就是所有跨链交易的哈希值
+	fmt.Println("proof passed to clientstate", proof)
+	fmt.Println("leafOps passed to clientstate", leafOps)
 	return verifyAggregateProof(cdc, leafNumber, values, proof, consensusState.Root.Hash, keyArr, leafOps)
 }
 
@@ -459,6 +461,7 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 	//var subProofs []*channeltypes.SubProof
 	subProofs := make([]*channeltypes.SubProof, len(proofs))
 	unMarshaSubProof(cdc, proofs, subProofs)
+	fmt.Println("subProofs", subProofs)
 	leafOpss := make([]*channeltypes.LeafOp, len(leafOps))
 	unMarShaLeafs(cdc, leafOps, leafOpss)
 	calculateLeaf(values, toIcs23(leafOpss[0]), keyArr)

@@ -566,22 +566,23 @@ func main() {
 
 	res := subProofMap[19]
 	fmt.Println(res)
+	//
+	//testLeaf1 := &types.LeafOp{
+	//	Hash:         types.HashOp_NO_HASH,
+	//	PrehashKey:   types.HashOp_SHA256,
+	//	PrehashValue: types.HashOp_SHA256,
+	//	Length:       types.LengthOp_VAR_PROTO,
+	//	Prefix:       []byte{0, 2, 248, 58},
+	//}
+	//
+	//bt, _ := testLeaf1.Marshal()
+	//fmt.Println(string(bt))
+	//
+	//backLeafOp1 := &types.LeafOp{}
+	//err = backLeafOp1.Unmarshal(bt)
+	//if err != nil {
+	//	return
+	//}
+	//fmt.Println(backLeafOp1)
 
-	testLeaf1 := &types.LeafOp{
-		Hash:         types.HashOp_NO_HASH,
-		PrehashKey:   types.HashOp_SHA256,
-		PrehashValue: types.HashOp_SHA256,
-		Length:       types.LengthOp_VAR_PROTO,
-		Prefix:       []byte{0, 2, 248, 58},
-	}
-
-	bt, _ := testLeaf1.Marshal()
-	fmt.Println(string(bt))
-
-	backLeafOp1 := &types.LeafOp{}
-	err = backLeafOp1.Unmarshal(bt)
-	if err != nil {
-		return
-	}
-	fmt.Println(backLeafOp1)
 }
