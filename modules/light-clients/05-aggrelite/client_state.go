@@ -460,9 +460,14 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 	//首先解码，得到subproof
 	//var subProofs []*channeltypes.SubProof
 	subProofs := make([]*channeltypes.SubProof, len(proofs))
-	unMarshaSubProof(cdc, proofs, subProofs)
-	fmt.Println("subProofs", subProofs)
 	leafOpss := make([]*channeltypes.LeafOp, len(leafOps))
+	for i := 0; i < len(proofs); i++ {
+		subProofs[i] = &channeltypes.SubProof{}
+	}
+	for i := 0; i < len(leafOpss); i++ {
+		leafOpss[i] = &channeltypes.LeafOp{}
+	}
+	unMarshaSubProof(cdc, proofs, subProofs)
 	unMarShaLeafs(cdc, leafOps, leafOpss)
 	calculateLeaf(values, toIcs23(leafOpss[0]), keyArr)
 	// 结合 leafNumber 检查values是否存在于subProofs

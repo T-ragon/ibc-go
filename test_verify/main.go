@@ -564,8 +564,6 @@ func main() {
 		subProofMap[sub.Number] = sub
 	}
 
-	res := subProofMap[19]
-	fmt.Println(res)
 	//
 	//testLeaf1 := &types.LeafOp{
 	//	Hash:         types.HashOp_NO_HASH,
@@ -585,4 +583,20 @@ func main() {
 	//}
 	//fmt.Println(backLeafOp1)
 
+	bts := make([][]byte, len(subProofs))
+	for i := 0; i < len(subProofs); i++ {
+		bts[i], _ = subProofs[i].Marshal()
+		fmt.Println(hex.EncodeToString(bts[i]))
+	}
+
+	// unmarshal
+	sps := make([]*types.SubProof, len(subProofs))
+	for i := 0; i < len(subProofs); i++ {
+		sps[i] = &types.SubProof{}
+		err := sps[i].Unmarshal(bts[i])
+		if err != nil {
+			return
+		}
+	}
+	fmt.Println(sps)
 }
