@@ -47,7 +47,19 @@ func (cs ClientState) UnpackInterfaces(unpacker codectypes.AnyUnpacker) error {
 	return cs.ConsensusState.UnpackInterfaces(unpacker)
 }
 
-func (cs ClientState) VerifyAggregateMembership(ctx sdk.Context, clientStore storetypes.KVStore, cdc codec.BinaryCodec, height exported.Height, delayTimePeriod uint64, delayBlockPeriod uint64, path exported.Path, leafNumber []uint64, value [][]byte, proof [][]byte) error {
+func (cs ClientState) VerifyAggregateMembership(
+	ctx sdk.Context,
+	clientStore storetypes.KVStore,
+	cdc codec.BinaryCodec,
+	height exported.Height,
+	delayTimePeriod uint64,
+	delayBlockPeriod uint64,
+	keyArr [][]byte,
+	leafNumber []uint64,
+	values [][]byte,
+	proof [][]byte,
+	leafOps [][]byte,
+) error {
 	//TODO implement me
 	panic("implement me")
 }
