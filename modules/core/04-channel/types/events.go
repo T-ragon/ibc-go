@@ -27,6 +27,8 @@ const (
 
 	EventTypeSendPacket          = "send_packet"
 	EventTypeRecvPacket          = "recv_packet"
+	EventTypeSetTxHash           = "set_tx_hash"
+	EventTypeGetTxHash           = "get_tx_hash"
 	EventTypeRecvAggregatePacket = "recv_aggregate_packet"
 	EventTypeWriteAck            = "write_acknowledgement"
 	EventTypeAcknowledgePacket   = "acknowledge_packet"

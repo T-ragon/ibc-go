@@ -177,6 +177,18 @@ func (k Keeper) SetNextSequenceAck(ctx sdk.Context, portID, channelID string, se
 	store.Set(host.NextSequenceAckKey(portID, channelID), bz)
 }
 
+func (k Keeper) GetPacketReceipts(ctx sdk.Context, portID, channelID []string, sequence []uint64) (string, bool) {
+	store := ctx.KVStore(k.storeKey)
+	bzs := make([][]byte, len(sequence))
+	for i := 0; i < len(sequence); i++ {
+		bzs[i] = store.Get(host.PacketReceiptKey(portID[i], channelID[i], sequence[i]))
+		if len(bzs[i]) == 0 {
+			return "", false
+		}
+	}
+	return string(bzs[0]), true
+}
+
 // GetPacketReceipt gets a packet receipt from the store
 func (k Keeper) GetPacketReceipt(ctx sdk.Context, portID, channelID string, sequence uint64) (string, bool) {
 	store := ctx.KVStore(k.storeKey)
@@ -186,6 +198,14 @@ func (k Keeper) GetPacketReceipt(ctx sdk.Context, portID, channelID string, sequ
 	}
 
 	return string(bz), true
+}
+
+func (k Keeper) SetPacketReceipts(ctx sdk.Context, portID, channelID []string, sequence []uint64) {
+	num := len(sequence)
+	for i := 0; i < num; i++ {
+		store := ctx.KVStore(k.storeKey)
+		store.Set(host.PacketReceiptKey(portID[i], channelID[i], sequence[i]), []byte{byte(1)})
+	}
 }
 
 // SetPacketReceipt sets an empty packet receipt to the store

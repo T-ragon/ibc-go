@@ -1,7 +1,6 @@
 package exported
 
 import (
-	channeltypes "github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
 	proto "github.com/cosmos/gogoproto/proto"
 
 	storetypes "cosmossdk.io/store/types"
@@ -104,7 +103,7 @@ type ClientState interface {
 		leafNumber []uint64,
 		value [][]byte,
 		proof [][]byte,
-		leafOps []*channeltypes.LeafOp,
+		leafOps [][]byte,
 	) error
 
 	// VerifyNonMembership is a generic proof verification method which verifies the absence of a given CommitmentPath at a specified height.

@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"bytes"
+	ics23 "github.com/cosmos/ics23/go"
 	"slices"
 	"strconv"
 
@@ -103,6 +104,32 @@ func (k Keeper) SendPacket(
 
 	return packet.GetSequence(), nil
 }
+func toIcs23s(leafOp []*types.LeafOp) []*ics23.LeafOp {
+	leafOps := make([]*ics23.LeafOp, len(leafOp))
+	for i, op := range leafOp {
+		leafOps[i] = toIcs23(op)
+	}
+	return leafOps
+}
+func toIcs23(leafOp *types.LeafOp) *ics23.LeafOp {
+	return &ics23.LeafOp{
+		Hash:         ics23.HashOp(leafOp.Hash),
+		PrehashKey:   ics23.HashOp(leafOp.PrehashKey),
+		PrehashValue: ics23.HashOp(leafOp.PrehashValue),
+		Length:       ics23.LengthOp(leafOp.Length),
+		Prefix:       leafOp.Prefix,
+	}
+}
+
+func getPacksInfos(packets []*types.Packet, sp, sc, dc, dp []string, s []uint64) {
+	for i, p := range packets {
+		sp[i] = p.SourcePort
+		sc[i] = p.SourceChannel
+		s[i] = p.Sequence
+		dp[i] = p.DestinationPort
+		dc[i] = p.DestinationChannel
+	}
+}
 
 // RecvAggregatePacket is called by a module in order to receive & process an IBC aggregatepacket
 // sent on the corresponding channel end on the counterparty chain.
@@ -113,52 +140,25 @@ func (k Keeper) RecvAggregatePacket(
 	proof [][]byte,
 	leafNumber []uint64,
 	proofHeight exported.Height,
-	leafOps []*types.LeafOp,
+	leafOps [][]byte,
 ) error {
-	channel, found := k.GetChannel(ctx, packets[0].GetDestPort(), packets[0].GetDestChannel())
+	destPort := packets[0].GetDestPort()
+	destChannel := packets[0].GetDestChannel()
+	channel, found := k.GetChannel(ctx, destPort, destChannel)
 	if !found {
-		return errorsmod.Wrap(types.ErrChannelNotFound, packets[0].GetDestChannel())
+		return errorsmod.Wrap(types.ErrChannelNotFound, destChannel)
 	}
 
 	if !slices.Contains([]types.State{types.OPEN, types.FLUSHING, types.FLUSHCOMPLETE}, channel.State) {
 		return errorsmod.Wrapf(types.ErrInvalidChannelState, "expected channel state to be one of [%s, %s, %s], but got %s", types.OPEN, types.FLUSHING, types.FLUSHCOMPLETE, channel.State)
 	}
 
-	// If counterpartyUpgrade is stored we need to ensure that the
-	// packet sequence is < counterparty next sequence send. If the
-	// counterparty is implemented correctly, this may only occur
-	// when we are in FLUSHCOMPLETE and the counterparty has already
-	// completed the channel upgrade.
-	counterpartyUpgrade, found := k.GetCounterpartyUpgrade(ctx, packets[0].GetDestPort(), packets[0].GetDestChannel())
-	if found {
-		counterpartyNextSequenceSend := counterpartyUpgrade.NextSequenceSend
-		if packets[0].GetSequence() >= counterpartyNextSequenceSend {
-			return errorsmod.Wrapf(types.ErrInvalidPacket, "cannot flush packet at sequence greater than or equal to counterparty next sequence send (%d) ≥ (%d).", packets[0].GetSequence(), counterpartyNextSequenceSend)
-		}
-	}
-
 	// Authenticate capability to ensure caller has authority to receive packet on this channel
-	capName := host.ChannelCapabilityPath(packets[0].GetDestPort(), packets[0].GetDestChannel())
+	capName := host.ChannelCapabilityPath(destPort, destChannel)
 	if !k.scopedKeeper.AuthenticateCapability(ctx, chanCap, capName) {
 		return errorsmod.Wrapf(
 			types.ErrInvalidChannelCapability,
 			"channel capability failed authentication for capability name %s", capName,
-		)
-	}
-
-	//这里可能要写一个循环进行循环检测
-	// packet must come from the channel's counterparty
-	if packets[0].GetSourcePort() != channel.Counterparty.PortId {
-		return errorsmod.Wrapf(
-			types.ErrInvalidPacket,
-			"packet source port doesn't match the counterparty's port (%s ≠ %s)", packets[0].GetSourcePort(), channel.Counterparty.PortId,
-		)
-	}
-
-	if packets[0].GetSourceChannel() != channel.Counterparty.ChannelId {
-		return errorsmod.Wrapf(
-			types.ErrInvalidPacket,
-			"packet source channel doesn't match the counterparty's channel (%s ≠ %s)", packets[0].GetSourceChannel(), channel.Counterparty.ChannelId,
 		)
 	}
 
@@ -177,21 +177,12 @@ func (k Keeper) RecvAggregatePacket(
 		)
 	}
 
-	// check if packet timed out by comparing it with the latest height of the chain
-	selfHeight, selfTimestamp := clienttypes.GetSelfHeight(ctx), uint64(ctx.BlockTime().UnixNano())
-	timeout := types.NewTimeout(packets[0].GetTimeoutHeight().(clienttypes.Height), packets[0].GetTimeoutTimestamp())
-	if timeout.Elapsed(selfHeight, selfTimestamp) {
-		return errorsmod.Wrap(timeout.ErrTimeoutElapsed(selfHeight, selfTimestamp), "packet timeout elapsed")
-	}
-
 	sourcePorts := make([]string, len(packets))
 	sourceChannels := make([]string, len(packets))
-	sourceSequences := make([]uint64, len(packets))
-	for i, packet := range packets {
-		sourcePorts[i] = packet.GetSourcePort()
-		sourceChannels[i] = packet.GetSourceChannel()
-		sourceSequences[i] = packet.GetSequence()
-	}
+	destinationSequences := make([]uint64, len(packets))
+	destinationChannels := make([]string, len(packets))
+	destPorts := make([]string, len(packets))
+	getPacksInfos(packets, sourcePorts, sourceChannels, destinationChannels, destPorts, destinationSequences)
 	commits := make([][]byte, len(packets))
 	// 所有packets格式化后的commitments
 	for i, packet := range packets {
@@ -199,7 +190,7 @@ func (k Keeper) RecvAggregatePacket(
 	}
 	if err := k.connectionKeeper.VerifyAggregatePacketCommitment(
 		ctx, connectionEnd, proofHeight, proof, sourcePorts, sourceChannels,
-		sourceSequences, leafNumber, commits, leafOps,
+		destinationSequences, leafNumber, commits, leafOps,
 	); err != nil {
 		return errorsmod.Wrap(err, "couldn't verify counterparty packet commitment")
 	}
@@ -208,7 +199,7 @@ func (k Keeper) RecvAggregatePacket(
 	// attacks on packets processed in previous lifecycles of a channel. After a successful channel
 	// upgrade all packets under the recvStartSequence will have been processed and thus should be
 	// rejected.
-	recvStartSequence, _ := k.GetRecvStartSequence(ctx, packets[0].GetDestPort(), packets[0].GetDestChannel())
+	recvStartSequence, _ := k.GetRecvStartSequence(ctx, destPort, destChannel)
 	if packets[0].GetSequence() < recvStartSequence {
 		return errorsmod.Wrap(types.ErrPacketReceived, "packet already processed in previous channel upgrade")
 	}
@@ -218,9 +209,9 @@ func (k Keeper) RecvAggregatePacket(
 		// REPLAY PROTECTION: Packet receipts will indicate that a packet has already been received
 		// on unordered channels. Packet receipts must not be pruned, unless it has been marked stale
 		// by the increase of the recvStartSequence.
-		_, found := k.GetPacketReceipt(ctx, packets[0].GetDestPort(), packets[0].GetDestChannel(), packets[0].GetSequence())
+		_, found := k.GetPacketReceipts(ctx, destPorts, destinationChannels, destinationSequences)
 		if found {
-			emitRecvPacketEvent(ctx, packets[0], channel)
+			emitRecvAggregatePacketEvent(ctx, packets[0], channel)
 			// This error indicates that the packet has already been relayed. Core IBC will
 			// treat this error as a no-op in order to prevent an entire relay transaction
 			// from failing and consuming unnecessary fees.
@@ -231,42 +222,28 @@ func (k Keeper) RecvAggregatePacket(
 		// For unordered channels we must set the receipt so it can be verified on the other side.
 		// This receipt does not contain any data, since the packet has not yet been processed,
 		// it's just a single store key set to a single byte to indicate that the packet has been received
-		k.SetPacketReceipt(ctx, packets[0].GetDestPort(), packets[0].GetDestChannel(), packets[0].GetSequence())
+		k.SetPacketReceipts(ctx, destPorts, destinationChannels, destinationSequences)
 
 	case types.ORDERED:
-		// check if the packet is being received in order
-		nextSequenceRecv, found := k.GetNextSequenceRecv(ctx, packets[0].GetDestPort(), packets[0].GetDestChannel())
-		if !found {
-			return errorsmod.Wrapf(
-				types.ErrSequenceReceiveNotFound,
-				"destination port: %s, destination channel: %s", packets[0].GetDestPort(), packets[0].GetDestChannel(),
-			)
+		for i := 0; i < len(packets); i++ {
+			nextSequenceRecv, found := k.GetNextSequenceRecv(ctx, destPorts[i], destinationChannels[i])
+			if !found {
+				return errorsmod.Wrapf(
+					types.ErrSequenceReceiveNotFound,
+					"destination port: %s, destination channel: %s", destPorts[i], destinationChannels[i],
+				)
+			}
+			if destinationSequences[i] < nextSequenceRecv {
+				emitRecvAggregatePacketEvent(ctx, packets[0], channel)
+				// This error indicates that the packet has already been relayed. Core IBC will
+				// treat this error as a no-op in order to prevent an entire relay transaction
+				// from failing and consuming unnecessary fees.
+				return types.ErrNoOpMsg
+			}
+
+			nextSequenceRecv++
+			k.SetNextSequenceRecv(ctx, destPorts[i], destinationChannels[i], nextSequenceRecv)
 		}
-
-		if packets[0].GetSequence() < nextSequenceRecv {
-			emitRecvPacketEvent(ctx, packets[0], channel)
-			// This error indicates that the packet has already been relayed. Core IBC will
-			// treat this error as a no-op in order to prevent an entire relay transaction
-			// from failing and consuming unnecessary fees.
-			return types.ErrNoOpMsg
-		}
-
-		//// REPLAY PROTECTION: Ordered channels require packets to be received in a strict order.
-		//// Any out of order or previously received packets are rejected.
-		//if packets[0].GetSequence() != nextSequenceRecv {
-		//	return errorsmod.Wrapf(
-		//		types.ErrPacketSequenceOutOfOrder,
-		//		"packet sequence ≠ next receive sequence (%d ≠ %d)", packets[0].GetSequence(), nextSequenceRecv,
-		//	)
-		//}
-
-		// All verification complete, update state
-		// In ordered case, we must increment nextSequenceRecv
-		nextSequenceRecv++
-
-		// incrementing nextSequenceRecv and storing under this chain's channelEnd identifiers
-		// Since this is the receiving chain, our channelEnd is packet's destination port and channel
-		k.SetNextSequenceRecv(ctx, packets[0].GetDestPort(), packets[0].GetDestChannel(), nextSequenceRecv)
 	}
 
 	// log that a packet has been received & executed

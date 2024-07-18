@@ -210,7 +210,7 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	sequence []uint64,
 	leafNumber []uint64,
 	values [][]byte,
-	leafOps []*channeltypes.LeafOp) error {
+	leafOps [][]byte) error {
 	clientID := connection.GetClientID()
 	clientState, clientStore, err := k.getClientStateAndVerificationStore(ctx, clientID)
 	if err != nil {
@@ -224,7 +224,7 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	keyArr := make([][]byte, len(channelID))
 	for i := 0; i < len(channelID); i++ {
 		merklePath := commitmenttypes.NewMerklePath(host.PacketCommitmentPath(portID[i], channelID[i], sequence[i]))
-		merklePath, err = commitmenttypes.ApplyPrefix(connection.GetCounterparty().GetPrefix(), merklePath)
+		merklePath, err = commitmenttypes.ApplyPrefix(connection.GetCounterparty().GetPrefix(), merklePath) //这行代码
 		if err != nil {
 			return err
 		}

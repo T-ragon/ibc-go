@@ -4,10 +4,9 @@ import (
 	"context"
 	errorsmod "cosmossdk.io/errors"
 	"fmt"
-	metrics "github.com/hashicorp/go-metrics"
-
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	metrics "github.com/hashicorp/go-metrics"
 
 	clienttypes "github.com/T-ragon/ibc-go/v9/modules/core/02-client/types"
 	connectiontypes "github.com/T-ragon/ibc-go/v9/modules/core/03-connection/types"
@@ -459,6 +458,10 @@ func (k Keeper) ChannelSetRootHashValue(goctx context.Context, msg *channeltypes
 	}
 
 	err = k.ChannelKeeper.SetTxHashValue(ctx, msg.Key, msg.Value)
+	if err != nil {
+		ctx.Logger().Error("set root hash failed")
+		return nil, errorsmod.Wrapf(channeltypes.ErrSetRootHash, "set hash failed")
+	}
 	return &channeltypes.MsgSetHashValueResponse{Result: channeltypes.SUCCESS}, nil
 }
 
@@ -476,11 +479,23 @@ func (k Keeper) ChannelIsRootHashExisted(goctx context.Context, msg *channeltype
 		ctx.Logger().Error("receive packet failed", "port-id", msg.Key.SourcePort, "error", errorsmod.Wrapf(porttypes.ErrInvalidRoute, "route not found to module: %s", module))
 		return nil, errorsmod.Wrapf(porttypes.ErrInvalidRoute, "route not found to module: %s", module)
 	}
+
+	err = k.ChannelKeeper.IsHashExisted(ctx, msg.Key, msg.Value)
+	if err != nil {
+		ctx.Logger().Error("check hash failed")
+		return nil, errorsmod.Wrapf(channeltypes.ErrGetRootHashNotFount, "check hash failed")
+	}
 	return &channeltypes.MsgCompareHashValueResponse{Result: channeltypes.SUCCESS}, nil
 }
 
 // RecvAggregatePacket AggregatePacket defines a rpc handler method for AggregatePacket
 func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.MsgAggregatePacket) (*channeltypes.MsgAggregatePacketResponse, error) {
+
+	sourcePort := msg.Packets[0].SourcePort
+	sourceChannel := msg.Packets[0].SourceChannel
+	destinationPort := msg.Packets[0].DestinationPort
+	destinationChannel := msg.Packets[0].DestinationChannel
+
 	ctx := sdk.UnwrapSDKContext(goctx)
 
 	ctx.Logger().Info("Relayer Message received!", msg)
@@ -489,16 +504,16 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 		ctx.Logger().Error("receive packet failed", "error", errorsmod.Wrap(err, "Invalid address for msg Signer"))
 		return nil, errorsmod.Wrap(err, "Invalid address for msg Signer")
 	}
-	module, capability, err := k.ChannelKeeper.LookupModuleByChannel(ctx, msg.Packets[0].DestinationPort, msg.Packets[0].DestinationChannel)
+	module, capability, err := k.ChannelKeeper.LookupModuleByChannel(ctx, destinationPort, destinationChannel)
 	if err != nil {
-		ctx.Logger().Error("receive packet failed", "port-id", msg.Packets[0].SourcePort, "channel-id", msg.Packets[0].SourceChannel, "error", errorsmod.Wrap(err, "could not retrieve module from port-id"))
+		ctx.Logger().Error("receive packet failed", "port-id", sourcePort, "channel-id", sourceChannel, "error", errorsmod.Wrap(err, "could not retrieve module from port-id"))
 		return nil, errorsmod.Wrap(err, "could not retrieve module from port-id")
 	}
 
 	//Retrieve callbacks from router
 	cbs, ok := k.Router.GetRoute(module)
 	if !ok {
-		ctx.Logger().Error("receive packet failed", "port-id", msg.Packets[0].SourcePort, "error", errorsmod.Wrapf(porttypes.ErrInvalidRoute, "route not found to module: %s", module))
+		ctx.Logger().Error("receive packet failed", "port-id", sourcePort, "error", errorsmod.Wrapf(porttypes.ErrInvalidRoute, "route not found to module: %s", module))
 		return nil, errorsmod.Wrapf(porttypes.ErrInvalidRoute, "route not found to module: %s", module)
 	}
 
@@ -515,31 +530,28 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 		}
 		proofArray = append(proofArray, data)
 	}
-	////使用匿名函数
-	//convertToPacketI := func(slice interface{}) []exported.PacketI {
-	//	v := reflect.ValueOf(slice)
-	//	if v.Kind() != reflect.Slice {
-	//		panic("convertToPacketI slice is not a slice")
-	//	}
-	//	packetIArray := make([]exported.PacketI, v.Len())
-	//	for i := 0; i < v.Len(); i++ {
-	//		packetIArray[i] = v.Index(i).Interface().(exported.PacketI)
-	//	}
-	//	return packetIArray
-	//}
-	//packets := convertToPacketI(msg.Packets)
+
+	var leafOps [][]byte
+	for _, leaf := range msg.Leafops {
+		data, err := k.cdc.Marshal(leaf)
+		if err != nil {
+			fmt.Println("Marshaing error:", err)
+			continue
+		}
+		leafOps = append(leafOps, data)
+	}
 	cacheCtx, writeFn := ctx.CacheContext()
-	err = k.ChannelKeeper.RecvAggregatePacket(cacheCtx, capability, msg.Packets, proofArray, msg.PacketsLeafNumber, msg.ProofHeight, msg.Leafops)
+	err = k.ChannelKeeper.RecvAggregatePacket(cacheCtx, capability, msg.Packets, proofArray, msg.PacketsLeafNumber, msg.ProofHeight, leafOps)
 
 	switch err {
 	case nil:
 		writeFn()
 	case channeltypes.ErrNoOpMsg:
 		// no-ops do not need event emission as they will be ignored
-		ctx.Logger().Debug("no-op on redundant relay", "port-id", msg.Packets[0].SourcePort, "channel-id", msg.Packets[0].SourceChannel)
+		ctx.Logger().Debug("no-op on redundant relay", "port-id", sourcePort, "channel-id", sourceChannel)
 		return &channeltypes.MsgAggregatePacketResponse{Result: channeltypes.NOOP}, nil
 	default:
-		ctx.Logger().Error("receive packet failed", "port-id", msg.Packets[0].SourcePort, "channel-id", msg.Packets[0].SourceChannel, "error", errorsmod.Wrap(err, "receive packet verification failed"))
+		ctx.Logger().Error("receive packet failed", "port-id", sourcePort, "channel-id", sourceChannel, "error", errorsmod.Wrap(err, "receive packet verification failed"))
 		return nil, errorsmod.Wrap(err, "receive packet verification failed")
 	}
 
@@ -565,17 +577,17 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 	}
 
 	defer telemetry.IncrCounterWithLabels(
-		[]string{"tx", "msg", "ibc", channeltypes.EventTypeRecvPacket},
+		[]string{"tx", "msg", "ibc", channeltypes.EventTypeRecvAggregatePacket},
 		1,
 		[]metrics.Label{
-			telemetry.NewLabel(coretypes.LabelSourcePort, msg.Packets[0].SourcePort),
-			telemetry.NewLabel(coretypes.LabelSourceChannel, msg.Packets[0].SourceChannel),
-			telemetry.NewLabel(coretypes.LabelDestinationPort, msg.Packets[0].DestinationPort),
-			telemetry.NewLabel(coretypes.LabelDestinationChannel, msg.Packets[0].DestinationChannel),
+			telemetry.NewLabel(coretypes.LabelSourcePort, sourcePort),
+			telemetry.NewLabel(coretypes.LabelSourceChannel, sourceChannel),
+			telemetry.NewLabel(coretypes.LabelDestinationPort, destinationPort),
+			telemetry.NewLabel(coretypes.LabelDestinationChannel, destinationChannel),
 		},
 	)
 
-	ctx.Logger().Info("receive packet callback succeeded", "port-id", msg.Packets[0].SourcePort, "channel-id", msg.Packets[0].SourceChannel, "result", channeltypes.SUCCESS.String())
+	ctx.Logger().Info("receive packet callback succeeded", "port-id", sourcePort, "channel-id", sourceChannel, "result", channeltypes.SUCCESS.String())
 
 	return &channeltypes.MsgAggregatePacketResponse{Result: channeltypes.SUCCESS}, nil
 }

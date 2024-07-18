@@ -2,7 +2,6 @@ package types
 
 import (
 	storetypes "cosmossdk.io/store/types"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	connectiontypes "github.com/T-ragon/ibc-go/v9/modules/core/03-connection/types"
@@ -45,7 +44,7 @@ type ConnectionKeeper interface {
 		sequence []uint64,
 		leafNumber []uint64,
 		commitmentBytes [][]byte,
-		leafOps []*LeafOp,
+		leafOps [][]byte,
 	) error
 
 	IsHashExisted(

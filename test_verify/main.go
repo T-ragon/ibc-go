@@ -542,15 +542,6 @@ func main() {
 
 	}
 
-	//merklePath := commitmenttypes.NewMerklePath(host.PacketCommitmentPath(portID, channelID, sequence1))
-	//merklePath = commitmenttypes.NewMerklePath(append([]string{"ibc"}, merklePath.KeyPath...)...)
-	//key1, err := merklePath.GetKey(uint64(len(merklePath.KeyPath) - 1 - 0))
-	//key2, err := merklePath.GetKey(uint64(len(merklePath.KeyPath) - 1 - 1))
-	//fmt.Println(key1)
-	//if err != nil {
-	//	panic(err)
-	//}
-
 	root := []byte{79, 0, 204, 97, 39, 212, 96, 216, 162, 91, 190, 85, 214, 3, 177, 75, 67, 159, 144, 105, 240, 20, 72, 16, 196, 190, 78, 206, 23, 74, 44, 113}
 	err, verified := aggrelite.MainVerifyAggregateProof(
 		msgAggregatePacket.PacketsLeafNumber,
@@ -568,4 +559,11 @@ func main() {
 		fmt.Println("Verified Failure!")
 	}
 
+	subProofMap := make(map[uint64]*types.SubProof)
+	for _, sub := range subProofs {
+		subProofMap[sub.Number] = sub
+	}
+
+	res := subProofMap[19]
+	fmt.Println(res)
 }

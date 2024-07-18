@@ -228,7 +228,7 @@ func (cs ClientState) VerifyAggregateMembership(
 	leafNumber []uint64,
 	values [][]byte,
 	proof [][]byte,
-	leafOps []*channeltypes.LeafOp) error {
+	leafOps [][]byte) error {
 	if cs.GetLatestHeight().LT(height) {
 		return errorsmod.Wrapf(
 			ibcerrors.ErrInvalidHeight,
@@ -429,30 +429,46 @@ func toIcs23(leafOp *types.LeafOp) *ics23.LeafOp {
 	}
 }
 
+func unMarshaSubProof(cdc codec.BinaryCodec, bytes [][]byte, subProofs []*channeltypes.SubProof) {
+	for i, subProof := range bytes {
+		err := cdc.Unmarshal(subProof, subProofs[i])
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+func unMarShaLeafs(cdc codec.BinaryCodec, bytes [][]byte, leafOps []*channeltypes.LeafOp) {
+	for i, leaf := range bytes {
+		err := cdc.Unmarshal(leaf, leafOps[i])
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
 // leafNumber 指明叶子结点位于哪一层
 func verifyAggregateProof(cdc codec.BinaryCodec,
 	leafNumber []uint64,
 	values [][]byte,
-	proof [][]byte,
+	proofs [][]byte,
 	root []byte,
 	keyArr [][]byte,
-	leafOps []*types.LeafOp) error {
+	leafOps [][]byte) error {
 	//首先解码，得到subproof
-	var subProofs []channeltypes.SubProof
-	for i, subProof := range proof {
-		err := cdc.Unmarshal(subProof, &subProofs[i])
-		if err != nil {
-			return errorsmod.Wrap(commitmenttypes.ErrInvalidProof, "failed to unmarshal proof into AggreLite Subproof")
-		}
-	}
-	calculateLeaf(values, toIcs23(leafOps[0]), keyArr)
+	//var subProofs []*channeltypes.SubProof
+	subProofs := make([]*channeltypes.SubProof, len(proofs))
+	unMarshaSubProof(cdc, proofs, subProofs)
+	leafOpss := make([]*channeltypes.LeafOp, len(leafOps))
+	unMarShaLeafs(cdc, leafOps, leafOpss)
+	calculateLeaf(values, toIcs23(leafOpss[0]), keyArr)
 	// 结合 leafNumber 检查values是否存在于subProofs
 	subProofMap := make(map[uint64]*types.SubProof)
-	for i, subProof := range subProofs {
-		subProofMap[subProofs[i].Number] = &subProof
+	for _, subProof := range subProofs {
+		subProofMap[subProof.Number] = subProof
 	}
 	for j, value := range values {
-		subProof := subProofMap[uint64(j)]
+		subProof := subProofMap[leafNumber[j]]
 		found := false
 		if subProof != nil {
 			for _, proofMeta := range subProof.ProofMetaList {
@@ -471,32 +487,6 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 			return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
 		}
 	}
-	//for j, value := range values {
-	//	valueLevel := leafNumber[j]
-	//	found := false
-	//	for _, subProof := range subProofs {
-	//		// 找到叶子结点所在的层次
-	//		if subProof.Number == valueLevel {
-	//			for _, proofMeta := range subProof.ProofMetaList {
-	//				meta1 := proofMeta.HashValue
-	//				err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
-	//				if err != nil {
-	//					return err
-	//				}
-	//				if bytes.Equal(meta1, value) || contains {
-	//					found = true
-	//					break
-	//				}
-	//			}
-	//		}
-	//		if found {
-	//			break
-	//		}
-	//	}
-	//	if !found {
-	//		return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
-	//	}
-	//}
 
 	// 对SubProof原地排序
 	sort.Slice(subProofs, func(i, j int) bool {

@@ -56,4 +56,6 @@ var (
 	ErrTimeoutElapsed                  = errorsmod.Register(SubModuleName, 40, "timeout elapsed")
 	ErrPruningSequenceStartNotFound    = errorsmod.Register(SubModuleName, 41, "pruning sequence start not found")
 	ErrRecvStartSequenceNotFound       = errorsmod.Register(SubModuleName, 42, "recv start sequence not found")
+	ErrSetRootHash                     = errorsmod.Register(SubModuleName, 43, "set root hash error")
+	ErrGetRootHashNotFount             = errorsmod.Register(SubModuleName, 44, "get root hash not fount")
 )
