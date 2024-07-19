@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"bytes"
-	"fmt"
 	ics23 "github.com/cosmos/ics23/go"
 	"slices"
 	"strconv"
@@ -149,7 +148,6 @@ func (k Keeper) RecvAggregatePacket(
 	if !found {
 		return errorsmod.Wrap(types.ErrChannelNotFound, destChannel)
 	}
-	fmt.Println("88888888888888888888888888888", proofHeight.GetRevisionHeight())
 	if !slices.Contains([]types.State{types.OPEN, types.FLUSHING, types.FLUSHCOMPLETE}, channel.State) {
 		return errorsmod.Wrapf(types.ErrInvalidChannelState, "expected channel state to be one of [%s, %s, %s], but got %s", types.OPEN, types.FLUSHING, types.FLUSHCOMPLETE, channel.State)
 	}

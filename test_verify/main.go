@@ -133,87 +133,116 @@ func PrintSubProofs(proofs []SubProof) {
 
 func main() {
 	packets := []*types.Packet{
-		{Sequence: 4379,
+		{Sequence: 1,
 			SourcePort:         "blog",
-			SourceChannel:      "channel-0",
+			SourceChannel:      "channel-4",
 			DestinationPort:    "blog",
-			DestinationChannel: "channel-1",
+			DestinationChannel: "channel-5",
 			Data: []byte{18, 59, 10, 1, 49, 18, 7, 104, 101, 108, 108, 111, 32, 49, 26, 45, 99, 111, 115, 109, 111, 115,
-				49, 121, 106, 50, 112, 57, 114, 119, 102, 110, 119, 56, 113, 102, 53, 50, 110, 122, 119, 102, 103, 102,
-				110, 100, 107, 101, 102, 116, 107, 112, 57, 108, 113, 101, 57, 104, 118, 54, 99},
+				49, 100, 104, 106, 99, 109, 109, 122, 113, 100, 119, 118, 121, 113, 99, 108, 48, 104, 48, 57, 102, 114,
+				117, 57, 104, 97, 120, 112, 99, 115, 109, 117, 121, 121, 119, 122, 104, 48, 52},
 			TimeoutHeight: clienttypes.Height{
 				RevisionHeight: 0,
 				RevisionNumber: 0,
 			},
-			TimeoutTimestamp: 1721041650995474000},
-		{Sequence: 4380,
+			TimeoutTimestamp: 1721323200856042000},
+		{Sequence: 2,
 			SourcePort:         "blog",
-			SourceChannel:      "channel-0",
+			SourceChannel:      "channel-4",
 			DestinationPort:    "blog",
-			DestinationChannel: "channel-1",
+			DestinationChannel: "channel-5",
 			Data: []byte{18, 59, 10, 1, 50, 18, 7, 104, 101, 108, 108, 111, 32, 50, 26, 45, 99, 111, 115, 109, 111, 115,
-				49, 53, 115, 118, 113, 51, 52, 110, 52, 51, 50, 51, 100, 56, 102, 55, 53, 112, 55, 118, 109, 57, 55, 53,
-				106, 107, 115, 119, 52, 107, 117, 99, 119, 119, 117, 109, 100, 118, 50},
+				49, 107, 55, 99, 108, 104, 110, 97, 57, 119, 103, 112, 110, 103, 97, 119, 109, 115, 56, 110, 103, 52, 118,
+				112, 99, 101, 97, 57, 120, 109, 51, 99, 53, 103, 113, 117, 120, 101, 108},
 			TimeoutHeight: clienttypes.Height{
 				RevisionNumber: 0,
 				RevisionHeight: 0,
 			},
-			TimeoutTimestamp: 1721041650995474000},
-		{Sequence: 4381,
+			TimeoutTimestamp: 1721323200856042000},
+		{Sequence: 3,
 			SourcePort:         "blog",
-			SourceChannel:      "channel-0",
+			SourceChannel:      "channel-4",
 			DestinationPort:    "blog",
-			DestinationChannel: "channel-1",
+			DestinationChannel: "channel-5",
 			Data: []byte{18, 59, 10, 1, 51, 18, 7, 104, 101, 108, 108, 111, 32, 51, 26, 45, 99, 111, 115, 109, 111, 115,
-				49, 104, 97, 107, 108, 52, 56, 50, 102, 100, 117, 102, 110, 118, 97, 53, 106, 100, 122, 48, 107, 122, 115,
-				107, 120, 51, 57, 119, 53, 57, 119, 108, 107, 118, 121, 56, 108, 119, 122},
+				49, 56, 48, 113, 56, 57, 110, 121, 122, 48, 51, 112, 106, 50, 116, 119, 120, 110, 114, 102, 100, 107, 110,
+				52, 115, 103, 52, 55, 100, 109, 115, 103, 50, 121, 118, 53, 109, 101, 56},
 			TimeoutHeight: clienttypes.Height{
 				RevisionHeight: 0,
 				RevisionNumber: 0,
 			},
-			TimeoutTimestamp: 1721041650995474000},
+			TimeoutTimestamp: 1721323200856042000},
+		{Sequence: 4,
+			SourcePort:         "blog",
+			SourceChannel:      "channel-4",
+			DestinationPort:    "blog",
+			DestinationChannel: "channel-5",
+			Data: []byte{18, 59, 10, 1, 52, 18, 7, 104, 101, 108, 108, 111, 32, 52, 26, 45, 99, 111, 115, 109, 111, 115,
+				49, 100, 114, 116, 110, 100, 57, 54, 108, 100, 52, 99, 113, 115, 113, 117, 114, 50, 117, 48, 109, 112,
+				106, 55, 109, 104, 57, 109, 100, 97, 99, 119, 112, 103, 106, 97, 108, 113, 115},
+			TimeoutHeight: clienttypes.Height{
+				RevisionHeight: 0,
+				RevisionNumber: 0,
+			},
+			TimeoutTimestamp: 1721323200856042000},
 	}
 
-	packets_leaf_number := []uint64{18, 18, 18}
+	packets_leaf_number := []uint64{12, 11, 12, 12}
 
 	proofMeta1_1 := types.ProofMeta{
-		HashValue: []byte{176, 231, 184, 226, 146, 49, 64, 172, 111, 181, 42, 63, 174, 174, 160, 224, 49, 72, 60, 97, 55, 99, 138, 216, 17, 166, 183, 132, 90, 223, 143, 52},
+		HashValue: []byte{41, 140, 2, 24, 89, 47, 191, 239, 182, 64, 201, 183, 13, 96, 145, 233, 62, 41, 220, 8, 242, 56,
+			228, 207, 220, 200, 61, 86, 87, 190, 158, 58},
 		PathInnerOp: &types.InnerOp{
-			Hash:   types.HashOp_SHA256,
-			Prefix: []byte{2, 4, 248, 58, 32, 142, 126, 172, 186, 149, 92, 237, 32, 100, 201, 231, 66, 135, 117, 14, 126, 175, 59, 159, 37, 141, 41, 213, 226, 133, 154, 78, 178, 139, 167, 172, 100, 32},
+			Hash: types.HashOp_SHA256,
+			Prefix: []byte{2, 4, 174, 2, 32, 89, 198, 220, 26, 61, 155, 75, 157, 49, 143, 158, 6, 204, 137, 99, 229, 45,
+				58, 165, 63, 221, 20, 196, 129, 198, 52, 8, 43, 33, 94, 25, 168, 32},
 			Suffix: []byte{},
 		},
 		RealValue: []byte{},
 	}
-	proofmeta1_2 := types.ProofMeta{
-		HashValue: []byte{52, 118, 52, 149, 177, 49, 36, 71, 168, 236, 103, 199, 192, 246, 177, 145, 12, 94, 91, 132, 161, 112, 91, 195, 201, 155, 96, 214, 15, 39, 166, 2},
+
+	proofMeta1_2 := types.ProofMeta{
+		HashValue: []byte{253, 131, 153, 104, 115, 227, 234, 48, 234, 64, 128, 158, 96, 227, 55, 107, 35, 97, 87, 221, 212,
+			234, 208, 21, 254, 132, 3, 89, 64, 224, 184, 11},
 		PathInnerOp: &types.InnerOp{
 			Hash:   types.HashOp_SHA256,
-			Prefix: []byte{2, 4, 248, 58, 32},
-			Suffix: []byte{32, 50, 108, 224, 37, 60, 145, 34, 71, 146, 118, 158, 213, 171, 197, 120, 206, 172, 50, 245, 94, 239, 245, 115, 2, 105, 208, 117, 138, 202, 8, 253, 82},
+			Prefix: []byte{2, 4, 174, 2, 32},
+			Suffix: []byte{32, 23, 202, 40, 112, 252, 50, 152, 76, 171, 175, 18, 116, 184, 108, 214, 160, 47, 53, 170, 155, 43, 121, 185, 158, 175, 228, 195, 32, 133, 195, 24, 181},
 		},
 		RealValue: []byte{},
 	}
-
 	subProof1 := types.SubProof{
-		Number:        18,
-		ProofMetaList: []*types.ProofMeta{&proofMeta1_1, &proofmeta1_2},
+		Number:        12,
+		ProofMetaList: []*types.ProofMeta{&proofMeta1_1, &proofMeta1_2},
 	}
 
 	proofMeta2_1 := types.ProofMeta{
-		HashValue: []byte{120, 191, 133, 161, 188, 217, 87, 223, 45, 42, 42, 42, 38, 24, 8, 162, 204, 115, 92, 199, 174, 240, 127, 158, 56, 16, 8, 103, 206, 113, 130, 60},
+		HashValue: []byte{197, 125, 187, 4, 183, 161, 40, 100, 241, 37, 169, 35, 63, 186, 4, 248, 185, 144, 109, 202, 100,
+			117, 244, 196, 78, 39, 234, 124, 236, 125, 224, 230},
 		PathInnerOp: &types.InnerOp{
-			Hash:   types.HashOp_SHA256,
-			Prefix: []byte{4, 8, 248, 58, 32, 105, 39, 21, 110, 221, 211, 97, 169, 254, 51, 14, 27, 61, 232, 140, 176, 245, 142, 88, 130, 124, 63, 28, 26, 48, 46, 236, 168, 236, 196, 204, 207, 32},
+			Hash: types.HashOp_SHA256,
+			Prefix: []byte{4, 8, 174, 2, 32, 162, 92, 236, 189, 37, 157, 132, 68, 15, 98, 141, 76, 213, 170, 9, 34, 163,
+				182, 199, 66, 90, 25, 166, 22, 24, 117, 193, 29, 178, 153, 128, 202, 32},
 			Suffix: []byte{},
 		},
 		RealValue: []byte{},
 	}
 
+	proofMeta2_2 := types.ProofMeta{
+		HashValue: []byte{78, 21, 150, 248, 17, 8, 179, 115, 94, 143, 97, 66, 79, 60, 255, 179, 14, 224, 207, 221, 61, 114,
+			10, 151, 212, 163, 253, 25, 30, 151, 6, 100},
+		PathInnerOp: &types.InnerOp{
+			Hash: types.HashOp_SHA256,
+			Prefix: []byte{4, 6, 174, 2, 32, 40, 105, 157, 199, 222, 39, 59, 93, 140, 188, 175, 80, 140, 154, 111, 241, 51,
+				4, 121, 145, 168, 156, 167, 113, 159, 78, 211, 192, 82, 195, 39, 233, 32},
+			Suffix: []byte{},
+		},
+		RealValue: []byte{},
+	}
 	// 创建 SubProof 对象
 	subProof2 := types.SubProof{
-		Number:        17,
-		ProofMetaList: []*types.ProofMeta{&proofMeta2_1},
+		Number:        11,
+		ProofMetaList: []*types.ProofMeta{&proofMeta2_1, &proofMeta2_2},
 	}
 
 	proofMeta3_1 := types.ProofMeta{
@@ -292,7 +321,7 @@ func main() {
 
 	// 创建 SubProof 6 对象
 	subProof7 := types.SubProof{
-		Number:        12,
+		Number:        19,
 		ProofMetaList: []*types.ProofMeta{&proofMeta7_1},
 	}
 
@@ -309,7 +338,7 @@ func main() {
 
 	// 创建 SubProof 5 对象
 	subProof8 := types.SubProof{
-		Number:        11,
+		Number:        20,
 		ProofMetaList: []*types.ProofMeta{&proofMeta8_1},
 	}
 
@@ -487,10 +516,10 @@ func main() {
 	subProofs := []*types.SubProof{&subProof1, &subProof2, &subProof3, &subProof4, &subProof5, &subProof6, &subProof7, &subProof8,
 		&subProof9, &subProof10, &subProof11, &subProof12, &subProof13, &subProof14, &subProof15, &subProof16, &subProof17, &subProof18, &subProof19}
 
-	signer := "cosmos1572gdjrjunstehheghljkj7w85dnmt7rvx04pn"
+	signer := "cosmos1uzfl8hhkjytqzdkfzdnj2f04mhlpvzdjlyy6gq"
 	height := clienttypes.Height{
 		RevisionNumber: 0,
-		RevisionHeight: 3772,
+		RevisionHeight: 121,
 	}
 
 	msgAggregatePacket := types.MsgAggregatePacket{
@@ -511,7 +540,7 @@ func main() {
 		PrehashKey:   ics23.HashOp_NO_HASH,
 		PrehashValue: ics23.HashOp_SHA256,
 		Length:       ics23.LengthOp_VAR_PROTO,
-		Prefix:       []byte{0, 2, 248, 58},
+		Prefix:       []byte{0, 2, 174, 2},
 	}
 
 	leafOp2 := ics23.LeafOp{
@@ -519,7 +548,7 @@ func main() {
 		PrehashKey:   ics23.HashOp_NO_HASH,
 		PrehashValue: ics23.HashOp_SHA256,
 		Length:       ics23.LengthOp_VAR_PROTO,
-		Prefix:       []byte{0, 2, 248, 58},
+		Prefix:       []byte{0, 2, 174, 2},
 	}
 
 	leafOp3 := ics23.LeafOp{
@@ -527,7 +556,7 @@ func main() {
 		PrehashKey:   ics23.HashOp_NO_HASH,
 		PrehashValue: ics23.HashOp_SHA256,
 		Length:       ics23.LengthOp_VAR_PROTO,
-		Prefix:       []byte{0, 2, 248, 58},
+		Prefix:       []byte{0, 2, 174, 2},
 	}
 
 	_ = []ics23.LeafOp{leafOp1, leafOp2, leafOp3}
@@ -539,7 +568,7 @@ func main() {
 		merklePath = commitmenttypes.NewMerklePath(append([]string{"ibc"}, merklePath.KeyPath...)...)
 		fmt.Println(merklePath)
 		keyArr[i], _ = merklePath.GetKey(uint64(len(merklePath.KeyPath) - 1 - 0))
-
+		fmt.Printf("%d\n", keyArr[i])
 	}
 
 	root := []byte{79, 0, 204, 97, 39, 212, 96, 216, 162, 91, 190, 85, 214, 3, 177, 75, 67, 159, 144, 105, 240, 20, 72, 16, 196, 190, 78, 206, 23, 74, 44, 113}
@@ -564,25 +593,6 @@ func main() {
 		subProofMap[sub.Number] = sub
 	}
 
-	//
-	//testLeaf1 := &types.LeafOp{
-	//	Hash:         types.HashOp_NO_HASH,
-	//	PrehashKey:   types.HashOp_SHA256,
-	//	PrehashValue: types.HashOp_SHA256,
-	//	Length:       types.LengthOp_VAR_PROTO,
-	//	Prefix:       []byte{0, 2, 248, 58},
-	//}
-	//
-	//bt, _ := testLeaf1.Marshal()
-	//fmt.Println(string(bt))
-	//
-	//backLeafOp1 := &types.LeafOp{}
-	//err = backLeafOp1.Unmarshal(bt)
-	//if err != nil {
-	//	return
-	//}
-	//fmt.Println(backLeafOp1)
-
 	bts := make([][]byte, len(subProofs))
 	for i := 0; i < len(subProofs); i++ {
 		bts[i], _ = subProofs[i].Marshal()
@@ -599,4 +609,13 @@ func main() {
 		}
 		fmt.Printf("Hash Value%d\n", sps[i].ProofMetaList[0].HashValue)
 	}
+
+	//for i := 0; i < 4; i++ {
+	//	apply, err := leafOp1.Apply(keyArr[i], commits[i])
+	//	if err != nil {
+	//		return
+	//	}
+	//	fmt.Printf("%d\n", apply)
+	//}
+
 }
