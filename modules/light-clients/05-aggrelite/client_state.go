@@ -317,6 +317,14 @@ func hashBz(h hasher, preimage []byte) ([]byte, error) {
 	return hh.Sum(nil), nil
 }
 
+func calculateLeafs(values [][]byte, leafOp []*ics23.LeafOp, key [][]byte) [][]byte {
+	res := make([][]byte, len(values))
+	for i, value := range values {
+		res[i], _ = leafOp[i].Apply(key[i], value)
+	}
+	return res
+}
+
 func calculateLeaf(values [][]byte, leafOp *ics23.LeafOp, key [][]byte) [][]byte {
 	res := make([][]byte, len(values))
 	for i, value := range values {
@@ -470,7 +478,11 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 	}
 	unMarshaSubProof(cdc, proofs, subProofs)
 	unMarShaLeafs(cdc, leafOps, leafOpss)
-	values = calculateLeaf(values, toIcs23(leafOpss[0]), keyArr)
+	ics23Leafs := make([]*ics23.LeafOp, len(leafOpss))
+	for i := 0; i < len(ics23Leafs); i++ {
+		ics23Leafs[i] = toIcs23(leafOpss[i])
+	}
+	values = calculateLeafs(values, ics23Leafs, keyArr)
 	// 结合 leafNumber 检查values是否存在于subProofs
 	subproofMap := make(map[uint64]*types.SubProof)
 	for _, subProof := range subProofs {
@@ -498,33 +510,6 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 			}
 		}
 	}
-	//for j, value := range values {
-	//	valueLevel := leafNumber[j]
-	//	found := false
-	//	for _, subProof := range subProofs {
-	//		// 找到叶子结点所在的层次
-	//		if subProof.Number == valueLevel {
-	//			for _, proofMeta := range subProof.ProofMetaList {
-	//				meta1 := proofMeta.HashValue
-	//				err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
-	//				if err != nil {
-	//					return err
-	//				}
-	//				if bytes.Equal(meta1, value) || contains {
-	//					found = true
-	//					break
-	//				}
-	//			}
-	//		}
-	//		if found {
-	//			break
-	//		}
-	//	}
-	//	if !found {
-	//		return errorsmod.Wrapf(ErrInvalidProofSpecs, "failed to find subProof for leaf ")
-	//	}
-	//}
-
 	// 对SubProof原地排序
 	sort.Slice(subProofs, func(i, j int) bool {
 		return subProofs[i].Number > subProofs[j].Number
