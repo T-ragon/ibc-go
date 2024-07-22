@@ -489,6 +489,7 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 		return subProofs[i].Number > subProofs[j].Number
 	})
 
+	start := time.Now()
 	for j, value := range values {
 		subProof := subproofMap[leafNumber[j]]
 		found := false
@@ -510,7 +511,6 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 		}
 	}
 
-	start := time.Now()
 	for i := 0; i < len(subProofs)-2; i++ {
 		currentProof := subProofs[i]
 		nextProof := subProofs[i+1]
@@ -558,7 +558,7 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 	}
 	elapsed1 := time.Since(start).Milliseconds()
 	elapsed2 := time.Since(start).Microseconds()
-	fmt.Println("00000000000000000000000000000000000-----Aggregate Verification Algorithm Time-----00000000000000000000000000000000000:::::::::::::::: ms us", elapsed1, elapsed2)
+	fmt.Println("111111111111111111111111111111111111-----Aggregate验证算法执行时间----111111111111111111111111111111111111:::::::::::::::: ms us", elapsed1, elapsed2)
 	return errorsmod.Wrapf(ErrInvalidProofSpecs, "root hash calculated  not match the root given ")
 }
 

@@ -589,7 +589,7 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 	)
 	elapsed := time2.Since(time).Milliseconds()
 	elapsed2 := time2.Since(time).Microseconds()
-	fmt.Println("88888888888888888888888888888---RecvAggregatePacket--Time---88888888888888888888888888888888--------::::::::::::::::", elapsed, elapsed2)
+	fmt.Println("88888888888888888888888888888---聚合交易验证总时间---88888888888888888888888888888888--------::::::::::::::::", elapsed, elapsed2)
 	ctx.Logger().Info("receive packet callback succeeded", "port-id", sourcePort, "channel-id", sourceChannel, "result", channeltypes.SUCCESS.String())
 	return &channeltypes.MsgAggregatePacketResponse{Result: channeltypes.SUCCESS}, nil
 }
@@ -675,7 +675,7 @@ func (k Keeper) RecvPacket(goCtx context.Context, msg *channeltypes.MsgRecvPacke
 
 	elapsed := time2.Since(start).Milliseconds()
 	elapsed2 := time2.Since(start).Microseconds()
-	fmt.Println("77777777777777777777777777777777-------RecvPacket--Time---77777777777777777777777777777777777--------::::::::::::::::", elapsed, elapsed2)
+	fmt.Println("77777777777777777777777777777777-------Tendermint接收总时间---77777777777777777777777777777777777 毫秒 微秒--------::::::::::::::::", elapsed, elapsed2)
 	return &channeltypes.MsgRecvPacketResponse{Result: channeltypes.SUCCESS}, nil
 }
 
