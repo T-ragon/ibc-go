@@ -557,13 +557,12 @@ func verifyAggregateProof(
 			return err
 		}
 		if bytes.Equal(root, combinedHash) {
+			elapsed1 := time.Since(start).Milliseconds()
+			elapsed2 := time.Since(start).Microseconds()
+			ctx.Logger().Info("***************************************Aggregate验证算法执行时间**************************************************", "ms", elapsed1, "us", elapsed2)
 			return nil
 		}
 	}
-	elapsed1 := time.Since(start).Milliseconds()
-	elapsed2 := time.Since(start).Microseconds()
-	ctx.Logger().Info("***************************************Aggregate验证算法执行时间**************************************************", "ms", elapsed1, "us", elapsed2)
-	fmt.Println("11111111111111111111111111111111111111111111-----Aggregate验证算法执行时间----111111111111111111111111111111111111:::::::::::::::: ms us", elapsed1, elapsed2)
 	return errorsmod.Wrapf(ErrInvalidProofSpecs, "root hash calculated  not match the root given ")
 }
 
