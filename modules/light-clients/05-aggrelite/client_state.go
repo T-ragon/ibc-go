@@ -229,6 +229,7 @@ func (cs ClientState) VerifyAggregateMembership(
 	values [][]byte,
 	proof [][]byte,
 	leafOps [][]byte) error {
+	ctx.Logger().Info("**********************************************聚合验证函数第四层***********************************************")
 	if cs.GetLatestHeight().LT(height) {
 		return errorsmod.Wrapf(
 			ibcerrors.ErrInvalidHeight,

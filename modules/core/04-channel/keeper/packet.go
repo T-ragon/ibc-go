@@ -142,6 +142,7 @@ func (k Keeper) RecvAggregatePacket(
 	proofHeight exported.Height,
 	leafOps [][]byte,
 ) error {
+	ctx.Logger().Info("******************************************************聚合验证函数第二层********************************************************")
 	destPort := packets[0].GetDestPort()
 	destChannel := packets[0].GetDestChannel()
 	channel, found := k.GetChannel(ctx, destPort, destChannel)

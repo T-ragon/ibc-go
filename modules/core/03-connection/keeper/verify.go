@@ -218,6 +218,7 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	if err != nil {
 		return err
 	}
+	ctx.Logger().Info("**************************************************聚合验证函数第三层**********************************************")
 	//get time and block delay
 	timeDelay := connection.GetDelayPeriod()
 	blockDelay := k.getBlockDelay(ctx, connection)
