@@ -542,10 +542,12 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 	}
 
 	cacheCtx, writeFn := ctx.CacheContext()
+	ctx.Logger().Info("****************************************************进入聚合验证函数***************************************************")
 	err = k.ChannelKeeper.RecvAggregatePacket(cacheCtx, capability, msg.Packets, proofArray, msg.PacketsLeafNumber, msg.ProofHeight, leafOps)
-
+	ctx.Logger().Info("****************************************************聚合验证函数执行结束*******************************************************")
 	switch err {
 	case nil:
+		ctx.Logger().Info("*****************************************************************Err 为nil********************************************************")
 		writeFn()
 	case channeltypes.ErrNoOpMsg:
 		// no-ops do not need event emission as they will be ignored

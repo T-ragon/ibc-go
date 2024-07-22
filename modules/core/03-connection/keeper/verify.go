@@ -311,6 +311,7 @@ func (k Keeper) VerifyPacketCommitment(
 	}
 	elapsed1 := time.Since(start).Milliseconds()
 	elapsed2 := time.Since(start).Microseconds()
+	ctx.Logger().Info("Tendermint 算法执行时间", "ms", elapsed1, "us", elapsed2)
 	fmt.Println("4444444444444444444444444444444-----Tendermint 验证算法执行时间-----44444444444444444444444444444444444444:::::::::::::::: ms us", elapsed1, elapsed2)
 	return nil
 }
