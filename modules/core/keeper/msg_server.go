@@ -590,7 +590,7 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 		},
 	)
 	elapsed := time2.Since(time).Milliseconds()
-	fmt.Println("88888888888888888888888888888---Aggregate Algorithm--Time---88888888888888888888888888888888--------::::::::::::::::", elapsed)
+	fmt.Println("88888888888888888888888888888---RecvAggregatePacket--Time---88888888888888888888888888888888--------::::::::::::::::", elapsed)
 	ctx.Logger().Info("receive packet callback succeeded", "port-id", sourcePort, "channel-id", sourceChannel, "result", channeltypes.SUCCESS.String())
 	return &channeltypes.MsgAggregatePacketResponse{Result: channeltypes.SUCCESS}, nil
 }
@@ -675,7 +675,7 @@ func (k Keeper) RecvPacket(goCtx context.Context, msg *channeltypes.MsgRecvPacke
 	ctx.Logger().Info("receive packet callback succeeded", "port-id", msg.Packet.SourcePort, "channel-id", msg.Packet.SourceChannel, "result", channeltypes.SUCCESS.String())
 
 	elapsed := time2.Since(start).Milliseconds()
-	fmt.Println("77777777777777777777777777777777---Tendermint Algorithm--Time---77777777777777777777777777777777777--------::::::::::::::::", elapsed)
+	fmt.Println("77777777777777777777777777777777-------RecvPacket--Time---77777777777777777777777777777777777--------::::::::::::::::", elapsed)
 	return &channeltypes.MsgRecvPacketResponse{Result: channeltypes.SUCCESS}, nil
 }
 

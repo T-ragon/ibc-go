@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"time"
 
 	errorsmod "cosmossdk.io/errors"
 	storetypes "cosmossdk.io/store/types"
@@ -213,13 +214,10 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	values [][]byte,
 	leafOps [][]byte) error {
 	clientID := connection.GetClientID()
-	fmt.Println("*************************Verify.go **************** ClientID*****************************", clientID)
 	clientState, clientStore, err := k.getClientStateAndVerificationStore(ctx, clientID)
 	if err != nil {
 		return err
 	}
-	fmt.Println("proofs passed to verify.go", proof)
-	fmt.Println("leafops passed to verify.go", leafOps)
 	//get time and block delay
 	timeDelay := connection.GetDelayPeriod()
 	blockDelay := k.getBlockDelay(ctx, connection)
@@ -228,12 +226,10 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	for i := 0; i < len(channelID); i++ {
 		merklePath := commitmenttypes.NewMerklePath(host.PacketCommitmentPath(portID[i], channelID[i], sequence[i]))
 		merklePath = commitmenttypes.NewMerklePath(append([]string{"ibc"}, merklePath.KeyPath...)...) //这行代码
-		fmt.Println("merklePath old\n", merklePath)
-		merklePathNew, _ := commitmenttypes.ApplyPrefix(connection.GetCounterparty().GetPrefix(), merklePath)
-		fmt.Println("merklePathNew new\n", merklePathNew)
 		keyArr[i], _ = merklePath.GetKey(uint64(len(merklePath.KeyPath) - 1 - 0))
 	}
 
+	start := time.Now()
 	if err := clientState.VerifyAggregateMembership(
 		ctx, clientStore, k.cdc, height,
 		timeDelay, blockDelay, keyArr,
@@ -241,6 +237,8 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	); err != nil {
 		return errorsmod.Wrapf(err, "failed packet commitment verification for client (%s)", clientID)
 	}
+	elapsed := time.Since(start).Milliseconds()
+	fmt.Println("55555555555555555555555555555555----Aggregate Verification Time----5555555555555555555555555555555:::::::::::::::::::::::::::::", elapsed)
 	return nil
 }
 
@@ -305,6 +303,7 @@ func (k Keeper) VerifyPacketCommitment(
 		return err
 	}
 
+	start := time.Now()
 	if err := clientState.VerifyMembership(
 		ctx, clientStore, k.cdc, height,
 		timeDelay, blockDelay,
@@ -312,7 +311,8 @@ func (k Keeper) VerifyPacketCommitment(
 	); err != nil {
 		return errorsmod.Wrapf(err, "failed packet commitment verification for client (%s)", clientID)
 	}
-
+	elapsed := time.Since(start).Milliseconds()
+	fmt.Println("4444444444444444444444444444444-----Tendermint Verification Time-----44444444444444444444444444444444444444::::::::::::::::", elapsed)
 	return nil
 }
 

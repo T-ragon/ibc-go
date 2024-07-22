@@ -235,7 +235,6 @@ func (cs ClientState) VerifyAggregateMembership(
 			"client state height < proof height (%d < %d), please ensure the client has been updated", cs.GetLatestHeight(), height,
 		)
 	}
-	fmt.Println("***************************Height current******************************", height.GetRevisionHeight(), height.GetRevisionNumber())
 	if err := verifyDelayPeriodPassed(ctx, clientStore, height, delayTimePeriod, delayBlockPeriod); err != nil {
 		return err
 	}
@@ -245,9 +244,6 @@ func (cs ClientState) VerifyAggregateMembership(
 		return errorsmod.Wrap(clienttypes.ErrConsensusStateNotFound, "please ensure the proof was constructed against a height that exists on the client")
 	}
 
-	//values 就是所有跨链交易的哈希值
-	fmt.Println("proof passed to clientstate", proof)
-	fmt.Println("leafOps passed to clientstate", leafOps)
 	return verifyAggregateProof(cdc, leafNumber, values, proof, consensusState.Root.Hash, keyArr, leafOps)
 }
 
