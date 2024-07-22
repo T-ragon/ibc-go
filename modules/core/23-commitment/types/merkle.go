@@ -3,6 +3,7 @@ package types
 import (
 	"bytes"
 	"fmt"
+	"time"
 
 	"github.com/cosmos/gogoproto/proto"
 	ics23 "github.com/cosmos/ics23/go"
@@ -115,6 +116,7 @@ func (proof MerkleProof) VerifyMembership(specs []*ics23.ProofSpec, root exporte
 
 	// VerifyMembership specific argument validation
 	mpath, ok := path.(MerklePath)
+
 	if !ok {
 		return errorsmod.Wrapf(ErrInvalidProof, "path %v is not of type MerklePath", path)
 	}
@@ -205,6 +207,7 @@ func verifyChainedMembershipProof(root []byte, specs []*ics23.ProofSpec, proofs 
 	// This may happen if this call is verifying intermediate proofs after the lowest proof has been executed.
 	// In this case, there may be no intermediate proofs to verify and we just check that lowest proof root equals final root
 	subroot = value
+	start := time.Now()
 	for i := index; i < len(proofs); i++ {
 		switch proofs[i].Proof.(type) {
 		case *ics23.CommitmentProof_Exist:
@@ -236,6 +239,8 @@ func verifyChainedMembershipProof(root []byte, specs []*ics23.ProofSpec, proofs 
 				"expected proof type: %T, got: %T", &ics23.CommitmentProof_Exist{}, proofs[i].Proof)
 		}
 	}
+	elapsed := time.Since(start).Microseconds()
+	fmt.Println("********************************************Tendermint 最最核心验证时间****************************************** us", elapsed)
 	// Check that chained proof root equals passed-in root
 	if !bytes.Equal(root, subroot) {
 		return errorsmod.Wrapf(ErrInvalidProof,
