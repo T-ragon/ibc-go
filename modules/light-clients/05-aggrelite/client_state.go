@@ -495,7 +495,6 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 		if subProof != nil {
 			for _, proofMeta := range subProof.ProofMetaList {
 				meta1 := proofMeta.HashValue
-				fmt.Println(meta1)
 				err, contains := checkInnerOpIsContainBytes(proofMeta.PathInnerOp, value)
 				if err != nil {
 					return err
