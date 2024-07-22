@@ -229,7 +229,6 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 		keyArr[i], _ = merklePath.GetKey(uint64(len(merklePath.KeyPath) - 1 - 0))
 	}
 
-	start := time.Now()
 	if err := clientState.VerifyAggregateMembership(
 		ctx, clientStore, k.cdc, height,
 		timeDelay, blockDelay, keyArr,
@@ -237,9 +236,7 @@ func (k Keeper) VerifyAggregatePacketCommitment(
 	); err != nil {
 		return errorsmod.Wrapf(err, "failed packet commitment verification for client (%s)", clientID)
 	}
-	elapsed1 := time.Since(start).Milliseconds()
-	elapsed2 := time.Since(start).Microseconds()
-	fmt.Println("55555555555555555555555555555555----Aggregate Verification Time----5555555555555555555555555555555:::::::::::::::::::::::::::::", elapsed1, elapsed2)
+
 	return nil
 }
 
@@ -314,7 +311,7 @@ func (k Keeper) VerifyPacketCommitment(
 	}
 	elapsed1 := time.Since(start).Milliseconds()
 	elapsed2 := time.Since(start).Microseconds()
-	fmt.Println("4444444444444444444444444444444-----Tendermint Verification Time-----44444444444444444444444444444444444444::::::::::::::::", elapsed1, elapsed2)
+	fmt.Println("4444444444444444444444444444444-----Tendermint Verification Algorithm Time-----44444444444444444444444444444444444444:::::::::::::::: ms us", elapsed1, elapsed2)
 	return nil
 }
 
