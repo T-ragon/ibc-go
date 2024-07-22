@@ -245,7 +245,7 @@ func (cs ClientState) VerifyAggregateMembership(
 		return errorsmod.Wrap(clienttypes.ErrConsensusStateNotFound, "please ensure the proof was constructed against a height that exists on the client")
 	}
 
-	return verifyAggregateProof(cdc, leafNumber, values, proof, consensusState.Root.Hash, keyArr, leafOps)
+	return verifyAggregateProof(ctx, cdc, leafNumber, values, proof, consensusState.Root.Hash, keyArr, leafOps)
 }
 
 // doHash will preform the specified hash on the preimage.
@@ -456,7 +456,9 @@ func unMarShaLeafs(cdc codec.BinaryCodec, bytes [][]byte, leafOps []*channeltype
 }
 
 // leafNumber 指明叶子结点位于哪一层
-func verifyAggregateProof(cdc codec.BinaryCodec,
+func verifyAggregateProof(
+	ctx sdk.Context,
+	cdc codec.BinaryCodec,
 	leafNumber []uint64,
 	values [][]byte,
 	proofs [][]byte,
@@ -464,6 +466,7 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 	keyArr [][]byte,
 	leafOps [][]byte) error {
 	//首先解码，得到subproof
+	ctx.Logger().Info("***********************************进入第五层验证函数***********************************")
 	//var subProofs []*channeltypes.SubProof
 	subProofs := make([]*channeltypes.SubProof, len(proofs))
 	leafOpss := make([]*channeltypes.LeafOp, len(leafOps))
@@ -559,6 +562,7 @@ func verifyAggregateProof(cdc codec.BinaryCodec,
 	}
 	elapsed1 := time.Since(start).Milliseconds()
 	elapsed2 := time.Since(start).Microseconds()
+	ctx.Logger().Info("***************************************Aggregate验证算法执行时间**************************************************", "ms", elapsed1, "us", elapsed2)
 	fmt.Println("11111111111111111111111111111111111111111111-----Aggregate验证算法执行时间----111111111111111111111111111111111111:::::::::::::::: ms us", elapsed1, elapsed2)
 	return errorsmod.Wrapf(ErrInvalidProofSpecs, "root hash calculated  not match the root given ")
 }

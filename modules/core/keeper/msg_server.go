@@ -591,7 +591,7 @@ func (k Keeper) RecvAggregatePacket(goctx context.Context, msg *channeltypes.Msg
 	)
 	elapsed := time2.Since(time).Milliseconds()
 	elapsed2 := time2.Since(time).Microseconds()
-	fmt.Println("88888888888888888888888888888---聚合交易验证总时间---88888888888888888888888888888888--------::::::::::::::::", elapsed, elapsed2)
+	ctx.Logger().Info("88888888888888888888888888888---聚合交易验证总时间---88888888888888888888888888888888--------::::::::::::::::", "ms", elapsed, "us", elapsed2)
 	ctx.Logger().Info("receive packet callback succeeded", "port-id", sourcePort, "channel-id", sourceChannel, "result", channeltypes.SUCCESS.String())
 	return &channeltypes.MsgAggregatePacketResponse{Result: channeltypes.SUCCESS}, nil
 }
