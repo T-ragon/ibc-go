@@ -9,6 +9,7 @@ import (
 	"github.com/T-ragon/ibc-go/v9/modules/core/04-channel/types"
 	commitmenttypes "github.com/T-ragon/ibc-go/v9/modules/core/23-commitment/types"
 	host "github.com/T-ragon/ibc-go/v9/modules/core/24-host"
+	_ "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggrelite"
 	aggrelite "github.com/T-ragon/ibc-go/v9/modules/light-clients/05-aggrelite"
 	ics23 "github.com/cosmos/ics23/go"
 	"strings"
@@ -583,6 +584,7 @@ func main() {
 		panic(err)
 	}
 	if verified {
+
 		fmt.Println("Verified Successfully!")
 	} else {
 		fmt.Println("Verified Failure!")
@@ -609,13 +611,4 @@ func main() {
 		}
 		fmt.Printf("Hash Value%d\n", sps[i].ProofMetaList[0].HashValue)
 	}
-
-	//for i := 0; i < 4; i++ {
-	//	apply, err := leafOp1.Apply(keyArr[i], commits[i])
-	//	if err != nil {
-	//		return
-	//	}
-	//	fmt.Printf("%d\n", apply)
-	//}
-
 }
