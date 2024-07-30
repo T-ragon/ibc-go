@@ -50,8 +50,7 @@ func RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 		&MsgPruneAcknowledgements{},
 		&MsgUpdateParams{},
 	)
-
-	fmt.Println(&_Msg_serviceDesc.Methods)
+	
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 	fmt.Println(registry.ListAllInterfaces())
 	_, err := registry.Resolve("/ibc.core.channel.v1.MsgRecvRootHash")
