@@ -468,6 +468,7 @@ message MsgChannelUpgradeAckResponse {
 //MsgSetHashValue set a hash value in the clienStore tree
 message MsgSetHashValue {
   option (cosmos.msg.v1.signer) = "signer";
+  option (gogoproto.goproto_getters) = false;
 
   Packet key = 1;
   bytes  value = 2;
@@ -482,6 +483,7 @@ message MsgSetHashValueResponse {
 
 message MsgCompareHashValue{
   option (cosmos.msg.v1.signer) = "signer";
+  option (gogoproto.goproto_getters) = false;
 
   Packet key = 1;
   bytes  value = 2;
