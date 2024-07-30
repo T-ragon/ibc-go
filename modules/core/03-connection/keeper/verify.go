@@ -252,10 +252,10 @@ func (k Keeper) IsHashExisted(
 		return nil
 	}
 	expectedKey := clientStore.Get(key)
-	if bytes.Equal(value, expectedKey) {
-		return nil
+	if !bytes.Equal(value, expectedKey) {
+		return errorsmod.Wrapf(errors.New("Not match!"), "Hash key value not matched!")
 	}
-	return errorsmod.Wrapf(errors.New("Not match!"), "Hash key value not matched!")
+	return nil
 }
 func (k Keeper) SetTxHashValue(ctx sdk.Context,
 	connection exported.ConnectionI,
