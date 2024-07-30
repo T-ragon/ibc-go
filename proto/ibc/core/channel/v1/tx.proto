@@ -76,10 +76,10 @@ service Msg {
   rpc PruneAcknowledgements(MsgPruneAcknowledgements) returns (MsgPruneAcknowledgementsResponse);
 
   //Set a tx root hash
-  rpc ChannelSetRootHashValue(MsgSetHashValue) returns (MsgSetHashValueResponse);
+  rpc RecvRootHash(MsgSetHashValue) returns (MsgSetHashValueResponse);
 
   //Compare a tx root hash
-  rpc ChannelIsRootHashExisted(MsgCompareHashValue) returns (MsgCompareHashValueResponse);
+  rpc RecvRootHashExisted(MsgCompareHashValue) returns (MsgCompareHashValueResponse);
 }
 
 // ResponseResultType defines the possible outcomes of the execution of a message

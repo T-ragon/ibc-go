@@ -441,7 +441,7 @@ func (k Keeper) ChannelCloseConfirm(goCtx context.Context, msg *channeltypes.Msg
 	return &channeltypes.MsgChannelCloseConfirmResponse{}, nil
 }
 
-func (k Keeper) ChannelSetRootHashValue(goctx context.Context, msg *channeltypes.MsgSetHashValue) (*channeltypes.MsgSetHashValueResponse, error) {
+func (k Keeper) RecvRootHash(goctx context.Context, msg *channeltypes.MsgSetHashValue) (*channeltypes.MsgSetHashValueResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goctx)
 
 	// Lookup module by channel capability
@@ -465,7 +465,7 @@ func (k Keeper) ChannelSetRootHashValue(goctx context.Context, msg *channeltypes
 	return &channeltypes.MsgSetHashValueResponse{Result: channeltypes.SUCCESS}, nil
 }
 
-func (k Keeper) ChannelIsRootHashExisted(goctx context.Context, msg *channeltypes.MsgCompareHashValue) (*channeltypes.MsgCompareHashValueResponse, error) {
+func (k Keeper) RecvRootHashExisted(goctx context.Context, msg *channeltypes.MsgCompareHashValue) (*channeltypes.MsgCompareHashValueResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goctx)
 	// Lookup module by channel capability
 	module, _, err := k.ChannelKeeper.LookupModuleByChannel(ctx, msg.Key.DestinationPort, msg.Key.DestinationChannel)

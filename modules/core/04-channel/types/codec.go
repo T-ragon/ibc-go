@@ -1,6 +1,7 @@
 package types
 
 import (
+	"fmt"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -50,7 +51,9 @@ func RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 		&MsgUpdateParams{},
 	)
 
+	fmt.Println(&_Msg_serviceDesc.Methods)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
+
 }
 
 // SubModuleCdc references the global x/ibc/core/04-channel module codec. Note, the codec should
