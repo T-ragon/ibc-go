@@ -53,7 +53,11 @@ func RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 
 	fmt.Println(&_Msg_serviceDesc.Methods)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
-
+	fmt.Println(registry.ListAllInterfaces())
+	_, err := registry.Resolve("/ibc.core.channel.v1.MsgRecvRootHash")
+	if err != nil {
+		fmt.Println("*********************************报错了***********************************")
+	}
 }
 
 // SubModuleCdc references the global x/ibc/core/04-channel module codec. Note, the codec should
