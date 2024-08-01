@@ -112,7 +112,7 @@ func (k Keeper) UpdateClient(ctx sdk.Context, clientID string, clientMsg exporte
 	emitUpdateClientEvent(ctx, clientID, clientState.ClientType(), consensusHeights, k.cdc, clientMsg)
 	duration1 := time.Since(start).Milliseconds()
 	duration2 := time.Since(start).Microseconds()
-	ctx.Logger().Info("###############################内层UpdateClient################################## us ms", duration1, duration2)
+	ctx.Logger().Info("###############################内层UpdateClient##################################", "us", duration1, "ms", duration2)
 	return nil
 }
 

@@ -58,7 +58,7 @@ func (k Keeper) UpdateClient(goCtx context.Context, msg *clienttypes.MsgUpdateCl
 	}
 	duration1 := time2.Since(start).Microseconds()
 	duration2 := time2.Since(start).Milliseconds()
-	ctx.Logger().Info("***************************UpdateClient 最外层**************************** us ms", duration1, duration2)
+	ctx.Logger().Info("***************************UpdateClient 最外层**************************** ", "us", duration1, "ms", duration2)
 	return &clienttypes.MsgUpdateClientResponse{}, nil
 }
 
