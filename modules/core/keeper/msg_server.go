@@ -47,7 +47,7 @@ func (k Keeper) CreateClient(goCtx context.Context, msg *clienttypes.MsgCreateCl
 // UpdateClient defines a rpc handler method for MsgUpdateClient.
 func (k Keeper) UpdateClient(goCtx context.Context, msg *clienttypes.MsgUpdateClient) (*clienttypes.MsgUpdateClientResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-
+	start := time2.Now()
 	clientMsg, err := clienttypes.UnpackClientMessage(msg.ClientMessage)
 	if err != nil {
 		return nil, err
@@ -56,7 +56,9 @@ func (k Keeper) UpdateClient(goCtx context.Context, msg *clienttypes.MsgUpdateCl
 	if err = k.ClientKeeper.UpdateClient(ctx, msg.ClientId, clientMsg); err != nil {
 		return nil, err
 	}
-
+	duration1 := time2.Since(start).Microseconds()
+	duration2 := time2.Since(start).Milliseconds()
+	ctx.Logger().Info("***************************UpdateClient 最外层**************************** us ms", duration1, duration2)
 	return &clienttypes.MsgUpdateClientResponse{}, nil
 }
 

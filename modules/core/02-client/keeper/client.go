@@ -2,6 +2,7 @@ package keeper
 
 import (
 	metrics "github.com/hashicorp/go-metrics"
+	"time"
 
 	errorsmod "cosmossdk.io/errors"
 
@@ -56,6 +57,7 @@ func (k Keeper) CreateClient(
 
 // UpdateClient updates the consensus state and the state root from a provided header.
 func (k Keeper) UpdateClient(ctx sdk.Context, clientID string, clientMsg exported.ClientMessage) error {
+	start := time.Now()
 	clientState, found := k.GetClientState(ctx, clientID)
 	if !found {
 		return errorsmod.Wrapf(types.ErrClientNotFound, "cannot update client with ID %s", clientID)
@@ -108,7 +110,9 @@ func (k Keeper) UpdateClient(ctx sdk.Context, clientID string, clientMsg exporte
 
 	// emitting events in the keeper emits for both begin block and handler client updates
 	emitUpdateClientEvent(ctx, clientID, clientState.ClientType(), consensusHeights, k.cdc, clientMsg)
-
+	duration1 := time.Since(start).Milliseconds()
+	duration2 := time.Since(start).Microseconds()
+	ctx.Logger().Info("###############################内层UpdateClient################################## us ms", duration1, duration2)
 	return nil
 }
 
